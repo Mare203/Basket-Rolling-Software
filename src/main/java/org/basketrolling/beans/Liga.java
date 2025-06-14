@@ -4,10 +4,44 @@
  */
 package org.basketrolling.beans;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import java.util.UUID;
+
 /**
  *
  * @author Marko
  */
 public class Liga {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "liga_id", nullable = false, updatable = false)
+    private UUID ligaId;
+    
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    public UUID getLigaId() {
+        return ligaId;
+    }
+
+    public void setLigaId(UUID ligaId) {
+        this.ligaId = ligaId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Liga{" + "ligaId=" + ligaId + ", name=" + name + '}';
+    }         
 }

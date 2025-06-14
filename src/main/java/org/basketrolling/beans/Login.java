@@ -25,7 +25,7 @@ public class Login {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false, updatable = false)
+    @Column(name = "login_id", nullable = false, updatable = false)
     private UUID loginId;
 
     @Column(name = "benutzername", nullable = false, unique = true)
