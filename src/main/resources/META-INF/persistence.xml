@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+    <persistence-unit name="rolling-persistence-unit" transaction-type="RESOURCE_LOCAL">
+        <class>org.basketrolling.beans.Login</class>
+        <class>org.basketrolling.beans.Halle</class>
+        <class>org.basketrolling.beans.Elternkontakt</class>
+        <class>org.basketrolling.beans.Liga</class>
+        <class>org.basketrolling.beans.MannschaftExtern</class>
+        <class>org.basketrolling.beans.MannschaftIntern</class>
+        <class>org.basketrolling.beans.Mitgliedsbeitrag</class>
+        <class>org.basketrolling.beans.Spiele</class>
+        <class>org.basketrolling.beans.Spieler</class>
+        <class>org.basketrolling.beans.Statistik</class>
+        <class>org.basketrolling.beans.Trainer</class>
+        <class>org.basketrolling.beans.Training</class>
+
+     
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/basketrolling"/>
+            <property name="jakarta.persistence.jdbc.user" value="mare"/>
+            <property name="jakarta.persistence.jdbc.password" value="rolling"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+
+            <!-- Hibernate spezifisch -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+
