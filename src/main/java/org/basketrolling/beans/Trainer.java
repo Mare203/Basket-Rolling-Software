@@ -25,8 +25,11 @@ public class Trainer {
     @Column(name = "trainer_id", nullable = false, updatable = false)
     private UUID trainerId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "vorname", nullable = false)
+    private String vorname;
+
+    @Column(name = "nachname", nullable = false)
+    private String nachname;
 
     @Column(name = "e_mail", nullable = true)
     private String eMail;
@@ -45,12 +48,20 @@ public class Trainer {
         this.trainerId = trainerId;
     }
 
-    public String getName() {
-        return name;
+    public String getVorname() {
+        return vorname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVorname(String vorname) {
+        this.vorname = vorname;
+    }
+
+    public String getNachname() {
+        return nachname;
+    }
+
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
     }
 
     public String geteMail() {
@@ -80,7 +91,8 @@ public class Trainer {
     @Override
     public String toString() {
         return "Trainer{" + "trainerId=" + trainerId
-                + ", name=" + name
+                + ", vorname=" + vorname
+                + ", nachname=" + nachname
                 + ", eMail=" + this.eMail
                 + ", telefon=" + telefon
                 + ", aktiv=" + aktiv + '}';

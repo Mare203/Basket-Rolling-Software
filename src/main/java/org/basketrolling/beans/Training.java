@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -31,6 +32,9 @@ public class Training {
     @ManyToOne
     @JoinColumn(name = "halle_id", nullable = false, updatable = false)
     private Halle halle;
+
+    @OneToOne(mappedBy = "training")
+    private MannschaftIntern mannschaftIntern;
 
     @Column(name = "wochentag", nullable = false)
     private String wochentag;
@@ -83,11 +87,11 @@ public class Training {
 
     @Override
     public String toString() {
-        return "Training{" + "trainingId=" + trainingId +
-                ", halle=" + halle + 
-                ", wochentag=" + wochentag +
-                ", dauerInMin=" + dauerInMin +
-                ", jahr=" + jahr + 
-                '}';
+        return "Training{" + "trainingId=" + trainingId
+                + ", halle=" + halle
+                + ", wochentag=" + wochentag
+                + ", dauerInMin=" + dauerInMin
+                + ", jahr=" + jahr
+                + '}';
     }
 }
