@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
 
@@ -30,8 +31,8 @@ public class MannschaftIntern {
     @Column(name = "name", nullable = false)
     private String name;
     
-    @ManyToOne
-    @JoinColumn(name = "training_id", nullable = false, updatable = false)
+    @OneToOne
+    @JoinColumn(name = "training_id", nullable = false, updatable = false, unique = true)
     private Training training;
     
     @ManyToOne

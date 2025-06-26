@@ -27,8 +27,11 @@ public class Spieler {
     @Column(name = "spieler_id", nullable = false, updatable = false)
     private UUID spielerId;
     
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "vorname", nullable = false)
+    private String vorname;
+    
+    @Column(name = "nachname", nullable = false)
+    private String nachname;
     
     @Column(name = "geburtsdatum", nullable = false)
     private LocalDate geburtsdatum;
@@ -57,12 +60,20 @@ public class Spieler {
         this.spielerId = spielerId;
     }
 
-    public String getName() {
-        return name;
+    public String getVorname() {
+        return vorname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVorname(String vorname) {
+        this.vorname = vorname;
+    }
+
+    public String getNachname() {
+        return nachname;
+    }
+
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
     }
 
     public LocalDate getGeburtsdatum() {
@@ -116,7 +127,8 @@ public class Spieler {
     @Override
     public String toString() {
         return "Spieler{" + "spielerId=" + spielerId + 
-                ", name=" + name + 
+                ", vorname=" + vorname + 
+                ", nachname=" + nachname +
                 ", geburtsdatum=" + geburtsdatum + 
                 ", alter=" + alter + 
                 ", eMail=" + this.eMail + 
