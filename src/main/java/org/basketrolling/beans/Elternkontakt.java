@@ -31,8 +31,11 @@ public class Elternkontakt {
     @JoinColumn(name = "spieler_id", nullable = false, updatable = false)
     private Spieler spieler;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "vorname", nullable = false)
+    private String vorname;
+
+    @Column(name = "nachname", nullable = false)
+    private String nachname;
 
     @Column(name = "e_mail", nullable = true)
     private String eMail;
@@ -56,12 +59,20 @@ public class Elternkontakt {
         this.spieler = spieler;
     }
 
-    public String getName() {
-        return name;
+    public String getVorname() {
+        return vorname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVorname(String vorname) {
+        this.vorname = vorname;
+    }
+
+    public String getNachname() {
+        return nachname;
+    }
+
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
     }
 
     public String geteMail() {
@@ -84,7 +95,7 @@ public class Elternkontakt {
     public String toString() {
         return "Elternkontakt{" + "elternkontaktId=" + elternkontaktId
                 + ", spieler=" + spieler
-                + ", name=" + name
+                + ", name=" + vorname + " " +  nachname
                 + ", eMail=" + eMail
                 + ", telefon=" + telefon
                 + '}';

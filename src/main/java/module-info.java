@@ -9,6 +9,7 @@ module BasketRolling {
     requires jakarta.transaction;
     requires jakarta.persistence;
     requires jakarta.cdi;
+    requires password4j;
     
     exports org.basketrolling;
     

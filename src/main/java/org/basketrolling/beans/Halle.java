@@ -28,8 +28,14 @@ public class Halle {
     @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "adresse", nullable = false)
-    private String adresse;
+    @Column(name = "strasse", nullable = false)
+    private String strasse;
+    
+    @Column(name = "postleitzahl", nullable = false)
+    private int plz;
+    
+    @Column(name = "ort", nullable = false)
+    private String ort;
 
     public UUID getHalleId() {
         return halleId;
@@ -47,17 +53,33 @@ public class Halle {
         this.name = name;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getStrasse() {
+        return strasse;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setStrasse(String strasse) {
+        this.strasse = strasse;
+    }
+
+    public int getPlz() {
+        return plz;
+    }
+
+    public void setPlz(int plz) {
+        this.plz = plz;
+    }
+
+    public String getOrt() {
+        return ort;
+    }
+
+    public void setOrt(String ort) {
+        this.ort = ort;
     }
 
     @Override
     public String toString() {
-        return "Halle{" + "halleId=" + halleId + ", name=" + name + ", adresse=" + adresse + '}';
+        return "Halle{" + "halleId=" + halleId + ", name=" + name + ", adresse=" + strasse + ", " + plz + " " + ort + '}';
     }
     
 }

@@ -33,9 +33,6 @@ public class Training {
     @JoinColumn(name = "halle_id", nullable = false, updatable = false)
     private Halle halle;
 
-    @OneToOne(mappedBy = "training")
-    private MannschaftIntern mannschaftIntern;
-
     @Column(name = "wochentag", nullable = false)
     private String wochentag;
 

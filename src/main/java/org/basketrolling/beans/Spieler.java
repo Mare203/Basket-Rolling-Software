@@ -49,7 +49,7 @@ public class Spieler {
     private boolean aktiv;
     
     @ManyToOne
-    @JoinColumn(name = "mannschaft_intern_id", nullable = false)
+    @JoinColumn(name = "mannschaft_intern_id", nullable = true)
     private MannschaftIntern mannschaftIntern;
 
     public UUID getSpielerId() {
