@@ -142,7 +142,18 @@ src/
     │
     │           ├── dao
     │           │   └── BaseDAO.java
+    │           │   └── ElternkontaktDAO.java
+    │           │   └── HalleDAO.java
+    │           │   └── LigaDAO.java
     │           │   └── LoginDAO.java
+    │           │   └── MannschaftExternDAO.java
+    │           │   └── MannschaftInternDAO.java
+    │           │   └── MitgliedsbeitragDAO.java
+    │           │   └── SpieleDAO.java
+    │           │   └── SpielerDAO.java
+    │           │   └── StatistikDAO.java
+    │           │   └── TrainerDAO.java
+    │           │   └── TrainingDAO.java
     |
     |           ├── enums
     │           |   └── Rolle.java 
@@ -155,10 +166,9 @@ src/
     |
     │           ├── service
     │
-    │           └── utils
-    │
-    │           
-    │
+    │           ├── utils
+    │           │   └── TryCatchUtil.java
+    │   
     └── resources/
         ├── META-INF
         │   └── persistence.xml
