@@ -7,7 +7,7 @@ Dieses Projekt implementiert ein umfassendes Verwaltungssystem für den Basketba
 
 ## Technologie-Stack
 
-- Java 23
+- Java 21
 - PostgreSQL-Datenbank
 - JDBC für Datenbankzugriff
 - Maven für Dependency Management
