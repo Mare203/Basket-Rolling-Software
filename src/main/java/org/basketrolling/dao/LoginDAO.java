@@ -36,7 +36,7 @@ public class LoginDAO extends BaseDAO<Login> {
         try {
             String jpql = "SELECT l FROM Login l WHERE LOWER(l.benutzername) LIKE LOWER(:benutzername)";
             return em.createQuery(jpql, Login.class)
-                    .setParameter("benutzername", "%" + benutzername + "%")
+                    .setParameter("benutzername", benutzername)
                     .getResultList();
         } finally {
             em.close();

@@ -9,7 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -39,6 +41,9 @@ public class Trainer {
 
     @Column(name = "aktiv", nullable = false)
     private boolean aktiv;
+
+    @OneToMany(mappedBy = "trainer")
+    private List<MannschaftIntern> mannschaften;
 
     public UUID getTrainerId() {
         return trainerId;
@@ -86,6 +91,14 @@ public class Trainer {
 
     public void setAktiv(boolean aktiv) {
         this.aktiv = aktiv;
+    }
+
+    public List<MannschaftIntern> getMannschaften() {
+        return mannschaften;
+    }
+
+    public void setMannschaften(List<MannschaftIntern> mannschaften) {
+        this.mannschaften = mannschaften;
     }
 
     @Override

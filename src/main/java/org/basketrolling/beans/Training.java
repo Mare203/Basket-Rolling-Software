@@ -33,14 +33,11 @@ public class Training {
     @JoinColumn(name = "halle_id", nullable = false, updatable = false)
     private Halle halle;
 
-    @Column(name = "wochentag", nullable = false)
-    private String wochentag;
+    @Column(name = "datum", nullable = false)
+    private LocalDate datum;
 
     @Column(name = "dauer_minuten")
     private int dauerInMin;
-
-    @Column(name = "jahr")
-    private LocalDate jahr;
 
     public UUID getTrainingId() {
         return trainingId;
@@ -58,12 +55,12 @@ public class Training {
         this.halle = halle;
     }
 
-    public String getWochentag() {
-        return wochentag;
+    public LocalDate getDatum() {
+        return datum;
     }
 
-    public void setWochentag(String wochentag) {
-        this.wochentag = wochentag;
+    public void setDatum(LocalDate datum) {
+        this.datum = datum;
     }
 
     public int getDauerInMin() {
@@ -74,21 +71,12 @@ public class Training {
         this.dauerInMin = dauerInMin;
     }
 
-    public LocalDate getJahr() {
-        return jahr;
-    }
-
-    public void setJahr(LocalDate jahr) {
-        this.jahr = jahr;
-    }
-
     @Override
     public String toString() {
         return "Training{" + "trainingId=" + trainingId
                 + ", halle=" + halle
-                + ", wochentag=" + wochentag
+                + ", datum=" + datum
                 + ", dauerInMin=" + dauerInMin
-                + ", jahr=" + jahr
                 + '}';
     }
 }

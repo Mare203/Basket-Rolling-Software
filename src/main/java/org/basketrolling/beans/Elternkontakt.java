@@ -28,7 +28,7 @@ public class Elternkontakt {
     private UUID elternkontaktId;
 
     @ManyToOne
-    @JoinColumn(name = "spieler_id", nullable = false, updatable = false)
+    @JoinColumn(name = "spieler_id", nullable = true, updatable = false)
     private Spieler spieler;
 
     @Column(name = "vorname", nullable = false)

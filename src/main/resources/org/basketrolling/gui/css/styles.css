@@ -1,0 +1,72 @@
+.quick-btns {
+    -fx-background-color: #b1e8ff, #b1e8ff, #b1e8ff;
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #224190;
+    -fx-border-color: #77b9d5;
+    -fx-border-radius: 10px;
+}
+
+.quick-btns:hover {
+    -fx-background-color: #91d9f7, #91d9f7, #91d9f7;
+}
+
+.quick-btns:pressed {
+    -fx-background-color: #72cbed, #72cbed, #72cbed;
+}
+
+.main-btns {
+    -fx-background-color: #b1e8ff, #b1e8ff, #b1e8ff;
+    -fx-background-insets: 0, 0, 0;
+    -fx-text-fill: #224190;
+    -fx-border-color: #77b9d5;
+}
+
+.main-btns:hover {
+    -fx-background-color: #91d9f7, #91d9f7, #91d9f7;
+}
+
+.main-btns:pressed {
+    -fx-background-color: #72cbed, #72cbed, #72cbed;
+}
+
+
+.login-button {
+    -fx-background-color: #3f45b2;
+    -fx-text-fill: white;
+    -fx-background-radius: 7px;
+}
+
+.login-button:hover {
+    -fx-background-color: #575dc0;
+}
+
+.login-button:pressed {
+    -fx-background-color: #2f379e;
+}
+
+.list-cell {
+    -fx-background-color: #b1e8ff;
+    -fx-background-radius: 10px;
+}
+
+.list-cell:filled:selected, .list-cell:filled:selected:focused {
+    -fx-background-color: #b1e8ff;
+    -fx-text-fill: #224190;
+}
+
+.list-cell:even {
+    -fx-background-color: #b1e8ff;
+    -fx-text-fill: #224190;
+}
+
+.list-cell:odd {
+    -fx-background-color: #b1e8ff;
+    -fx-text-fill: #224190;
+}
+
+.platzhalter {
+    -fx-text-fill: #224190;
+    -fx-font-style: italic;
+    -fx-font-size: 14px;
+}
