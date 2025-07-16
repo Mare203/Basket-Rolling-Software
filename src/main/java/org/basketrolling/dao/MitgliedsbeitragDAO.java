@@ -7,6 +7,7 @@ package org.basketrolling.dao;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.basketrolling.beans.Mitgliedsbeitrag;
+import org.basketrolling.beans.Spieler;
 
 /**
  * DAO-Klasse für den Zugriff auf Mitgliedsbeiträge in der Datenbank.

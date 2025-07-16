@@ -134,4 +134,26 @@ public class SpielerDAO extends BaseDAO<Spieler> {
             em.close();
         }
     }
+
+//    @Override
+//    public void delete(Spieler spieler) {
+//        EntityManager em = getEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            Spieler managedSpieler = em.find(Spieler.class, spieler.getSpielerId());
+//
+//            managedSpieler.getBeitragsZuweisungen().size();
+//
+//            em.remove(managedSpieler);
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            if (em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            System.err.println("Fehler beim Löschen: " + e.getMessage());
+//            throw new RuntimeException("Fehler beim Löschen", e);
+//        } finally {
+//            em.close();
+//        }
+//    }
 }

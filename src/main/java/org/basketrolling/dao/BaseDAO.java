@@ -56,9 +56,9 @@ public abstract class BaseDAO<T> implements DAOInterface<T> {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(entity);
+            T gespeichertesObjekt = em.merge(entity);
             em.getTransaction().commit();
-            return entity;
+            return gespeichertesObjekt;
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
