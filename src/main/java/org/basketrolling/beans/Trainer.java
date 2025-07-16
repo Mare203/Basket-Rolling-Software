@@ -6,6 +6,7 @@ package org.basketrolling.beans;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,8 +43,8 @@ public class Trainer {
     @Column(name = "aktiv", nullable = false)
     private boolean aktiv;
 
-    @OneToMany(mappedBy = "trainer")
-    private List<MannschaftIntern> mannschaften;
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
+    private List<MannschaftIntern> mannschaft;
 
     public UUID getTrainerId() {
         return trainerId;
@@ -69,11 +70,11 @@ public class Trainer {
         this.nachname = nachname;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getEMail() {
+        return eMail != null ? eMail : "";
     }
 
-    public void seteMail(String eMail) {
+    public void setEMail(String eMail) {
         this.eMail = eMail;
     }
 
@@ -93,21 +94,16 @@ public class Trainer {
         this.aktiv = aktiv;
     }
 
-    public List<MannschaftIntern> getMannschaften() {
-        return mannschaften;
+    public List<MannschaftIntern> getMannschaft() {
+        return mannschaft;
     }
 
-    public void setMannschaften(List<MannschaftIntern> mannschaften) {
-        this.mannschaften = mannschaften;
+    public void setMannschaft(List<MannschaftIntern> mannschaft) {
+        this.mannschaft = mannschaft;
     }
 
     @Override
     public String toString() {
-        return "Trainer{" + "trainerId=" + trainerId
-                + ", vorname=" + vorname
-                + ", nachname=" + nachname
-                + ", eMail=" + this.eMail
-                + ", telefon=" + telefon
-                + ", aktiv=" + aktiv + '}';
+        return vorname + " " + nachname;
     }
 }

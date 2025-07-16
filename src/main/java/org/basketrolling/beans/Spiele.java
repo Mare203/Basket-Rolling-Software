@@ -119,14 +119,11 @@ public class Spiele {
 
     @Override
     public String toString() {
-        return "Spiele{" + "spielId=" + spielId
-                + ", liga=" + liga
-                + ", mannschaftIntern=" + mannschaftIntern
-                + ", mannschaftExtern=" + mannschaftExtern
-                + ", halle=" + halle
-                + ", datum=" + datum
-                + ", internPunkte=" + internPunkte
-                + ", externPunkte=" + externPunkte
-                + '}';
+        String teams = String.format("%-60s", getMannschaftIntern().getName() + " - " + getMannschaftExtern().getName());
+        String punkte = String.format("%-10s", getInternPunkte() + ":" + getExternPunkte());
+        String halle = String.format("%-22s", getHalle().getName());
+        String datum = getDatum().toString();
+
+        return teams + punkte + halle + datum;
     }
 }

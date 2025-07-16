@@ -79,7 +79,7 @@ public class Halle {
 
     @Override
     public String toString() {
-        return "Halle{" + "halleId=" + halleId + ", name=" + name + ", adresse=" + strasse + ", " + plz + " " + ort + '}';
+        return name;
     }
     
 }

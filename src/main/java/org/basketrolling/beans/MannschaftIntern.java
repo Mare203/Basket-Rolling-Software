@@ -31,10 +31,6 @@ public class MannschaftIntern {
     private String name;
     
     @ManyToOne
-    @JoinColumn(name = "training_id", nullable = false, updatable = false)
-    private Training training;
-    
-    @ManyToOne
     @JoinColumn(name = "liga_id", nullable = false, updatable = false)
     private Liga liga;
     
@@ -58,14 +54,6 @@ public class MannschaftIntern {
         this.name = name;
     }
 
-    public Training getTraining() {
-        return training;
-    }
-
-    public void setTraining(Training training) {
-        this.training = training;
-    }
-
     public Liga getLiga() {
         return liga;
     }
@@ -84,11 +72,7 @@ public class MannschaftIntern {
 
     @Override
     public String toString() {
-        return "MannschaftIntern{" + "mannschaftInternId=" + mannschaftInternId + 
-                ", name=" + name + 
-                ", training=" + training +
-                ", liga=" + liga + 
-                ", trainer=" + trainer +
-                '}';
-    }    
+        return name;
+    }
+ 
 }

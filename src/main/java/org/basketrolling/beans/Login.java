@@ -28,6 +28,12 @@ public class Login {
     @Column(name = "login_id", nullable = false, updatable = false)
     private UUID loginId;
 
+    @Column(name = "vorname", nullable = false)
+    private String vorname;
+    
+    @Column(name = "nachname", nullable = false)
+    private String nachname;
+    
     @Column(name = "benutzername", nullable = false, unique = true)
     private String benutzername;
     
@@ -46,6 +52,22 @@ public class Login {
         this.loginId = loginId;
     }
 
+    public String getVorname() {
+        return vorname;
+    }
+
+    public void setVorname(String vorname) {
+        this.vorname = vorname;
+    }
+
+    public String getNachname() {
+        return nachname;
+    }
+
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
+    }    
+    
     public String getBenutzername() {
         return benutzername;
     }
@@ -72,6 +94,6 @@ public class Login {
 
     @Override
     public String toString() {
-        return "Login{" + "loginId=" + loginId + ", benutzername=" + benutzername + ", passwort=" + passwort + '}';
+        return "Login{" + "loginId=" + loginId + ", vorname=" + vorname + ", nachname=" + nachname + ", benutzername=" + benutzername + ", passwort=" + passwort + ", rolle=" + rolle + '}';
     }
 }

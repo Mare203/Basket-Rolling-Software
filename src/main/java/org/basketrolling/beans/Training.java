@@ -6,14 +6,17 @@ package org.basketrolling.beans;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,6 +35,13 @@ public class Training {
     @ManyToOne
     @JoinColumn(name = "halle_id", nullable = false, updatable = false)
     private Halle halle;
+
+    @ManyToOne
+    @JoinColumn(name = "mannschaft_intern_id")
+    private MannschaftIntern mannschaftIntern;
+
+    @Column(name = "wochentag")
+    private String wochentag;
 
     @Column(name = "datum", nullable = false)
     private LocalDate datum;
@@ -55,12 +65,28 @@ public class Training {
         this.halle = halle;
     }
 
+    public MannschaftIntern getMannschaftIntern() {
+        return mannschaftIntern;
+    }
+
+    public void setMannschaftIntern(MannschaftIntern mannschaftIntern) {
+        this.mannschaftIntern = mannschaftIntern;
+    }    
+    
     public LocalDate getDatum() {
         return datum;
     }
 
     public void setDatum(LocalDate datum) {
         this.datum = datum;
+    }
+
+    public String getWochentag() {
+        return wochentag;
+    }
+
+    public void setWochentag(String wochentag) {
+        this.wochentag = wochentag;
     }
 
     public int getDauerInMin() {
@@ -73,10 +99,6 @@ public class Training {
 
     @Override
     public String toString() {
-        return "Training{" + "trainingId=" + trainingId
-                + ", halle=" + halle
-                + ", datum=" + datum
-                + ", dauerInMin=" + dauerInMin
-                + '}';
+        return mannschaftIntern.getName() + " | " + halle.getName() + " | " + dauerInMin + " Minuten";
     }
 }

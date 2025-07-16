@@ -60,9 +60,6 @@ public class MannschaftExtern {
 
     @Override
     public String toString() {
-        return "MannschaftExtern{" + "mannschaftExternId=" + mannschaftExternId
-                + ", name=" + name
-                + ", liga=" + liga
-                + '}';
+        return name;
     }
 }
