@@ -6,6 +6,7 @@ package org.basketrolling.service;
 
 import java.util.List;
 import org.basketrolling.beans.Mitgliedsbeitrag;
+import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.MitgliedsbeitragDAO;
 import org.basketrolling.utils.TryCatchUtil;
 

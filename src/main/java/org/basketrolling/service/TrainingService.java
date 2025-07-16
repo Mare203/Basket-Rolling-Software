@@ -10,12 +10,12 @@ import org.basketrolling.dao.TrainingDAO;
 import org.basketrolling.utils.TryCatchUtil;
 
 /**
- * Service-Klasse zur Verwaltung von {@link Training}-Entitäten.
- * Diese Klasse erweitert {@link BaseService} und bietet eine Methode zur
- * Suche von Trainingseinheiten anhand ihrer Dauer.
- * 
+ * Service-Klasse zur Verwaltung von {@link Training}-Entitäten. Diese Klasse
+ * erweitert {@link BaseService} und bietet eine Methode zur Suche von
+ * Trainingseinheiten anhand ihrer Dauer.
+ *
  * Die Fehlerbehandlung erfolgt zentral über {@link TryCatchUtil}.
- * 
+ *
  * @author Marko
  */
 public class TrainingService extends BaseService<Training> {
@@ -40,5 +40,14 @@ public class TrainingService extends BaseService<Training> {
      */
     public List<Training> getByDauer(int dauer) {
         return TryCatchUtil.tryCatchList(() -> dao.findByDauer(dauer));
+    }
+
+    /**
+     * Ruft alle Trainings für den aktuellen Wochentag ab.
+     *
+     * @return Liste der heutigen Trainings; im Fehlerfall eine leere Liste
+     */
+    public List<Training> getHeutigeTrainings() {
+        return TryCatchUtil.tryCatchList(() -> dao.findHeutigeTrainings());
     }
 }

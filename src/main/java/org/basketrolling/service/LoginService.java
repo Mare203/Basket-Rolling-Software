@@ -65,6 +65,8 @@ public class LoginService extends BaseService<Login> {
 
         Login newLogin = new Login();
         newLogin.setBenutzername(login.getBenutzername());
+        newLogin.setVorname(login.getVorname());
+        newLogin.setNachname(login.getNachname());
         newLogin.setPasswort(gehashtesPasswort);
         newLogin.setRolle(login.getRolle());
         

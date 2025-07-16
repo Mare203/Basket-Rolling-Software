@@ -51,14 +51,14 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void handleLogin() {
+    private void anmelden() {
         String benutzername = benutzernameFeld.getText();
         String passwort = passwortFeld.getText();
 
         Login user = service.pruefung(benutzername, passwort);
 
         if (user != null) {
-            openHauptmenue(user.getBenutzername());
+            openHauptmenue(user);
             Stage currentStage = (Stage) anmeldeBtn.getScene().getWindow();
             currentStage.close();
         } else {
@@ -69,14 +69,14 @@ public class LoginController implements Initializable {
         }
     }
 
-    private void openHauptmenue(String benutzer) {
+    private void openHauptmenue(Login benutzer) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenue.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenue.fxml"));
             Scene scene = new Scene(loader.load());
             scene.getStylesheets().add(getClass().getResource("/org/basketrolling/gui/css/styles.css").toExternalForm());
 
             HauptmenueController hauptmenueController = loader.getController();
-            hauptmenueController.setWelcomeUser(benutzer);
+            hauptmenueController.initUser(benutzer);
 
             Stage stage = new Stage();
             stage.setTitle("Hauptmenü - Basket Rolling");
