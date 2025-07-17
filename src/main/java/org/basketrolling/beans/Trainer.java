@@ -40,9 +40,6 @@ public class Trainer {
     @Column(name = "telefon", nullable = false)
     private String telefon;
 
-    @Column(name = "aktiv", nullable = false)
-    private boolean aktiv;
-
     @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
     private List<MannschaftIntern> mannschaft;
 
@@ -84,14 +81,6 @@ public class Trainer {
 
     public void setTelefon(String telefon) {
         this.telefon = telefon;
-    }
-
-    public boolean isAktiv() {
-        return aktiv;
-    }
-
-    public void setAktiv(boolean aktiv) {
-        this.aktiv = aktiv;
     }
 
     public List<MannschaftIntern> getMannschaft() {

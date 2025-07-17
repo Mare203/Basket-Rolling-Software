@@ -47,5 +47,5 @@ public class Liga {
     @Override
     public String toString() {
         return name;
-    }         
+    }
 }

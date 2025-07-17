@@ -47,11 +47,11 @@ public class Spieler {
     @Column(name = "groeße", nullable = false)
     private double groesse;
 
-    @Column(name = "aktiv", nullable = false)
+    @Column(name = "aktiv", nullable = true)
     private boolean aktiv;
 
     @ManyToOne
-    @JoinColumn(name = "mannschaft_intern_id", nullable = true)
+    @JoinColumn(name = "mannschaft_intern_id", nullable = false)
     private MannschaftIntern mannschaftIntern;
 
     @OneToMany(mappedBy = "spieler", cascade = CascadeType.REMOVE, orphanRemoval = true)

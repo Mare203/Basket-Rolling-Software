@@ -35,7 +35,7 @@ public class MannschaftIntern {
     private Liga liga;
     
     @ManyToOne
-    @JoinColumn(name = "trainer_id", nullable = false, updatable = false)
+    @JoinColumn(name = "trainer_id", nullable = true, updatable = false)
     private Trainer trainer;
 
     public UUID getMannschaftInternId() {

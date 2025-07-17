@@ -5,17 +5,18 @@
 package org.basketrolling.service;
 
 import java.util.List;
+import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.utils.TryCatchUtil;
 
 /**
- * Service-Klasse zur Verwaltung von {@link MannschaftIntern}-Entitäten.
- * Diese Klasse erweitert {@link BaseService} und bietet eine Methode zur
- * Suche interner Mannschaften anhand ihres Namens.
- * 
+ * Service-Klasse zur Verwaltung von {@link MannschaftIntern}-Entitäten. Diese
+ * Klasse erweitert {@link BaseService} und bietet eine Methode zur Suche
+ * interner Mannschaften anhand ihres Namens.
+ *
  * Die Fehlerbehandlung erfolgt über {@link TryCatchUtil}.
- * 
+ *
  * @author Marko
  */
 public class MannschaftInternService extends BaseService<MannschaftIntern> {
@@ -33,13 +34,16 @@ public class MannschaftInternService extends BaseService<MannschaftIntern> {
     }
 
     /**
-     * Sucht {@link MannschaftIntern}-Einträge, deren Name (case-insensitive)
-     * den angegebenen Suchbegriff enthält.
+     * Gibt alle {@link MannschaftIntern}-Einträge zurück, die der übergebenen
+     * {@link Liga} zugeordnet sind.
      *
-     * @param name der Name oder ein Teil des Namens der Mannschaft
-     * @return Liste der passenden {@link MannschaftIntern}-Objekte
+     * @param liga die {@link Liga}, für die zugehörige interne Mannschaften
+     * gesucht werden
+     * 
+     * @return Liste der {@link MannschaftIntern}-Objekte, die in der
+     * angegebenen Liga spielen; bei Fehlern eine leere Liste
      */
-    public List<MannschaftIntern> getByName(String name) {
-        return TryCatchUtil.tryCatchList(() -> dao.findByName(name));
+    public List<MannschaftIntern> getByLiga(Liga liga) {
+        return TryCatchUtil.tryCatchList(() -> dao.findByLiga(liga));
     }
 }

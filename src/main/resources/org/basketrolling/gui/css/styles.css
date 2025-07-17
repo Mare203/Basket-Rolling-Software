@@ -161,3 +161,7 @@
     -fx-background-color: #7cd676;
     -fx-background-radius: 15px;
 }
+
+.text-felder {
+    -fx-background-color:  #eaf6ff;
+}
