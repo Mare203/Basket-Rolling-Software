@@ -39,7 +39,7 @@ public class MannschaftInternService extends BaseService<MannschaftIntern> {
      *
      * @param liga die {@link Liga}, für die zugehörige interne Mannschaften
      * gesucht werden
-     * 
+     *
      * @return Liste der {@link MannschaftIntern}-Objekte, die in der
      * angegebenen Liga spielen; bei Fehlern eine leere Liste
      */

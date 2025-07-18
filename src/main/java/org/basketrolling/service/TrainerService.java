@@ -10,12 +10,13 @@ import org.basketrolling.dao.TrainerDAO;
 import org.basketrolling.utils.TryCatchUtil;
 
 /**
- * Service-Klasse zur Verwaltung von {@link Trainer}-Entitäten.
- * Diese Klasse erweitert {@link BaseService} und bietet zusätzliche
- * Suchfunktionen nach Vorname, Nachname und Aktivitätsstatus.
- * 
- * Die Fehlerbehandlung erfolgt über {@link TryCatchUtil}, um Ausnahmen einheitlich zu behandeln.
- * 
+ * Service-Klasse zur Verwaltung von {@link Trainer}-Entitäten. Diese Klasse
+ * erweitert {@link BaseService} und bietet zusätzliche Suchfunktionen nach
+ * Vorname, Nachname und Aktivitätsstatus.
+ *
+ * Die Fehlerbehandlung erfolgt über {@link TryCatchUtil}, um Ausnahmen
+ * einheitlich zu behandeln.
+ *
  * @author Marko
  */
 public class TrainerService extends BaseService<Trainer> {
@@ -33,7 +34,8 @@ public class TrainerService extends BaseService<Trainer> {
     }
 
     /**
-     * Sucht Trainer anhand ihres Vornamens (case-insensitive, Teilstring erlaubt).
+     * Sucht Trainer anhand ihres Vornamens (case-insensitive, Teilstring
+     * erlaubt).
      *
      * @param vorname der gesuchte Vorname oder Teil davon
      * @return Liste der passenden {@link Trainer}-Objekte
@@ -43,7 +45,8 @@ public class TrainerService extends BaseService<Trainer> {
     }
 
     /**
-     * Sucht Trainer anhand ihres Nachnamens (case-insensitive, Teilstring erlaubt).
+     * Sucht Trainer anhand ihres Nachnamens (case-insensitive, Teilstring
+     * erlaubt).
      *
      * @param nachname der gesuchte Nachname oder Teil davon
      * @return Liste der passenden {@link Trainer}-Objekte

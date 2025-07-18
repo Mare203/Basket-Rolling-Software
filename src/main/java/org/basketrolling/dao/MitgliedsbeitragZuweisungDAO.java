@@ -6,7 +6,6 @@ package org.basketrolling.dao;
 
 import jakarta.persistence.EntityManager;
 import java.util.List;
-import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MitgliedsbeitragZuweisung;
 
 /**
@@ -25,8 +24,8 @@ public class MitgliedsbeitragZuweisungDAO extends BaseDAO<MitgliedsbeitragZuweis
     public MitgliedsbeitragZuweisungDAO() {
         super(MitgliedsbeitragZuweisung.class);
     }
-    
-    public List<MitgliedsbeitragZuweisung> findOffeneBeitraege(){
+
+    public List<MitgliedsbeitragZuweisung> findOffeneBeitraege() {
         EntityManager em = getEntityManager();
         try {
             String jpql = "SELECT z FROM MitgliedsbeitragZuweisung z JOIN FETCH z.spieler WHERE z.bezahlt = false";

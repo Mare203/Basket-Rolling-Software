@@ -10,16 +10,17 @@ import java.util.List;
 import org.basketrolling.beans.Spiele;
 
 /**
- * DAO-Klasse für den Zugriff auf {@link Spiele}-Entitäten.
- * Diese Klasse erweitert {@link BaseDAO} und bietet eine Methode zur
- * Suche von Spielen anhand eines bestimmten Datums.
- * 
+ * DAO-Klasse für den Zugriff auf {@link Spiele}-Entitäten. Diese Klasse
+ * erweitert {@link BaseDAO} und bietet eine Methode zur Suche von Spielen
+ * anhand eines bestimmten Datums.
+ *
  * @author Marko
  */
 public class SpieleDAO extends BaseDAO<Spiele> {
 
     /**
-     * Konstruktor, der die {@link Spiele}-Klasse an den generischen DAO übergibt.
+     * Konstruktor, der die {@link Spiele}-Klasse an den generischen DAO
+     * übergibt.
      */
     public SpieleDAO() {
         super(Spiele.class);

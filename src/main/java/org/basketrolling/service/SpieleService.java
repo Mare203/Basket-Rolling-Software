@@ -11,12 +11,13 @@ import org.basketrolling.dao.SpieleDAO;
 import org.basketrolling.utils.TryCatchUtil;
 
 /**
- * Service-Klasse zur Verwaltung von {@link Spiele}-Entitäten.
- * Diese Klasse erweitert {@link BaseService} und stellt eine Methode zur
- * Suche von Spielen anhand ihres Datums bereit.
- * 
- * Die Fehlerbehandlung erfolgt über {@link TryCatchUtil}, um Ausnahmen sauber zu behandeln.
- * 
+ * Service-Klasse zur Verwaltung von {@link Spiele}-Entitäten. Diese Klasse
+ * erweitert {@link BaseService} und stellt eine Methode zur Suche von Spielen
+ * anhand ihres Datums bereit.
+ *
+ * Die Fehlerbehandlung erfolgt über {@link TryCatchUtil}, um Ausnahmen sauber
+ * zu behandeln.
+ *
  * @author Marko
  */
 public class SpieleService extends BaseService<Spiele> {

@@ -12,12 +12,12 @@ import org.basketrolling.utils.TryCatchUtil;
 import com.password4j.Password;
 
 /**
- * Service-Klasse zur Verwaltung von {@link Login}-Entitäten.
- * Bietet zusätzliche Funktionen zur Authentifizierung und Registrierung von Benutzern.
- * Die Fehlerbehandlung erfolgt zentral über {@link TryCatchUtil}.
- * 
+ * Service-Klasse zur Verwaltung von {@link Login}-Entitäten. Bietet zusätzliche
+ * Funktionen zur Authentifizierung und Registrierung von Benutzern. Die
+ * Fehlerbehandlung erfolgt zentral über {@link TryCatchUtil}.
+ *
  * Passwörter werden sicher mit BCrypt gehasht und geprüft.
- * 
+ *
  * @author Marko
  */
 public class LoginService extends BaseService<Login> {
@@ -35,7 +35,8 @@ public class LoginService extends BaseService<Login> {
     }
 
     /**
-     * Sucht {@link Login}-Einträge anhand des Benutzernamens (case-insensitive, Teilstring erlaubt).
+     * Sucht {@link Login}-Einträge anhand des Benutzernamens (case-insensitive,
+     * Teilstring erlaubt).
      *
      * @param benutzername der gesuchte Benutzername oder Teil davon
      * @return Liste der passenden {@link Login}-Objekte
@@ -55,10 +56,12 @@ public class LoginService extends BaseService<Login> {
     }
 
     /**
-     * Registriert einen neuen Benutzer, indem das Passwort mit BCrypt gehasht und gespeichert wird.
+     * Registriert einen neuen Benutzer, indem das Passwort mit BCrypt gehasht
+     * und gespeichert wird.
      *
      * @param login das übergebene {@link Login}-Objekt mit Klartextpasswort
-     * @return {@code null} (optional kann auch das neue Login-Objekt zurückgegeben werden)
+     * @return {@code null} (optional kann auch das neue Login-Objekt
+     * zurückgegeben werden)
      */
     public Login registrierung(Login login) {
         String gehashtesPasswort = Password.hash(login.getPasswort()).withBcrypt().getResult();
@@ -69,17 +72,19 @@ public class LoginService extends BaseService<Login> {
         newLogin.setNachname(login.getNachname());
         newLogin.setPasswort(gehashtesPasswort);
         newLogin.setRolle(login.getRolle());
-        
+
         dao.save(newLogin);
         return null;
     }
 
     /**
-     * Prüft die Benutzeranmeldung: Vergleicht eingegebenes Passwort mit gespeichertem Hash.
+     * Prüft die Benutzeranmeldung: Vergleicht eingegebenes Passwort mit
+     * gespeichertem Hash.
      *
      * @param benutzername Benutzername
      * @param passwort eingegebenes Klartextpasswort
-     * @return der passende {@link Login}-Benutzer bei Erfolg, sonst {@code null}
+     * @return der passende {@link Login}-Benutzer bei Erfolg, sonst
+     * {@code null}
      */
     public Login pruefung(String benutzername, String passwort) {
         List<Login> users = dao.findByBenutzername(benutzername);

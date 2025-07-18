@@ -10,12 +10,12 @@ import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.utils.TryCatchUtil;
 
 /**
- * Service-Klasse zur Verwaltung von {@link Spieler}-Entitäten.
- * Diese Klasse erweitert {@link BaseService} und bietet zusätzliche Methoden
- * zur gezielten Suche nach Spielern anhand von Namen, Größe oder Aktivitätsstatus.
- * 
+ * Service-Klasse zur Verwaltung von {@link Spieler}-Entitäten. Diese Klasse
+ * erweitert {@link BaseService} und bietet zusätzliche Methoden zur gezielten
+ * Suche nach Spielern anhand von Namen, Größe oder Aktivitätsstatus.
+ *
  * Die Fehlerbehandlung erfolgt zentral über {@link TryCatchUtil}.
- * 
+ *
  * @author Marko
  */
 public class SpielerService extends BaseService<Spieler> {
@@ -33,7 +33,8 @@ public class SpielerService extends BaseService<Spieler> {
     }
 
     /**
-     * Sucht Spieler anhand des Vornamens (case-insensitive, Teilstring erlaubt).
+     * Sucht Spieler anhand des Vornamens (case-insensitive, Teilstring
+     * erlaubt).
      *
      * @param vorname der gesuchte Vorname oder Teil davon
      * @return Liste der passenden {@link Spieler}-Objekte
@@ -43,7 +44,8 @@ public class SpielerService extends BaseService<Spieler> {
     }
 
     /**
-     * Sucht Spieler anhand des Nachnamens (case-insensitive, Teilstring erlaubt).
+     * Sucht Spieler anhand des Nachnamens (case-insensitive, Teilstring
+     * erlaubt).
      *
      * @param nachname der gesuchte Nachname oder Teil davon
      * @return Liste der passenden {@link Spieler}-Objekte
@@ -63,7 +65,8 @@ public class SpielerService extends BaseService<Spieler> {
     }
 
     /**
-     * Sucht Spieler mit einer Mindestgröße (größer oder gleich dem angegebenen Wert).
+     * Sucht Spieler mit einer Mindestgröße (größer oder gleich dem angegebenen
+     * Wert).
      *
      * @param minGroesse die Mindestgröße in cm
      * @return Liste der passenden {@link Spieler}-Objekte
@@ -73,7 +76,8 @@ public class SpielerService extends BaseService<Spieler> {
     }
 
     /**
-     * Sucht Spieler mit einer maximalen Größe (kleiner oder gleich dem angegebenen Wert).
+     * Sucht Spieler mit einer maximalen Größe (kleiner oder gleich dem
+     * angegebenen Wert).
      *
      * @param maxGroesse die Maximalgröße in cm
      * @return Liste der passenden {@link Spieler}-Objekte
@@ -85,7 +89,8 @@ public class SpielerService extends BaseService<Spieler> {
     /**
      * Sucht Spieler anhand ihres Aktivitätsstatus.
      *
-     * @param aktiv {@code true} für aktive Spieler, {@code false} für inaktive Spieler
+     * @param aktiv {@code true} für aktive Spieler, {@code false} für inaktive
+     * Spieler
      * @return Liste der passenden {@link Spieler}-Objekte
      */
     public List<Spieler> getByAktiv(boolean aktiv) {

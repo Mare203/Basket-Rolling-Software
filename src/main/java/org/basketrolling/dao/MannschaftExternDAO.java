@@ -33,7 +33,7 @@ public class MannschaftExternDAO extends BaseDAO<MannschaftExtern> {
      * @param liga die {@link Liga}, nach der gefiltert werden soll
      *
      * @return Liste der {@link MannschaftExtern}-Objekte, die zu dieser Liga
-     * gehören; niemals {@code null}, aber evtl. leer
+     * gehören oder leere Liste
      */
     public List<MannschaftExtern> findByLiga(Liga liga) {
         EntityManager em = getEntityManager();
