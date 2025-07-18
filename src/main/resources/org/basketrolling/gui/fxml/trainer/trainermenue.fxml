@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="908.0" prefWidth="1722.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.MitgliedsbeitragController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="908.0" prefWidth="1722.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.TrainermenueController">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
    </columnConstraints>
@@ -41,7 +41,7 @@
                               <Insets top="2.0" />
                            </HBox.margin>
                         </Button>
-                        <Label text="Mitgliedsbeiträge">
+                        <Label text="Trainermenü">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -49,7 +49,7 @@
                               <Insets left="10.0" top="7.0" />
                            </HBox.margin>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#mitgliedsbeitragHinzufuegen" styleClass="add-btn" text="Mitgliedsbeitrag hinzufügen" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#trainerHinzufuegen" styleClass="add-btn" text="Trainer hinzufügen" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -61,18 +61,21 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="1260.0" top="5.0" />
+                              <Insets left="1370.0" top="5.0" />
                            </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="858.0" prefWidth="1722.0">
                      <children>
-                        <TableView fx:id="tabelleMitgliedsbeitrag" prefHeight="858.0" prefWidth="1722.0">
+                        <TableView fx:id="tabelleTrainer" prefHeight="858.0" prefWidth="1722.0">
                           <columns>
-                            <TableColumn fx:id="saisonSpalte" maxWidth="300.0" prefWidth="300.0" styleClass="table-row-cell" text="Saison" />
-                            <TableColumn fx:id="betragSpalte" maxWidth="300.0" prefWidth="300.0" styleClass="table-row-cell" text="Betrag" />
-                              <TableColumn fx:id="aktionenSpalte" minWidth="-Infinity" prefWidth="1118.0" styleClass="table-row-cell" />
+                            <TableColumn fx:id="vornameSpalte" maxWidth="220.0" prefWidth="220.0" styleClass="table-row-cell" text="Vorname" />
+                            <TableColumn fx:id="nachnameSpalte" maxWidth="220.0" prefWidth="220.0" styleClass="table-row-cell" text="Nachname" />
+                              <TableColumn fx:id="mannschaftSpalte" maxWidth="300.0" prefWidth="300.0" styleClass="table-row-cell" text="Mannschaft" />
+                              <TableColumn fx:id="telefonSpalte" maxWidth="220.0" prefWidth="220.0" styleClass="table-row-cell" text="Telefon" />
+                              <TableColumn fx:id="emailSpalte" maxWidth="220.0" prefWidth="220.0" styleClass="table-row-cell" text="E-Mail" />
+                              <TableColumn fx:id="aktionenSpalte" prefWidth="538.0" styleClass="table-row-cell" />
                           </columns>
                         </TableView>
                      </children>

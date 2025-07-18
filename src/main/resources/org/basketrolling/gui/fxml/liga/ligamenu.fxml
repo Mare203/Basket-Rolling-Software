@@ -49,7 +49,7 @@
                               <Insets left="10.0" top="7.0" />
                            </HBox.margin>
                         </Label>
-                        <Button mnemonicParsing="false" styleClass="add-btn" text="Liga hinzufügen" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#ligaHinzufuegen" styleClass="add-btn" text="Liga hinzufügen" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -71,7 +71,7 @@
                         <TableView fx:id="tabelleLiga" prefHeight="858.0" prefWidth="1722.0">
                           <columns>
                             <TableColumn fx:id="ligaSpalte" maxWidth="350.0" prefWidth="350.0" styleClass="table-row-cell" text="Liga" />
-                              <TableColumn fx:id="aktionenSpalte" minWidth="-Infinity" prefWidth="1370.0" styleClass="table-row-cell" />
+                              <TableColumn fx:id="aktionenSpalte" minWidth="-Infinity" prefWidth="1369.0" styleClass="table-row-cell" />
                           </columns>
                         </TableView>
                      </children>
