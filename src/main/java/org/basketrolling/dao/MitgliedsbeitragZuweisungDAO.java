@@ -7,6 +7,7 @@ package org.basketrolling.dao;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.basketrolling.beans.MitgliedsbeitragZuweisung;
+import org.basketrolling.beans.Spieler;
 
 /**
  * DAO-Klasse für den Zugriff auf {@link MitgliedsbeitragZuweisung}-Entitäten.
@@ -30,6 +31,30 @@ public class MitgliedsbeitragZuweisungDAO extends BaseDAO<MitgliedsbeitragZuweis
         try {
             String jpql = "SELECT z FROM MitgliedsbeitragZuweisung z JOIN FETCH z.spieler WHERE z.bezahlt = false";
             return em.createQuery(jpql, MitgliedsbeitragZuweisung.class)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<MitgliedsbeitragZuweisung> findBySpieler(Spieler spieler) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT z FROM MitgliedsbeitragZuweisung z WHERE z.spieler = :spieler";
+            return em.createQuery(jpql, MitgliedsbeitragZuweisung.class)
+                    .setParameter("spieler", spieler)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<MitgliedsbeitragZuweisung> findAktiveBySpieler(Spieler spieler) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT z FROM MitgliedsbeitragZuweisung z WHERE z.spieler = :spieler AND z.aktiv = true";
+            return em.createQuery(jpql, MitgliedsbeitragZuweisung.class)
+                    .setParameter("spieler", spieler)
                     .getResultList();
         } finally {
             em.close();

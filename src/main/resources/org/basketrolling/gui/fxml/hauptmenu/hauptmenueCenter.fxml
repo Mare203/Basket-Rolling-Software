@@ -9,221 +9,221 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.HauptmenueController">
-   <columnConstraints>
-      <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-   </rowConstraints>
-   <children>
-      <GridPane hgap="10.0" pickOnBounds="false" style="-fx-background-color: #f6fbff;" vgap="10.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="20.0" />
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="340.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" vgrow="NEVER" />
-            <RowConstraints minHeight="27.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="32.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="32.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="397.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="397.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="397.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
-         </rowConstraints>
-         <children>
-            <Label fx:id="welcomeUser" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="401.0" text="Hauptmenü" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
-               <font>
-                  <Font name="Arial Bold Italic" size="32.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-            </Label>
-            <Label text="Quick-Links:" textFill="#224190" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets top="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Button fx:id="spielerHinzu" mnemonicParsing="false" onAction="#quickSpielerHinzufuegen" styleClass="quick-btns" text="Spieler hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="15.0" right="15.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets right="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="trainingHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Training anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="20.0" right="20.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="spielHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Spiel anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="28.0" right="28.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="trainerHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Trainer hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="14.0" right="14.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="mannschaftHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Mannschaft anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="11.0" right="10.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets left="155.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="halleHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Halle hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="20.0" right="19.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets left="155.0" top="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="statsWatch" mnemonicParsing="false" styleClass="quick-btns" text="Statistiken ansehen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="13.0" right="13.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets left="155.0" top="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="spielerWatch" mnemonicParsing="false" styleClass="quick-btns" text="Spieler ansehen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-               <padding>
-                  <Insets bottom="9.0" left="23.0" right="22.0" top="9.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets left="155.0" top="10.0" />
-               </GridPane.margin>
-            </Button>
-         </children>
-      </GridPane>
-      <GridPane hgap="10.0" prefHeight="900.0" prefWidth="1433.0" style="-fx-background-color: #f6fbff;" vgap="10.0" GridPane.columnIndex="1">
-         <columnConstraints>
-            <ColumnConstraints hgrow="NEVER" maxWidth="779.0" minWidth="-Infinity" prefWidth="779.0" />
-            <ColumnConstraints hgrow="NEVER" maxWidth="788.0" minWidth="-Infinity" prefWidth="564.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="58.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="36.0" prefHeight="21.0" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="146.0" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="146.0" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="146.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="137.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="20.0" vgrow="NEVER" />
-         </rowConstraints>
-         <children>
-            <Label text="Version 0.2.0 (Beta)" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets bottom="10.0" right="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Letzte 5 Spiele - Basket Rolling/1 LL:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Label>
-            <ListView fx:id="fiveSpieleLL" prefHeight="146.0" prefWidth="450.0" styleClass="list-cell" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets right="70.0" />
-               </GridPane.margin>
-            </ListView>
-            <Label text="Letzte 5 Spiele - Basket Rolling/2 H2:" textFill="#22418f" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-            </Label>
-            <ListView fx:id="fiveSpieleHZwei" prefHeight="146.0" prefWidth="450.0" styleClass="list-cell" GridPane.rowIndex="4">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <GridPane.margin>
-                  <Insets right="70.0" />
-               </GridPane.margin>
-            </ListView>
-            <Label text="Letzte 5 Spiele - Basket Rolling Rossau/3 H2:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-            </Label>
-            <ListView fx:id="fiveSpieleRossau" prefHeight="146.0" prefWidth="450.0" styleClass="list-cell" GridPane.rowIndex="6">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <GridPane.margin>
-                  <Insets right="70.0" />
-               </GridPane.margin>
-            </ListView>
-            <Label text="Top-Scorer:" textFill="#22418f" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-            </Label>
-            <ListView fx:id="scorerList" styleClass="list-cell" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <GridPane.margin>
-                  <Insets right="70.0" />
-               </GridPane.margin>
-            </ListView>
-            <Label text="Spieler mit offenen Mitgliedsbeiträgen:" textFill="#22418f" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-            </Label>
-            <ListView fx:id="beitraegeList" styleClass="list-cell" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets right="70.0" />
-               </GridPane.margin>
-            </ListView>
-            <Label text="Heutige Trainings:" textFill="#224190" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
-               <font>
-                  <Font name="Arial Italic" size="15.0" />
-               </font>
-            </Label>
-            <ListView fx:id="trainingList" styleClass="list-cell" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets right="70.0" />
-               </GridPane.margin>
-            </ListView>
-         </children>
-      </GridPane>
-   </children>
+<GridPane prefHeight="950.0" prefWidth="1722.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.HauptmenueController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <GridPane hgap="10.0" pickOnBounds="false" style="-fx-background-color: #f6fbff;" vgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="20.0" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="340.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" vgrow="NEVER" />
+                <RowConstraints minHeight="27.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="32.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="32.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="397.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="397.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
+                <RowConstraints minHeight="10.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="397.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="welcomeUser" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="401.0" text="Hauptmenü" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="BOTTOM" GridPane.vgrow="ALWAYS">
+                    <font>
+                        <Font name="Arial Bold Italic" size="32.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets top="10.0" />
+                    </GridPane.margin>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
+                </Label>
+                <Label text="Quick-Links:" textFill="#224190" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                    <font>
+                        <Font name="Arial Italic" size="15.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets top="20.0" />
+                    </GridPane.margin>
+                </Label>
+                <Button fx:id="spielerHinzu" mnemonicParsing="false" onAction="#quickSpielerHinzufuegen" styleClass="quick-btns" text="Spieler hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="15.0" right="15.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets right="10.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="trainingHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Training anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="20.0" right="20.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets top="10.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="spielHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Spiel anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="28.0" right="28.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets top="10.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="trainerHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Trainer hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="14.0" right="14.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets top="10.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="mannschaftHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Mannschaft anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="11.0" right="10.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets left="155.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="halleHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Halle hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="20.0" right="19.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets left="155.0" top="10.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="statsWatch" mnemonicParsing="false" styleClass="quick-btns" text="Statistiken ansehen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="13.0" right="13.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets left="155.0" top="10.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button fx:id="spielerWatch" mnemonicParsing="false" styleClass="quick-btns" text="Spieler ansehen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                    <padding>
+                        <Insets bottom="9.0" left="23.0" right="22.0" top="9.0" />
+                    </padding>
+                    <GridPane.margin>
+                        <Insets left="155.0" top="10.0" />
+                    </GridPane.margin>
+                </Button>
+            </children>
+        </GridPane>
+        <GridPane hgap="10.0" prefHeight="900.0" prefWidth="1433.0" style="-fx-background-color: #f6fbff;" vgap="10.0" GridPane.columnIndex="1">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" maxWidth="779.0" minWidth="-Infinity" prefWidth="779.0" />
+                <ColumnConstraints hgrow="NEVER" maxWidth="788.0" minWidth="-Infinity" prefWidth="564.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="58.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="36.0" prefHeight="21.0" valignment="TOP" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="146.0" valignment="TOP" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="146.0" valignment="TOP" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="146.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="137.0" prefHeight="30.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="20.0" vgrow="NEVER" />
+            </rowConstraints>
+            <children>
+                <Label text="Version 0.2.0 (Beta)" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label text="Letzte 5 Spiele - Basket Rolling/1 LL:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                    <font>
+                        <Font name="Arial Italic" size="15.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets />
+                    </GridPane.margin>
+                </Label>
+                <ListView fx:id="fiveSpieleLL" prefHeight="146.0" prefWidth="450.0" styleClass="list-cell" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets right="70.0" />
+                    </GridPane.margin>
+                </ListView>
+                <Label text="Letzte 5 Spiele - Basket Rolling/2 H2:" textFill="#22418f" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                    <font>
+                        <Font name="Arial Italic" size="15.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets top="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <ListView fx:id="fiveSpieleHZwei" prefHeight="146.0" prefWidth="450.0" styleClass="list-cell" GridPane.rowIndex="4">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <GridPane.margin>
+                        <Insets right="70.0" />
+                    </GridPane.margin>
+                </ListView>
+                <Label text="Letzte 5 Spiele - Basket Rolling Rossau/3 H2:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+                    <font>
+                        <Font name="Arial Italic" size="15.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets top="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <ListView fx:id="fiveSpieleRossau" prefHeight="146.0" prefWidth="450.0" styleClass="list-cell" GridPane.rowIndex="6">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <GridPane.margin>
+                        <Insets right="70.0" />
+                    </GridPane.margin>
+                </ListView>
+                <Label text="Top-Scorer:" textFill="#22418f" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                    <font>
+                        <Font name="Arial Italic" size="15.0" />
+                    </font>
+                </Label>
+                <ListView fx:id="scorerList" styleClass="list-cell" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <GridPane.margin>
+                        <Insets right="70.0" />
+                    </GridPane.margin>
+                </ListView>
+                <Label text="Spieler mit offenen Mitgliedsbeiträgen:" textFill="#22418f" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                    <font>
+                        <Font name="Arial Italic" size="15.0" />
+                    </font>
+                </Label>
+                <ListView fx:id="beitraegeList" styleClass="list-cell" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+                    <GridPane.margin>
+                        <Insets right="70.0" />
+                    </GridPane.margin>
+                </ListView>
+                <Label text="Heutige Trainings:" textFill="#224190" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+                    <font>
+                        <Font name="Arial Italic" size="15.0" />
+                    </font>
+                </Label>
+                <ListView fx:id="trainingList" styleClass="list-cell" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                    <GridPane.margin>
+                        <Insets right="70.0" />
+                    </GridPane.margin>
+                </ListView>
+            </children>
+        </GridPane>
+    </children>
 </GridPane>

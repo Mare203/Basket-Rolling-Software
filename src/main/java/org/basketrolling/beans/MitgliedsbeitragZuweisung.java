@@ -37,6 +37,9 @@ public class MitgliedsbeitragZuweisung {
     @Column(name = "bezahlt", nullable = false)
     private boolean bezahlt;
 
+    @Column(name = "aktiv", nullable = false)
+    private boolean aktiv;
+
     public UUID getId() {
         return id;
     }
@@ -69,9 +72,17 @@ public class MitgliedsbeitragZuweisung {
         this.bezahlt = bezahlt;
     }
 
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        this.aktiv = aktiv;
+    }
+
     @Override
     public String toString() {
-        return spieler.getVorname() + " " + spieler.getNachname() + " | " + mitgliedsbeitrag.getBetrag() +"€ | Saison - " + mitgliedsbeitrag.getSaison();
+        return spieler.getVorname() + " " + spieler.getNachname() + " | " + mitgliedsbeitrag.getBetrag() + "€ | Saison - " + mitgliedsbeitrag.getSaison();
     }
 
 }

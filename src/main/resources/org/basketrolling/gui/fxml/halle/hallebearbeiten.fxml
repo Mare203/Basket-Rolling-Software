@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.hinzufuegen.MannschaftExternHinzufuegenController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.bearbeiten.HalleBearbeitenController">
    <center>
       <GridPane style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -22,11 +21,13 @@
         <rowConstraints>
           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" text="Mannschaftsname:">
+            <Label alignment="CENTER" text="Halle:">
                <GridPane.margin>
                   <Insets left="15.0" top="30.0" />
                </GridPane.margin>
@@ -36,9 +37,39 @@
                   <Insets top="30.0" />
                </GridPane.margin>
             </TextField>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label alignment="CENTER" text="Straße:" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="15.0" top="20.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="tfStrasse" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label alignment="CENTER" text="PLZ:" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="15.0" top="20.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="tfPlz" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label alignment="CENTER" text="Ort:" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="15.0" top="20.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="tfOrt" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <Button fx:id="speichernBtn" mnemonicParsing="false" onAction="#speichern" text="Speichern">
+                  <Button fx:id="speichernBtn" mnemonicParsing="false" onAction="#aktualisieren" text="Speichern">
                      <HBox.margin>
                         <Insets left="15.0" top="45.0" />
                      </HBox.margin>
@@ -56,16 +87,6 @@
                   </Button>
                </children>
             </HBox>
-            <Label alignment="CENTER" text="Liga:" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="15.0" top="35.0" />
-               </GridPane.margin>
-            </Label>
-            <ComboBox fx:id="cbLiga" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets top="35.0" />
-               </GridPane.margin>
-            </ComboBox>
          </children>
       </GridPane>
    </center>
@@ -83,7 +104,7 @@
                   <Insets />
                </GridPane.margin>
                <children>
-                  <Label text="Mannschaft hinzufügen (Extern)" textFill="#4e62d3">
+                  <Label text="Halle bearbeiten" textFill="#4e62d3">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
