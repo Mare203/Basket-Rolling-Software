@@ -5,34 +5,46 @@
 package org.basketrolling.gui.controller.hinzufuegen;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.basketrolling.beans.Trainer;
-import org.basketrolling.dao.TrainerDAO;
-import org.basketrolling.service.TrainerService;
+import org.basketrolling.beans.Elternkontakt;
+import org.basketrolling.beans.Spieler;
+import org.basketrolling.dao.ElternkontaktDAO;
+import org.basketrolling.dao.SpielerDAO;
+import org.basketrolling.service.ElternkontaktService;
+import org.basketrolling.service.SpielerService;
 import org.basketrolling.utils.AlertUtil;
 
 /**
  *
  * @author Marko
  */
-public class TrainerHinzufuegenController implements Initializable {
+public class ElternkontaktHinzufuegenController implements Initializable {
 
-    TrainerDAO dao;
-    TrainerService service;
+    ElternkontaktDAO dao;
+    ElternkontaktService service;
+
+    SpielerDAO spielerDAO;
+    SpielerService spielerService;
 
     @FXML
     private TextField tfVorname;
 
     @FXML
     private TextField tfNachname;
+
+    @FXML
+    private ComboBox<Spieler> cbSpieler;
 
     @FXML
     private TextField tfTelefon;
@@ -42,27 +54,40 @@ public class TrainerHinzufuegenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        dao = new TrainerDAO();
-        service = new TrainerService(dao);
+        dao = new ElternkontaktDAO();
+        service = new ElternkontaktService(dao);
+
+        spielerDAO = new SpielerDAO();
+        spielerService = new SpielerService(spielerDAO);
+
+        List<Spieler> spielerList = spielerService.getAll();
+
+        if (!spielerList.isEmpty() && spielerList != null) {
+            cbSpieler.setItems(FXCollections.observableArrayList(spielerList));
+        } else {
+            cbSpieler.setDisable(true);
+        }
     }
 
     public void speichern() {
         if (!tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
-                && !tfTelefon.getText().isEmpty()) {
-            
-            Trainer trainer = new Trainer();
-            trainer.setVorname(tfVorname.getText());
-            trainer.setNachname(tfNachname.getText());
-            trainer.setTelefon(tfTelefon.getText());
-            trainer.setEMail(tfEmail.getText());
+                && !tfTelefon.getText().isEmpty()
+                && cbSpieler.getValue() != null) {
 
-            service.create(trainer);
+            Elternkontakt elternkontakt = new Elternkontakt();
+            elternkontakt.setVorname(tfVorname.getText());
+            elternkontakt.setNachname(tfNachname.getText());
+            elternkontakt.setSpieler(cbSpieler.getValue());
+            elternkontakt.setTelefon(tfTelefon.getText());
+            elternkontakt.setEMail(tfEmail.getText());
 
+            service.create(elternkontakt);
+                      
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Trainer erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie einen weiteren Trainer anlegen?");
+            alert.setHeaderText("Elternkontakt erfolgreich gespeichert!");
+            alert.setContentText("Möchten Sie einen weiteren Elternkontakt anlegen?");
 
             ButtonType jaButton = new ButtonType("Ja");
             ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -77,6 +102,7 @@ public class TrainerHinzufuegenController implements Initializable {
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
+                cbSpieler.setValue(null);
                 tfTelefon.clear();
                 tfEmail.clear();
             }

@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,54 +22,48 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.basketrolling.beans.Spiele;
-import org.basketrolling.dao.SpieleDAO;
-import org.basketrolling.gui.controller.bearbeiten.SpielBearbeitenController;
+import org.basketrolling.beans.Elternkontakt;
+import org.basketrolling.dao.ElternkontaktDAO;
+import org.basketrolling.gui.controller.bearbeiten.ElternkontaktBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
-import org.basketrolling.service.SpieleService;
+import org.basketrolling.service.ElternkontaktService;
 
 /**
  *
  * @author Marko
  */
-public class SpieleController implements Initializable, MainBorderSettable {
+public class ElternkontaktemenueController implements Initializable, MainBorderSettable {
 
-    SpieleDAO dao = new SpieleDAO();
-    SpieleService service = new SpieleService(dao);
-
-    @FXML
-    private Button backBtn;
+    ElternkontaktDAO dao = new ElternkontaktDAO();
+    ElternkontaktService service = new ElternkontaktService(dao);
 
     @FXML
-    private TableView<Spiele> tabelleSpiele;
+    private TableView<Elternkontakt> tabelleElternkontakte;
 
     @FXML
-    private TableColumn<Spiele, String> rollingSpalte;
+    private TableColumn<Elternkontakt, String> vornameSpalte;
 
     @FXML
-    private TableColumn<Spiele, String> ergebnisSpalte;
+    private TableColumn<Elternkontakt, String> nachnameSpalte;
 
     @FXML
-    private TableColumn<Spiele, String> gegnerSpalte;
+    private TableColumn<Elternkontakt, String> spielerSpalte;
 
     @FXML
-    private TableColumn<Spiele, String> ligaSpalte;
+    private TableColumn<Elternkontakt, String> telefonSpalte;
 
     @FXML
-    private TableColumn<Spiele, String> datumSpalte;
+    private TableColumn<Elternkontakt, String> emailSpalte;
 
     @FXML
-    private TableColumn<Spiele, String> halleSpalte;
-
-    @FXML
-    private TableColumn<Spiele, Void> aktionenSpalte;
+    private TableColumn<Elternkontakt, Void> aktionenSpalte;
 
     private BorderPane mainBorderPane;
 
@@ -80,23 +73,16 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        rollingSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftIntern"));
-        ergebnisSpalte.setCellValueFactory(daten -> {
-            Spiele spiel = daten.getValue();
-            Integer intern = spiel.getInternPunkte();
-            Integer extern = spiel.getExternPunkte();
-            String ergebnis = intern + " : " + extern;
-            return new ReadOnlyObjectWrapper<>(ergebnis);
-        });
-        gegnerSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftExtern"));
-        ligaSpalte.setCellValueFactory(new PropertyValueFactory<>("liga"));
-        datumSpalte.setCellValueFactory(new PropertyValueFactory<>("datum"));
-        halleSpalte.setCellValueFactory(new PropertyValueFactory<>("halle"));
+        vornameSpalte.setCellValueFactory(new PropertyValueFactory<>("vorname"));
+        nachnameSpalte.setCellValueFactory(new PropertyValueFactory<>("nachname"));
+        spielerSpalte.setCellValueFactory(new PropertyValueFactory<>("spieler"));
+        telefonSpalte.setCellValueFactory(new PropertyValueFactory<>("telefon"));
+        emailSpalte.setCellValueFactory(new PropertyValueFactory<>("eMail"));
 
         buttonsHinzufuegen();
 
-        List<Spiele> spieleListe = service.getAll();
-        tabelleSpiele.setItems(FXCollections.observableArrayList(spieleListe));
+        List<Elternkontakt> elternkontaktList = service.getAll();
+        tabelleElternkontakte.setItems(FXCollections.observableArrayList(elternkontaktList));
 
     }
 
@@ -122,12 +108,12 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
                 ansehenBtn.setOnAction(e -> {
                     try {
-                        Spiele spiele = getTableView().getItems().get(getIndex());
+                        Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml"));
                         Scene scene = new Scene(loader.load());
 
                         Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Spiel ansehen");
+                        spielerBearbeiten.setTitle("Elternkontakt ansehen");
                         spielerBearbeiten.setScene(scene);
                         spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
                         spielerBearbeiten.show();
@@ -138,15 +124,15 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
                 bearbeitenBtn.setOnAction(e -> {
                     try {
-                        Spiele spiel = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spiele/spielbearbeiten.fxml"));
+                        Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktebearbeiten.fxml"));
                         Scene scene = new Scene(loader.load());
-                        
-                        SpielBearbeitenController controller = loader.getController();
-                        controller.initSpiel(spiel);
+
+                        ElternkontaktBearbeitenController controller = loader.getController();
+                        controller.initElternkontakt(elternkontakt);
 
                         Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Spiel Bearbeiten");
+                        spielerBearbeiten.setTitle("Elternkontakt Bearbeiten");
                         spielerBearbeiten.setScene(scene);
                         spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
                         spielerBearbeiten.show();
@@ -156,17 +142,17 @@ public class SpieleController implements Initializable, MainBorderSettable {
                 });
 
                 loeschenBtn.setOnAction(e -> {
-                    Spiele spiele = getTableView().getItems().get(getIndex());
+                    Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
 
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Bestätigung");
-                    alert.setHeaderText("Spiel löschen");
-                    alert.setContentText("Möchten Sie das Spiel wirklich löschen?");
+                    alert.setHeaderText(elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " löschen");
+                    alert.setContentText("Möchten Sie den Elternkontakt " + elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " wirklich löschen?");
 
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ButtonType.OK) {
-                        service.delete(spiele);
-                        tabelleSpiele.getItems().remove(spiele);
+                        service.delete(elternkontakt);
+                        tabelleElternkontakte.getItems().remove(elternkontakt);
                     }
                 });
             }
@@ -202,16 +188,16 @@ public class SpieleController implements Initializable, MainBorderSettable {
         }
     }
 
-    public void spielHinzufuegen() {
+    public void elternkontaktHinzufuegen() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spiele/spielhinzufuegen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktehinzufuegen.fxml"));
             Scene scene = new Scene(loader.load());
 
-            Stage spielHinzufuegen = new Stage();
-            spielHinzufuegen.setTitle("Spiel hinzufügen");
-            spielHinzufuegen.setScene(scene);
-            spielHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            spielHinzufuegen.show();
+            Stage elternkontaktHinzufuegen = new Stage();
+            elternkontaktHinzufuegen.setTitle("Elternkontakt hinzufügen");
+            elternkontaktHinzufuegen.setScene(scene);
+            elternkontaktHinzufuegen.initModality(Modality.APPLICATION_MODAL);
+            elternkontaktHinzufuegen.show();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

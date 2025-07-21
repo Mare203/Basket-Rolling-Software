@@ -31,13 +31,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.dao.MannschaftInternDAO;
+import org.basketrolling.gui.controller.bearbeiten.MannschaftInternBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftInternService;
 
 /**
  *
  * @author Marko
  */
-public class MannschaftInternmenuController implements Initializable {
+public class MannschaftInternmenuController implements Initializable, MainBorderSettable {
 
     MannschaftInternDAO dao = new MannschaftInternDAO();
     MannschaftInternService service = new MannschaftInternService(dao);
@@ -114,9 +116,12 @@ public class MannschaftInternmenuController implements Initializable {
                 bearbeitenBtn.setOnAction(e -> {
                     try {
                         MannschaftIntern mannschaftIntern = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternbearbeiten.fxml"));
                         Scene scene = new Scene(loader.load());
 
+                        MannschaftInternBearbeitenController controller = loader.getController();
+                        controller.initMannschaftIntern(mannschaftIntern);
+                        
                         Stage spielerBearbeiten = new Stage();
                         spielerBearbeiten.setTitle("Interne Mannschaft Bearbeiten");
                         spielerBearbeiten.setScene(scene);

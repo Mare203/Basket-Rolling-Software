@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="908.0" prefWidth="1722.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.AdminController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="908.0" prefWidth="1722.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.ElternkontaktemenueController">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
    </columnConstraints>
@@ -38,21 +38,18 @@
                               </ImageView>
                            </graphic>
                            <HBox.margin>
-                              <Insets top="5.0" />
+                              <Insets top="2.0" />
                            </HBox.margin>
                         </Button>
-                        <Label text="Adminmenü">
+                        <Label prefHeight="27.0" prefWidth="219.0" text="Elternkontaktemenü">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="10.0" top="10.0" />
+                              <Insets left="10.0" top="7.0" />
                            </HBox.margin>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#userHinzufuegen" styleClass="add-btn" text="User hinzufügen" textFill="WHITE">
-                           <HBox.margin>
-                              <Insets left="1400.0" top="6.0" />
-                           </HBox.margin>
+                        <Button fx:id="hinzufuegenBtn" mnemonicParsing="false" onAction="#elternkontaktHinzufuegen" styleClass="add-btn" text="Elternkontakt hinzufügen" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -63,18 +60,22 @@
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets left="1210.0" top="5.0" />
+                           </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="858.0" prefWidth="1722.0">
                      <children>
-                        <TableView fx:id="tabelleLogin" prefHeight="858.0" prefWidth="1722.0">
+                        <TableView fx:id="tabelleElternkontakte" prefHeight="858.0" prefWidth="1722.0">
                           <columns>
                             <TableColumn fx:id="vornameSpalte" maxWidth="220.0" prefWidth="220.0" styleClass="table-row-cell" text="Vorname" />
                             <TableColumn fx:id="nachnameSpalte" maxWidth="220.0" prefWidth="220.0" styleClass="table-row-cell" text="Nachname" />
-                              <TableColumn fx:id="benutzernameSpalte" maxWidth="300.0" prefWidth="300.0" styleClass="table-row-cell" text="Benutzername" />
-                              <TableColumn fx:id="rolleSpalte" maxWidth="200.0" prefWidth="200.0" styleClass="table-row-cell" text="Rolle" />
-                              <TableColumn fx:id="aktionenSpalte" prefWidth="778.0" styleClass="table-row-cell" />
+                              <TableColumn fx:id="spielerSpalte" maxWidth="400.0" prefWidth="400.0" styleClass="table-row-cell" text="Spieler" />
+                              <TableColumn fx:id="telefonSpalte" maxWidth="-Infinity" minWidth="250.0" prefWidth="250.0" styleClass="table-row-cell" text="Telefon" />
+                              <TableColumn fx:id="emailSpalte" maxWidth="-Infinity" minWidth="250.0" prefWidth="250.0" styleClass="table-row-cell" text="E-Mail" />
+                              <TableColumn fx:id="aktionenSpalte" prefWidth="378.0" styleClass="table-row-cell" />
                           </columns>
                         </TableView>
                      </children>

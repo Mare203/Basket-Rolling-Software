@@ -32,13 +32,14 @@ import javafx.stage.Stage;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.gui.controller.bearbeiten.SpielerBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.SpielerService;
 
 /**
  *
  * @author Marko
  */
-public class SpielermenueController implements Initializable {
+public class SpielermenueController implements Initializable, MainBorderSettable {
 
     SpielerDAO dao = new SpielerDAO();
     SpielerService service = new SpielerService(dao);

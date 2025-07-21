@@ -28,7 +28,7 @@ public class Elternkontakt {
     private UUID elternkontaktId;
 
     @ManyToOne
-    @JoinColumn(name = "spieler_id", nullable = true, updatable = false)
+    @JoinColumn(name = "spieler_id", nullable = true)
     private Spieler spieler;
 
     @Column(name = "vorname", nullable = false)
@@ -75,11 +75,11 @@ public class Elternkontakt {
         this.nachname = nachname;
     }
 
-    public String geteMail() {
+    public String getEMail() {
         return eMail;
     }
 
-    public void seteMail(String eMail) {
+    public void setEMail(String eMail) {
         this.eMail = eMail;
     }
 

@@ -32,13 +32,14 @@ import javafx.stage.Stage;
 import org.basketrolling.beans.MannschaftExtern;
 import org.basketrolling.dao.MannschaftExternDAO;
 import org.basketrolling.gui.controller.bearbeiten.MannschaftExternBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftExternService;
 
 /**
  *
  * @author Marko
  */
-public class MannschaftExternmenuController implements Initializable {
+public class MannschaftExternmenuController implements Initializable, MainBorderSettable {
 
     MannschaftExternDAO dao = new MannschaftExternDAO();
     MannschaftExternService service = new MannschaftExternService(dao);

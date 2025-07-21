@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.basketrolling.gui.controller.hinzufuegen;
+package org.basketrolling.gui.controller.bearbeiten;
 
 import java.net.URL;
 import java.util.List;
@@ -39,7 +39,9 @@ import org.basketrolling.utils.AlertUtil;
  *
  * @author Marko
  */
-public class SpielHinzufuegenController implements Initializable {
+public class SpielBearbeitenController implements Initializable {
+
+    Spiele bearbeitenSpiel;
 
     SpieleDAO spielDao;
     SpieleService spielService;
@@ -70,10 +72,10 @@ public class SpielHinzufuegenController implements Initializable {
 
     @FXML
     private ComboBox<MannschaftExtern> cbMannschaftExtern;
-    
+
     @FXML
     private TextField tfPunkteIntern;
-    
+
     @FXML
     private TextField tfPunkteExtern;
 
@@ -117,46 +119,41 @@ public class SpielHinzufuegenController implements Initializable {
         cbHalle.setItems(FXCollections.observableArrayList(halle));
     }
 
-    public void speichern() {
+    public void initSpiel(Spiele spiel) {
+        this.bearbeitenSpiel = spiel;
+
+        cbLiga.setValue(spiel.getLiga());
+        dpDatum.setValue(spiel.getDatum());
+        cbHalle.setValue(spiel.getHalle());
+        cbMannschaftIntern.setValue(spiel.getMannschaftIntern());
+        cbMannschaftExtern.setValue(spiel.getMannschaftExtern());
+        tfPunkteIntern.setText(String.valueOf(spiel.getInternPunkte()));
+        tfPunkteExtern.setText(String.valueOf(spiel.getExternPunkte()));
+    }
+
+    public void aktualisieren() {
         if (cbLiga.getValue() != null
                 && cbHalle.getValue() != null
                 && cbMannschaftIntern.getValue() != null
                 && cbMannschaftExtern.getValue() != null
                 && !tfPunkteIntern.getText().isEmpty()
                 && !tfPunkteExtern.getText().isEmpty()) {
-            Spiele spiel = new Spiele();
-            spiel.setLiga(cbLiga.getValue());
-            spiel.setDatum(dpDatum.getValue());
-            spiel.setHalle(cbHalle.getValue());
-            spiel.setMannschaftIntern(cbMannschaftIntern.getValue());
-            spiel.setMannschaftExtern(cbMannschaftExtern.getValue());
-            spiel.setInternPunkte(Integer.parseInt(tfPunkteIntern.getText()));
-            spiel.setExternPunkte(Integer.parseInt(tfPunkteExtern.getText()));
 
-            spielService.create(spiel);
+            bearbeitenSpiel.setLiga(cbLiga.getValue());
+            bearbeitenSpiel.setDatum(dpDatum.getValue());
+            bearbeitenSpiel.setHalle(cbHalle.getValue());
+            bearbeitenSpiel.setMannschaftIntern(cbMannschaftIntern.getValue());
+            bearbeitenSpiel.setMannschaftExtern(cbMannschaftExtern.getValue());
+            bearbeitenSpiel.setInternPunkte(Integer.parseInt(tfPunkteIntern.getText()));
+            bearbeitenSpiel.setExternPunkte(Integer.parseInt(tfPunkteExtern.getText()));
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Spiel erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie eine weiteres Spiel anlegen?");
+            spielService.create(bearbeitenSpiel);
 
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
+            AlertUtil.alertConfirmation("Speichern erfolgreich", "Spiel erfolgreich aktualisiert!");
 
-            alert.getButtonTypes().setAll(jaButton, neinButton);
+            Stage stage = (Stage) cbHalle.getScene().getWindow();
+            stage.close();
 
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) cbHalle.getScene().getWindow();
-                stage.close();
-            } else {
-                cbLiga.setValue(null);
-                cbHalle.setValue(null);
-                dpDatum.setValue(null);
-                cbMannschaftIntern.setValue(null);
-                cbMannschaftExtern.setValue(null);
-            }
         } else {
             AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
         }

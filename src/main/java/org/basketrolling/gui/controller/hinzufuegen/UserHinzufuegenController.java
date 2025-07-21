@@ -7,26 +7,29 @@ package org.basketrolling.gui.controller.hinzufuegen;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.basketrolling.beans.Trainer;
-import org.basketrolling.dao.TrainerDAO;
-import org.basketrolling.service.TrainerService;
+import org.basketrolling.beans.Login;
+import org.basketrolling.dao.LoginDAO;
+import org.basketrolling.enums.Rolle;
+import org.basketrolling.service.LoginService;
 import org.basketrolling.utils.AlertUtil;
 
 /**
  *
  * @author Marko
  */
-public class TrainerHinzufuegenController implements Initializable {
+public class UserHinzufuegenController implements Initializable {
 
-    TrainerDAO dao;
-    TrainerService service;
+    LoginDAO dao;
+    LoginService service;
 
     @FXML
     private TextField tfVorname;
@@ -35,34 +38,43 @@ public class TrainerHinzufuegenController implements Initializable {
     private TextField tfNachname;
 
     @FXML
-    private TextField tfTelefon;
+    private TextField tfBenutzername;
 
     @FXML
-    private TextField tfEmail;
+    private TextField pfPasswort;
+    
+    @FXML
+    private ComboBox<Rolle> cbRolle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        dao = new TrainerDAO();
-        service = new TrainerService(dao);
+        dao = new LoginDAO();
+        service = new LoginService(dao);
+        
+        cbRolle.setItems(FXCollections.observableArrayList(Rolle.values()));
+        cbRolle.setValue(Rolle.ADMIN);
     }
 
     public void speichern() {
         if (!tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
-                && !tfTelefon.getText().isEmpty()) {
+                && !tfBenutzername.getText().isEmpty()
+                && !pfPasswort.getText().isEmpty()
+                && cbRolle.getValue() != null) {
             
-            Trainer trainer = new Trainer();
-            trainer.setVorname(tfVorname.getText());
-            trainer.setNachname(tfNachname.getText());
-            trainer.setTelefon(tfTelefon.getText());
-            trainer.setEMail(tfEmail.getText());
+            Login login = new Login();
+            login.setVorname(tfVorname.getText());
+            login.setNachname(tfNachname.getText());
+            login.setBenutzername(tfBenutzername.getText());
+            login.setPasswort(pfPasswort.getText());
+            login.setRolle(cbRolle.getValue());
 
-            service.create(trainer);
+            service.create(login);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Trainer erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie einen weiteren Trainer anlegen?");
+            alert.setHeaderText("User erfolgreich gespeichert!");
+            alert.setContentText("Möchten Sie einen weiteren User anlegen?");
 
             ButtonType jaButton = new ButtonType("Ja");
             ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -77,8 +89,9 @@ public class TrainerHinzufuegenController implements Initializable {
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
-                tfTelefon.clear();
-                tfEmail.clear();
+                tfBenutzername.clear();
+                pfPasswort.clear();
+                cbRolle.setValue(null);
             }
         } else {
             AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");

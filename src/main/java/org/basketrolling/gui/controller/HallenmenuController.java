@@ -32,13 +32,14 @@ import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.dao.HalleDAO;
 import org.basketrolling.gui.controller.bearbeiten.HalleBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.HalleService;
 
 /**
  *
  * @author Marko
  */
-public class HallenmenuController implements Initializable {
+public class HallenmenuController implements Initializable, MainBorderSettable {
 
     HalleDAO dao = new HalleDAO();
     HalleService service = new HalleService(dao);

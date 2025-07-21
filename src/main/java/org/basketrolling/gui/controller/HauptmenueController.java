@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -34,16 +33,19 @@ import org.basketrolling.dao.SpieleDAO;
 import org.basketrolling.dao.StatistikDAO;
 import org.basketrolling.dao.TrainingDAO;
 import org.basketrolling.enums.Rolle;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MitgliedsbeitragZuweisungService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.service.StatistikService;
 import org.basketrolling.service.TrainingService;
+import org.basketrolling.utils.MenuOeffnenUtil;
+import org.basketrolling.utils.QuickUtil;
 
 /**
  *
  * @author Marko
  */
-public class HauptmenueController implements Initializable {
+public class HauptmenueController implements Initializable, MainBorderSettable {
 
     SpieleDAO spieleDao = new SpieleDAO();
     StatistikDAO statistikDao = new StatistikDAO();
@@ -55,6 +57,7 @@ public class HauptmenueController implements Initializable {
     MitgliedsbeitragZuweisungService mitgliedsbeitragZuweisungService = new MitgliedsbeitragZuweisungService(mitgliedsbeitragDao);
 
     private Login benutzer;
+    private MenuOeffnenUtil menuUtil;
 
     @FXML
     private Label welcomeUser;
@@ -64,9 +67,6 @@ public class HauptmenueController implements Initializable {
 
     @FXML
     private Button beenden;
-
-    @FXML
-    private Button spielerBtn;
 
     @FXML
     private Button adminBtn;
@@ -99,6 +99,8 @@ public class HauptmenueController implements Initializable {
         List<String> topScorerAlsString = new ArrayList<>();
         List<Training> heutigeTrainings = trainingService.getHeutigeTrainings();
         List<MitgliedsbeitragZuweisung> spielerOffeneBeitraege = mitgliedsbeitragZuweisungService.getOffeneBeitraege();
+        menuUtil = new MenuOeffnenUtil(borderPane);
+
         Label platzhalterLL = new Label("Keine Spiele vorhanden");
         Label platzhalterH2 = new Label("Keine Spiele vorhanden");
         Label platzhalterRossau = new Label("Keine Spiele vorhanden");
@@ -172,6 +174,10 @@ public class HauptmenueController implements Initializable {
         }
     }
 
+    public void setMainBorder(BorderPane mainBorderPane) {
+        this.borderPane = mainBorderPane;
+    }
+
     public void initUser(Login benutzer) {
         this.benutzer = benutzer;
         welcomeUser.setText("Willkommen, " + benutzer.getVorname() + "!");
@@ -225,157 +231,74 @@ public class HauptmenueController implements Initializable {
     }
 
     public void spielerMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielermenue.fxml"));
-            Parent spielerMenu = loader.load();
-
-            SpielermenueController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(spielerMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/spieler/spielermenue.fxml");
     }
 
     public void trainerMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/trainer/trainermenue.fxml"));
-            Parent trainerMenu = loader.load();
-
-            TrainermenueController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(trainerMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/trainer/trainermenue.fxml");
     }
 
     public void mannschaftInternMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternmenu.fxml"));
-            Parent mannschaftInternMenu = loader.load();
-
-            MannschaftInternmenuController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(mannschaftInternMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternmenu.fxml");
     }
 
     public void mannschaftExternMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternmenu.fxml"));
-            Parent mannschaftExternMenu = loader.load();
-
-            MannschaftExternmenuController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(mannschaftExternMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternmenu.fxml");
     }
 
     public void hallenMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/halle/hallenmenu.fxml"));
-            Parent hallenMenu = loader.load();
-
-            HallenmenuController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(hallenMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/halle/hallenmenu.fxml");
     }
 
     public void trainingMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/training/trainingmenu.fxml"));
-            Parent trainingMenu = loader.load();
-
-            TrainingController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(trainingMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/training/trainingmenu.fxml");
     }
 
     public void mitgliedsbeitragMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragmenu.fxml"));
-            Parent mitgliedsbeitragMenu = loader.load();
-
-            MitgliedsbeitragController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(mitgliedsbeitragMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragmenu.fxml");
     }
 
     public void adminMenu() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/adminmenu.fxml"));
-            Parent adminMenu = loader.load();
-
-            AdminController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(adminMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/login/adminmenu.fxml");
     }
 
     public void ligaMenuOeffnen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/liga/ligamenu.fxml"));
-            Parent ligaMenu = loader.load();
-
-            LigaController controller = loader.getController();
-            controller.setMainBorder(borderPane);
-
-            borderPane.setCenter(ligaMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/liga/ligamenu.fxml");
     }
 
     public void spieleMenuOeffnen() {
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/spiele/spielemenu.fxml");
+    }
+
+    public void elternkontaktMenuOeffnen() {
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktemenu.fxml");
+    }
+
+    public void backToHauptmenu() {
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/hauptmenu/hauptmenuecenter.fxml");
+
+    }
+
+    public void account() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spiele/spielemenu.fxml"));
-            Parent spieleMenu = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/accountmenu.fxml"));
+            Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add(getClass().getResource("/org/basketrolling/gui/css/styles.css").toExternalForm());
 
-            SpieleController controller = loader.getController();
-            controller.setMainBorder(borderPane);
+            AccountmenuController controller = loader.getController();
+            controller.initLogin(benutzer);
 
-            borderPane.setCenter(spieleMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
+            Stage account = new Stage();
+            account.setTitle("Account");
+            account.setScene(scene);
+            account.initModality(Modality.APPLICATION_MODAL);
+            account.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
     public void quickSpielerHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-            
-            Stage spielerHinzufuegen = new Stage();
-            spielerHinzufuegen.setTitle("Spieler hinzufügen");
-            spielerHinzufuegen.setScene(scene);
-            spielerHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            spielerHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        QuickUtil.quickHinzufuegen("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml", "Spieler hinzufügen");
     }
 }

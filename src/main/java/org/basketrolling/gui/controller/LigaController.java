@@ -31,13 +31,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.dao.LigaDAO;
+import org.basketrolling.gui.controller.bearbeiten.LigaBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LigaService;
 
 /**
  *
  * @author Marko
  */
-public class LigaController implements Initializable {
+public class LigaController implements Initializable, MainBorderSettable {
 
     LigaDAO dao = new LigaDAO();
     LigaService service = new LigaService(dao);
@@ -106,9 +108,12 @@ public class LigaController implements Initializable {
                 bearbeitenBtn.setOnAction(e -> {
                     try {
                         Liga liga = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/liga/ligabearbeiten.fxml"));
                         Scene scene = new Scene(loader.load());
 
+                        LigaBearbeitenController controller = loader.getController();
+                        controller.initLiga(liga);
+                        
                         Stage spielerBearbeiten = new Stage();
                         spielerBearbeiten.setTitle("Liga Bearbeiten");
                         spielerBearbeiten.setScene(scene);

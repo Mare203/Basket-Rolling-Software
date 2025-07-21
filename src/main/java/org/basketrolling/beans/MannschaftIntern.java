@@ -31,11 +31,11 @@ public class MannschaftIntern {
     private String name;
     
     @ManyToOne
-    @JoinColumn(name = "liga_id", nullable = false, updatable = false)
+    @JoinColumn(name = "liga_id", nullable = false)
     private Liga liga;
     
     @ManyToOne
-    @JoinColumn(name = "trainer_id", nullable = true, updatable = false)
+    @JoinColumn(name = "trainer_id", nullable = true)
     private Trainer trainer;
 
     public UUID getMannschaftInternId() {

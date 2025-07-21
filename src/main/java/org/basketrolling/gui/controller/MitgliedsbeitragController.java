@@ -31,13 +31,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Mitgliedsbeitrag;
 import org.basketrolling.dao.MitgliedsbeitragDAO;
+import org.basketrolling.gui.controller.bearbeiten.MitgliedsbeitragBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MitgliedsbeitragService;
 
 /**
  *
  * @author Marko
  */
-public class MitgliedsbeitragController implements Initializable {
+public class MitgliedsbeitragController implements Initializable, MainBorderSettable {
 
     MitgliedsbeitragDAO dao = new MitgliedsbeitragDAO();
     MitgliedsbeitragService service = new MitgliedsbeitragService(dao);
@@ -110,8 +112,11 @@ public class MitgliedsbeitragController implements Initializable {
                 bearbeitenBtn.setOnAction(e -> {
                     try {
                         Mitgliedsbeitrag mitgliedsbeitrag = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragbearbeiten.fxml"));
                         Scene scene = new Scene(loader.load());
+                        
+                        MitgliedsbeitragBearbeitenController controller = loader.getController();
+                        controller.initMitgliedsbeitrag(mitgliedsbeitrag);
 
                         Stage spielerBearbeiten = new Stage();
                         spielerBearbeiten.setTitle("Externe Mannschaft Bearbeiten");

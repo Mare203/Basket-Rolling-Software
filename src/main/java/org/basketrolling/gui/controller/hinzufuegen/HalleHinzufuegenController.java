@@ -81,7 +81,7 @@ public class HalleHinzufuegenController implements Initializable {
                 tfPlz.clear();
             }
         } else {
-            AlertUtil.alertUngueltigeEingabe();
+            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 }

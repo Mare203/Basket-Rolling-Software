@@ -31,13 +31,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
 
 /**
  *
  * @author Marko
  */
-public class AdminController implements Initializable {
+public class AdminController implements Initializable, MainBorderSettable {
 
     LoginDAO dao = new LoginDAO();
     LoginService service = new LoginService(dao);
@@ -177,6 +178,21 @@ public class AdminController implements Initializable {
             Parent hauptMenue = loader.load();
 
             mainBorderPane.setCenter(hauptMenue);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void userHinzufuegen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/userhinzufuegen.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage halle = new Stage();
+            halle.setTitle("User hinzufügen");
+            halle.setScene(scene);
+            halle.initModality(Modality.APPLICATION_MODAL);
+            halle.show();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

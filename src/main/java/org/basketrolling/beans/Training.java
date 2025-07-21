@@ -29,7 +29,7 @@ public class Training {
     private UUID trainingId;
 
     @ManyToOne
-    @JoinColumn(name = "halle_id", nullable = false, updatable = false)
+    @JoinColumn(name = "halle_id", nullable = false)
     private Halle halle;
 
     @ManyToOne

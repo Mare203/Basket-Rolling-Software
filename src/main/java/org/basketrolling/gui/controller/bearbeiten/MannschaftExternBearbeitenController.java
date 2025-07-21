@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.basketrolling.gui.controller.hinzufuegen;
+package org.basketrolling.gui.controller.bearbeiten;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -20,21 +19,19 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftExtern;
-import org.basketrolling.beans.MannschaftIntern;
-import org.basketrolling.beans.Trainer;
 import org.basketrolling.dao.LigaDAO;
 import org.basketrolling.dao.MannschaftExternDAO;
-import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.service.LigaService;
 import org.basketrolling.service.MannschaftExternService;
-import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.utils.AlertUtil;
 
 /**
  *
  * @author Marko
  */
-public class MannschaftExternHinzufuegenController implements Initializable {
+public class MannschaftExternBearbeitenController implements Initializable {
+
+    MannschaftExtern bearbeitenMannschaft;
 
     MannschaftExternDAO dao;
     MannschaftExternService service;
@@ -65,34 +62,28 @@ public class MannschaftExternHinzufuegenController implements Initializable {
         }
     }
 
-    public void speichern() {
+    public void initMannschaftExtern(MannschaftExtern mannschaftExtern) {
+        this.bearbeitenMannschaft = mannschaftExtern;
+
+        tfName.setText(mannschaftExtern.getName());
+        cbLiga.setValue(mannschaftExtern.getLiga());
+    }
+
+    public void aktualisieren() {
         if (!tfName.getText().isEmpty() && cbLiga.getValue() != null) {
-            MannschaftExtern mannschaft = new MannschaftExtern();
-            mannschaft.setName(tfName.getText());
-            mannschaft.setLiga(cbLiga.getValue());
 
-            service.create(mannschaft);
+            bearbeitenMannschaft.setName(tfName.getText());
+            bearbeitenMannschaft.setLiga(cbLiga.getValue());
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Mannschaft erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie eine weitere Mannschaft anlegen?");
+            service.update(bearbeitenMannschaft);
 
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
+            AlertUtil.alertConfirmation("Speichern erfolgreich", "Mannschaft erfolgreich aktualisiert!");
 
-            alert.getButtonTypes().setAll(jaButton, neinButton);
+            Stage stage = (Stage) tfName.getScene().getWindow();
+            stage.close();
 
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) tfName.getScene().getWindow();
-                stage.close();
-            } else {
-                tfName.clear();
-            }
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 }

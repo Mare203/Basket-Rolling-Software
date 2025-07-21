@@ -63,7 +63,8 @@ public class LoginService extends BaseService<Login> {
      * @return {@code null} (optional kann auch das neue Login-Objekt
      * zurückgegeben werden)
      */
-    public Login registrierung(Login login) {
+    @Override
+    public Login create(Login login) {
         String gehashtesPasswort = Password.hash(login.getPasswort()).withBcrypt().getResult();
 
         Login newLogin = new Login();
@@ -75,6 +76,15 @@ public class LoginService extends BaseService<Login> {
 
         dao.save(newLogin);
         return null;
+    }
+
+    @Override
+    public Login update(Login login) {
+
+        String gehashtesPasswort = Password.hash(login.getPasswort()).withBcrypt().getResult();
+        login.setPasswort(gehashtesPasswort);
+
+        return dao.update(login);
     }
 
     /**

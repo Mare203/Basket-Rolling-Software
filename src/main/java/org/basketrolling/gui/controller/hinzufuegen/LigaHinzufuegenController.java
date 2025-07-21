@@ -63,7 +63,7 @@ public class LigaHinzufuegenController implements Initializable {
                 tfName.clear();
             }
         } else {
-            AlertUtil.alertUngueltigeEingabe();
+            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 }

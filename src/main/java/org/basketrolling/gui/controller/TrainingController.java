@@ -31,13 +31,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Training;
 import org.basketrolling.dao.TrainingDAO;
+import org.basketrolling.gui.controller.bearbeiten.TrainingBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.TrainingService;
 
 /**
  *
  * @author Marko
  */
-public class TrainingController implements Initializable {
+public class TrainingController implements Initializable, MainBorderSettable {
 
     TrainingDAO dao = new TrainingDAO();
     TrainingService service = new TrainingService(dao);
@@ -119,8 +121,11 @@ public class TrainingController implements Initializable {
                 bearbeitenBtn.setOnAction(e -> {
                     try {
                         Training training = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/training/trainingbearbeiten.fxml"));
                         Scene scene = new Scene(loader.load());
+                        
+                        TrainingBearbeitenController controller = loader.getController();
+                        controller.initTraining(training);
 
                         Stage spielerBearbeiten = new Stage();
                         spielerBearbeiten.setTitle("Training Bearbeiten");

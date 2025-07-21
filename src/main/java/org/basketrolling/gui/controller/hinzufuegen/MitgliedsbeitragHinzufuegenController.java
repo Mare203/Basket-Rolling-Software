@@ -68,7 +68,7 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
                 tfBetrag.clear();
             }
         } else {
-            AlertUtil.alertUngueltigeEingabe();
+            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 }

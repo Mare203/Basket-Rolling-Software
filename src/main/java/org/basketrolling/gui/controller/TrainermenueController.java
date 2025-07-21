@@ -36,12 +36,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.gui.controller.bearbeiten.TrainerBearbeitenController;
+import org.basketrolling.interfaces.MainBorderSettable;
 
 /**
  *
  * @author Marko
  */
-public class TrainermenueController implements Initializable {
+public class TrainermenueController implements Initializable, MainBorderSettable {
 
     TrainerDAO dao = new TrainerDAO();
     TrainerService service = new TrainerService(dao);
