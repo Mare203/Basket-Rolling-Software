@@ -273,6 +273,10 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     public void elternkontaktMenuOeffnen() {
         menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktemenu.fxml");
     }
+    
+    public void statistikMenuOeffnen() {
+        menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/statistik/statistikmenu.fxml");
+    }
 
     public void backToHauptmenu() {
         menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/hauptmenu/hauptmenuecenter.fxml");
