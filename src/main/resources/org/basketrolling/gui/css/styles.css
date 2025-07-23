@@ -165,3 +165,7 @@
 .text-felder {
     -fx-background-color:  #eaf6ff;
 }
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #77b9d5;
+}

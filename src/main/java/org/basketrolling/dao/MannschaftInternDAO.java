@@ -46,4 +46,16 @@ public class MannschaftInternDAO extends BaseDAO<MannschaftIntern> {
             em.close();
         }
     }
+
+    public List<MannschaftIntern> findByName(String name) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT m FROM MannschaftIntern m WHERE LOWER (m.name) LIKE LOWER(:name)";
+            return em.createQuery(jpql, MannschaftIntern.class)
+                    .setParameter("name", "%" + name + "%")
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

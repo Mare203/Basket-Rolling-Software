@@ -7,6 +7,7 @@ package org.basketrolling.dao;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
 
 /**
@@ -38,6 +39,18 @@ public class SpieleDAO extends BaseDAO<Spiele> {
             String jpql = "SELECT s FROM Spiele s WHERE s.datum = :datum";
             return em.createQuery(jpql, Spiele.class)
                     .setParameter("datum", datum)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Spiele> findByMannschaft(MannschaftIntern mannschaft) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT s FROM Spiele s WHERE s.mannschaftIntern = :mannschaft ORDER BY s.datum";
+            return em.createQuery(jpql, Spiele.class)
+                    .setParameter("mannschaft", mannschaft)
                     .getResultList();
         } finally {
             em.close();
