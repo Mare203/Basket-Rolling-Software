@@ -70,7 +70,7 @@
                                         <Insets bottom="5.0" left="15.0" top="7.0" />
                                     </padding>
                                 </Button>
-                                <Button fx:id="statistik" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" prefHeight="40.0" styleClass="main-btns" text="Statistiken" textFill="#3553b5" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                <Button fx:id="statistik" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#statistikMenuOeffnen" prefHeight="40.0" styleClass="main-btns" text="Statistiken" textFill="#3553b5" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
