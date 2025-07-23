@@ -46,4 +46,10 @@ public class MannschaftInternService extends BaseService<MannschaftIntern> {
     public List<MannschaftIntern> getByLiga(Liga liga) {
         return TryCatchUtil.tryCatchList(() -> dao.findByLiga(liga));
     }
+
+    public List<MannschaftIntern> getByName(String name) {
+        return TryCatchUtil.tryCatchList(()-> dao.findByName(name));
+    }
+
+    
 }

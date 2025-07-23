@@ -6,6 +6,7 @@ package org.basketrolling.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.dao.SpieleDAO;
 import org.basketrolling.utils.TryCatchUtil;
@@ -42,5 +43,9 @@ public class SpieleService extends BaseService<Spiele> {
      */
     public List<Spiele> getByDatum(LocalDate datum) {
         return TryCatchUtil.tryCatchList(() -> dao.findByDatum(datum));
+    }
+
+    public List<Spiele> getByMannschaft(MannschaftIntern mannschaft) {
+        return TryCatchUtil.tryCatchList(() -> dao.findByMannschaft(mannschaft));
     }
 }
