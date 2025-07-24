@@ -6,6 +6,7 @@ package org.basketrolling.dao;
 
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spieler;
 
 /**
@@ -135,25 +136,15 @@ public class SpielerDAO extends BaseDAO<Spieler> {
         }
     }
 
-//    @Override
-//    public void delete(Spieler spieler) {
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            Spieler managedSpieler = em.find(Spieler.class, spieler.getSpielerId());
-//
-//            managedSpieler.getBeitragsZuweisungen().size();
-//
-//            em.remove(managedSpieler);
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            if (em.getTransaction().isActive()) {
-//                em.getTransaction().rollback();
-//            }
-//            System.err.println("Fehler beim Löschen: " + e.getMessage());
-//            throw new RuntimeException("Fehler beim Löschen", e);
-//        } finally {
-//            em.close();
-//        }
-//    }
+    public List<Spieler> findByMannschaft(MannschaftIntern mannschaft) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT s FROM Spieler s WHERE s.mannschaftIntern = :mannschaft";
+            return em.createQuery(jpql, Spieler.class)
+                    .setParameter("mannschaft", mannschaft)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

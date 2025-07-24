@@ -19,7 +19,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import org.basketrolling.beans.MannschaftExtern;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.dao.MannschaftInternDAO;
@@ -46,10 +45,10 @@ public class StatistikController implements Initializable, MainBorderSettable {
 
     @FXML
     private BarChart<String, Integer> bcRolling1;
-    
+
     @FXML
     private BarChart<String, Integer> bcRolling2;
-    
+
     @FXML
     private BarChart<String, Integer> bcRolling3;
 
@@ -76,7 +75,7 @@ public class StatistikController implements Initializable, MainBorderSettable {
         List<MannschaftIntern> mannschaft1 = mannInService.getByName("Basket Rolling/1");
         List<MannschaftIntern> mannschaft2 = mannInService.getByName("Basket Rolling/2");
         List<MannschaftIntern> mannschaftRossau = mannInService.getByName("Basket Rolling Rossau");
-        
+
         mannIn1 = mannschaft1.get(0);
         mannIn2 = mannschaft2.get(0);
         mannIn3 = mannschaftRossau.get(0);
@@ -93,7 +92,7 @@ public class StatistikController implements Initializable, MainBorderSettable {
     private XYChart.Series setzeStatistik(List<Spiele> spieleList) {
         XYChart.Series<String, Integer> series = new XYChart.Series<>();
         series.setName("Erzielte Punkte");
-        
+
         for (Spiele spiel : spieleList) {
             String mannEx = spiel.getMannschaftExtern().getName() + "(" + spiel.getDatum().toString() + ")";
             int punkte = spiel.getInternPunkte();

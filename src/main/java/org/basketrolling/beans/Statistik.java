@@ -41,8 +41,8 @@ public class Statistik {
     @Column(name = "fouls")
     private int fouls;
 
-    @Column(name = "starter", nullable = false)
-    private boolean starter;
+    @Column(name = "gespielt")
+    private boolean gespielt;
 
     public UUID getStatistikId() {
         return statistikId;
@@ -84,12 +84,12 @@ public class Statistik {
         this.fouls = fouls;
     }
 
-    public boolean isStarter() {
-        return starter;
+    public boolean isGespielt() {
+        return gespielt;
     }
 
-    public void setStarter(boolean starter) {
-        this.starter = starter;
+    public void setGespielt(boolean gespielt) {
+        this.gespielt = gespielt;
     }
 
     @Override
@@ -99,7 +99,7 @@ public class Statistik {
                 ", spieler=" + spieler +
                 ", punkte=" + punkte + 
                 ", fouls=" + fouls + 
-                ", starter=" + starter +
+                ", gespielt=" + gespielt +
                 '}';
     }
 

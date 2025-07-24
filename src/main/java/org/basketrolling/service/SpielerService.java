@@ -5,6 +5,7 @@
 package org.basketrolling.service;
 
 import java.util.List;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.utils.TryCatchUtil;
@@ -95,5 +96,9 @@ public class SpielerService extends BaseService<Spieler> {
      */
     public List<Spieler> getByAktiv(boolean aktiv) {
         return TryCatchUtil.tryCatchList(() -> dao.findByAktiv(aktiv));
+    }
+
+    public List<Spieler> getByMannschaft(MannschaftIntern mannschaft) {
+        return TryCatchUtil.tryCatchList(() -> dao.findByMannschaft(mannschaft));
     }
 }
