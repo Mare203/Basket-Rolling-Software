@@ -146,7 +146,7 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
             Double ppg = (Double) objekt[1];
             Long anzahlSpiele = (Long) objekt[2];
 
-            String spielerString = spieler.getVorname() + " " + spieler.getNachname() + " | " + ppg + " PPG in " + anzahlSpiele + " Spielen | " + spieler.getMannschaftIntern().getName();
+            String spielerString = spieler.getVorname() + " " + spieler.getNachname() + " | " + String.format("%.1f", ppg) + " PPG in " + anzahlSpiele + " Spielen | " + spieler.getMannschaftIntern().getName();
             topScorerAlsString.add(spielerString);
         }
         if (topScorerAlsString.isEmpty()) {
@@ -273,7 +273,7 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     public void elternkontaktMenuOeffnen() {
         menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktemenu.fxml");
     }
-    
+
     public void statistikMenuOeffnen() {
         menuUtil.MenuOeffnen("/org/basketrolling/gui/fxml/statistik/statistikmenu.fxml");
     }
