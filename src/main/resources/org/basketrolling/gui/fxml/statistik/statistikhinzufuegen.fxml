@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.basketrolling.gui.controller.hinzufuegen.StatistikHinzufuegenController">
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <GridPane style="-fx-background-color: #ffffff;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="338.0" minWidth="10.0" prefWidth="309.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="338.0" minWidth="0.0" prefWidth="173.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="lbMannschaftIntern" text="Mannschaft Intern">
+                     <GridPane.margin>
+                        <Insets left="15.0" right="10.0" top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lbMannschaftExtern" text="Mannschaft Extern" GridPane.columnIndex="4">
+                     <GridPane.margin>
+                        <Insets left="10.0" top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lbDatum" text="Datum" GridPane.columnIndex="5">
+                     <GridPane.margin>
+                        <Insets top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lbPunkteIntern" text="00" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                     <GridPane.margin>
+                        <Insets right="2.0" top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text=":" GridPane.columnIndex="2">
+                     <GridPane.margin>
+                        <Insets top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="lbPunkteExtern" text="00" GridPane.columnIndex="3" GridPane.halignment="LEFT">
+                     <GridPane.margin>
+                        <Insets left="2.0" top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane style="-fx-background-color: #ffffff;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="450.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="15.0" prefHeight="120.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TableView fx:id="tabelleStatistik" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="spalteSpieler" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="250.0" text="Spieler" />
+                      <TableColumn fx:id="spaltePunkte" prefWidth="75.0" text="Punkte" />
+                        <TableColumn fx:id="spalteFouls" prefWidth="75.0" text="Fouls" />
+                        <TableColumn fx:id="spalteGespielt" prefWidth="75.0" text="Gespielt?" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </TableView>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#speichern" text="Speichern">
+                           <HBox.margin>
+                              <Insets left="650.0" top="15.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button alignment="TOP_RIGHT" mnemonicParsing="false" text="Abbrechen">
+                           <HBox.margin>
+                              <Insets left="15.0" top="15.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox style="-fx-background-color: #eaf6ff;">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <children>
+                  <Label text="Statistiken eintragen" textFill="#4e62d3">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" top="12.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </top>
+</BorderPane>
