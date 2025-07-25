@@ -80,24 +80,26 @@ public class StatistikBearbeitenController implements Initializable {
         lbDatum.setText(String.valueOf(spiel.getDatum()));
 
         List<Statistik> vorhandeneStatistiken = statistikService.getBySpiel(spiel);
+        List<Spieler> spielerListe = spielerService.getByMannschaft(spiel.getMannschaftIntern());
 
-        if (vorhandeneStatistiken.isEmpty()) {
-            List<Spieler> spielerListe = spielerService.getByMannschaft(spiel.getMannschaftIntern());
+        for (Spieler spieler : spielerListe) {
+            Statistik vorhandene = vorhandeneStatistiken.stream()
+                    .filter(s -> s.getSpieler().getSpielerId().equals(spieler.getSpielerId()))
+                    .findFirst()
+                    .orElse(null);
 
-            for (Spieler spieler : spielerListe) {
-                Statistik statistik = new Statistik();
-                statistik.setSpiel(spiel);
-                statistik.setSpieler(spieler);
-                statistik.setPunkte(0);
-                statistik.setFouls(0);
-                statistik.setGespielt(false);
-
-                statistikListe.add(statistik);
+            if (vorhandene != null) {
+                statistikListe.add(vorhandene);
+            } else {
+                Statistik neue = new Statistik();
+                neue.setSpiel(spiel);
+                neue.setSpieler(spieler);
+                neue.setPunkte(0);
+                neue.setFouls(0);
+                neue.setGespielt(false);
+                statistikListe.add(neue);
             }
-        } else {
-            statistikListe.addAll(vorhandeneStatistiken);
         }
-
         tabelleStatistik.setItems(statistikListe);
     }
 

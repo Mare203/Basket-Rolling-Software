@@ -166,7 +166,7 @@ public class SpielBearbeitenController implements Initializable {
     }
 
     @FXML
-    private void statistikAnpassen(ActionEvent event) {
+    private void statistikAnpassen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/statistik/statistikbearbeiten.fxml"));
             Scene scene = new Scene(loader.load());
@@ -182,7 +182,7 @@ public class SpielBearbeitenController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            AlertUtil.alertWarning("Fehler", "Das Statistik-Fenster konnte nicht geöffnet werden.", " ");
+            AlertUtil.alertWarning("Fehler", "Das Statistik-Fenster konnte nicht geöffnet werden.", "");
         }
     }
 }
