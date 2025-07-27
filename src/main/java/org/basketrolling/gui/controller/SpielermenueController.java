@@ -66,7 +66,7 @@ public class SpielermenueController implements Initializable, MainBorderSettable
     private TableColumn<Spieler, String> alterSpalte;
 
     @FXML
-    private TableColumn<Spieler, String> groesseSpalte;
+    private TableColumn<Spieler, Double> groesseSpalte;
 
     @FXML
     private TableColumn<Spieler, String> aktivSpalte;
@@ -88,6 +88,17 @@ public class SpielermenueController implements Initializable, MainBorderSettable
         geburtsdatumSpalte.setCellValueFactory(new PropertyValueFactory<>("geburtsdatum"));
         alterSpalte.setCellValueFactory(new PropertyValueFactory<>("alter"));
         groesseSpalte.setCellValueFactory(new PropertyValueFactory<>("groesse"));
+        groesseSpalte.setCellFactory(column -> new TableCell<Spieler, Double>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                if (empty || value == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%.2f", value));
+                }
+            }
+        });
         aktivSpalte.setCellValueFactory(new PropertyValueFactory<>("aktiv"));
 
         buttonsHinzufuegen();
@@ -138,7 +149,7 @@ public class SpielermenueController implements Initializable, MainBorderSettable
                         Spieler spieler = getTableView().getItems().get(getIndex());
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml"));
                         Scene scene = new Scene(loader.load());
-                        
+
                         SpielerBearbeitenController controller = loader.getController();
                         controller.initSpieler(spieler);
 
@@ -203,7 +214,7 @@ public class SpielermenueController implements Initializable, MainBorderSettable
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml"));
             Scene scene = new Scene(loader.load());
-            
+
             Stage spielerHinzufuegen = new Stage();
             spielerHinzufuegen.setTitle("Spieler hinzufügen");
             spielerHinzufuegen.setScene(scene);

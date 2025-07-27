@@ -6,14 +6,11 @@ package org.basketrolling.gui.controller.bearbeiten;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -31,6 +28,7 @@ import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.MitgliedsbeitragService;
 import org.basketrolling.service.MitgliedsbeitragZuweisungService;
 import org.basketrolling.service.SpielerService;
+import org.basketrolling.utils.AlertUtil;
 
 /**
  *
@@ -131,31 +129,40 @@ public class SpielerBearbeitenController implements Initializable {
         boolean beitragsPflichtErfuellt = !cbAktiv.isSelected() || cbMitgliedsbeitrag.getValue() != null;
 
         if (pflichtfelderAusgefuellt && beitragsPflichtErfuellt) {
-            
-            bearbeitenSpieler.setVorname(tfVorname.getText());
-            bearbeitenSpieler.setNachname(tfNachname.getText());
-            bearbeitenSpieler.setGeburtsdatum(dpGeburtsdatum.getValue());
-            bearbeitenSpieler.setGroesse(Double.parseDouble(tfGroesse.getText()));
-            bearbeitenSpieler.seteMail(tfEmail.getText());
-            bearbeitenSpieler.setAktiv(cbAktiv.isSelected());
-            bearbeitenSpieler.setMannschaftIntern(cbMannschaft.getValue());
+            try {
+                bearbeitenSpieler.setVorname(tfVorname.getText());
+                bearbeitenSpieler.setNachname(tfNachname.getText());
+                bearbeitenSpieler.setGeburtsdatum(dpGeburtsdatum.getValue());
+                String groesseEingabe = tfGroesse.getText();
 
-            Spieler gespeicherterSpieler = spielerService.update(bearbeitenSpieler);
+                if (!groesseEingabe.matches("^\\d+\\.\\d{2}$")) {
+                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
+                    return;
+                }
+                bearbeitenSpieler.setGroesse(Double.parseDouble(groesseEingabe));
+                bearbeitenSpieler.seteMail(tfEmail.getText());
+                bearbeitenSpieler.setAktiv(cbAktiv.isSelected());
+                bearbeitenSpieler.setMannschaftIntern(cbMannschaft.getValue());
 
-            
-            if (cbAktiv.isSelected()) {
-                Mitgliedsbeitrag beitrag = cbMitgliedsbeitrag.getValue();
-                boolean bezahlt = cbBezahlt.isSelected();
+                Spieler gespeicherterSpieler = spielerService.update(bearbeitenSpieler);
 
-                zuweisungService.aktivereNeueZuweisung(gespeicherterSpieler, beitrag, bezahlt);
+                if (cbAktiv.isSelected()) {
+                    Mitgliedsbeitrag beitrag = cbMitgliedsbeitrag.getValue();
+                    boolean bezahlt = cbBezahlt.isSelected();
+
+                    zuweisungService.aktivereNeueZuweisung(gespeicherterSpieler, beitrag, bezahlt);
+                }
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Speichern erfolgreich");
+                alert.setHeaderText("Spieler wurde erfolgreich bearbeitet und gespeichert!");
+
+                Stage stage = (Stage) tfVorname.getScene().getWindow();
+                stage.close();
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
             }
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Spieler wurde erfolgreich bearbeitet und gespeichert!");
-
-            Stage stage = (Stage) tfVorname.getScene().getWindow();
-            stage.close();
 
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);

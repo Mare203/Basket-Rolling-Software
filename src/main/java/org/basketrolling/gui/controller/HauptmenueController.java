@@ -7,9 +7,11 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -112,9 +114,24 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
             String rollingLL = "LL";
             String rollingH2 = "H2";
             String rollingRossau = "Rossau";
-            List<Spiele> rollingLLSpiele = spieleList.stream().filter(s -> s.getMannschaftIntern().getName().contains(rollingLL)).toList();
-            List<Spiele> rollingH2Spiele = spieleList.stream().filter(s -> s.getMannschaftIntern().getName().contains(rollingH2)).toList();
-            List<Spiele> rollingRossauSpiele = spieleList.stream().filter(s -> s.getMannschaftIntern().getName().contains(rollingRossau)).toList();
+
+            List<Spiele> rollingLLSpiele = spieleList.stream()
+                    .filter(s -> s.getMannschaftIntern().getName().contains(rollingLL))
+                    .sorted(Comparator.comparing(Spiele::getDatum).reversed())
+                    .limit(5)
+                    .collect(Collectors.toList());
+
+            List<Spiele> rollingH2Spiele = spieleList.stream()
+                    .filter(s -> s.getMannschaftIntern().getName().contains(rollingH2))
+                    .sorted(Comparator.comparing(Spiele::getDatum).reversed())
+                    .limit(5)
+                    .collect(Collectors.toList());
+
+            List<Spiele> rollingRossauSpiele = spieleList.stream()
+                    .filter(s -> s.getMannschaftIntern().getName().contains(rollingRossau))
+                    .sorted(Comparator.comparing(Spiele::getDatum).reversed())
+                    .limit(5)
+                    .collect(Collectors.toList());
 
             if (rollingLLSpiele.isEmpty()) {
                 fiveSpieleLL.setItems(FXCollections.observableArrayList());

@@ -31,6 +31,7 @@ import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.MitgliedsbeitragService;
 import org.basketrolling.service.MitgliedsbeitragZuweisungService;
 import org.basketrolling.service.SpielerService;
+import org.basketrolling.utils.AlertUtil;
 
 /**
  *
@@ -118,28 +119,38 @@ public class SpielerHinzufuegenController implements Initializable {
         boolean beitragsPflichtErfuellt = !cbAktiv.isSelected() || cbMitgliedsbeitrag.getValue() != null;
 
         if (pflichtfelderAusgefuellt && beitragsPflichtErfuellt) {
+            try {
 
-            Spieler spieler = new Spieler();
-            spieler.setVorname(tfVorname.getText());
-            spieler.setNachname(tfNachname.getText());
-            spieler.setGeburtsdatum(dpGeburtsdatum.getValue());
-            spieler.setGroesse(Double.parseDouble(tfGroesse.getText()));
-            spieler.seteMail(tfEmail.getText());
-            spieler.setAktiv(cbAktiv.isSelected());
-            spieler.setMannschaftIntern(cbMannschaft.getValue());
+                Spieler spieler = new Spieler();
+                spieler.setVorname(tfVorname.getText());
+                spieler.setNachname(tfNachname.getText());
+                spieler.setGeburtsdatum(dpGeburtsdatum.getValue());
+                String groesseEingabe = tfGroesse.getText();
 
-            Spieler gespeicherterSpieler = spielerService.create(spieler);
+                if (!groesseEingabe.matches("^\\d+\\.\\d{2}$")) {
+                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
+                    return;
+                }
+                spieler.setGroesse(Double.parseDouble(groesseEingabe));
+                spieler.seteMail(tfEmail.getText());
+                spieler.setAktiv(cbAktiv.isSelected());
+                spieler.setMannschaftIntern(cbMannschaft.getValue());
 
-            if (cbAktiv.isSelected()) {
-                Mitgliedsbeitrag beitrag = cbMitgliedsbeitrag.getValue();
-                boolean bezahlt = cbBezahlt.isSelected();
+                Spieler gespeicherterSpieler = spielerService.create(spieler);
 
-                MitgliedsbeitragZuweisung zuweisung = new MitgliedsbeitragZuweisung();
-                zuweisung.setSpieler(gespeicherterSpieler);
-                zuweisung.setMitgliedsbeitrag(beitrag);
-                zuweisung.setBezahlt(bezahlt);
+                if (cbAktiv.isSelected()) {
+                    Mitgliedsbeitrag beitrag = cbMitgliedsbeitrag.getValue();
+                    boolean bezahlt = cbBezahlt.isSelected();
 
-                zuweisungService.create(zuweisung);
+                    MitgliedsbeitragZuweisung zuweisung = new MitgliedsbeitragZuweisung();
+                    zuweisung.setSpieler(gespeicherterSpieler);
+                    zuweisung.setMitgliedsbeitrag(beitrag);
+                    zuweisung.setBezahlt(bezahlt);
+
+                    zuweisungService.create(zuweisung);
+                }
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
             }
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -168,7 +179,7 @@ public class SpielerHinzufuegenController implements Initializable {
                 cbMannschaft.setValue(null);
                 cbMitgliedsbeitrag.setValue(null);
             }
-            
+
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Eingabefehler");

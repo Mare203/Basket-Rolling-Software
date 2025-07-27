@@ -51,7 +51,7 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
     private TableColumn<Mitgliedsbeitrag, String> saisonSpalte;
 
     @FXML
-    private TableColumn<Mitgliedsbeitrag, String> betragSpalte;
+    private TableColumn<Mitgliedsbeitrag, Double> betragSpalte;
 
     @FXML
     private TableColumn<Mitgliedsbeitrag, Void> aktionenSpalte;
@@ -66,6 +66,17 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
     public void initialize(URL url, ResourceBundle rb) {
         saisonSpalte.setCellValueFactory(new PropertyValueFactory<>("saison"));
         betragSpalte.setCellValueFactory(new PropertyValueFactory<>("betrag"));
+        betragSpalte.setCellFactory(column -> new TableCell<Mitgliedsbeitrag, Double>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                if (empty || value == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("%.2f €", value));
+                }
+            }
+        });
 
         List<Mitgliedsbeitrag> MitgliedsbeitragList = service.getAll();
         tabelleMitgliedsbeitrag.setItems(FXCollections.observableArrayList(MitgliedsbeitragList));
