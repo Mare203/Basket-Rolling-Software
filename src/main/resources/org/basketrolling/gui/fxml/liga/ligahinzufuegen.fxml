@@ -23,7 +23,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" text="Liganame:">
+            <Label alignment="CENTER" text="Liganame: *">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>

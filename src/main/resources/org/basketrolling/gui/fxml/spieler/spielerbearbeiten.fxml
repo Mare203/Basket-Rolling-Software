@@ -34,7 +34,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" text="Vorname:">
+            <Label alignment="CENTER" text="Vorname: *">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
@@ -44,7 +44,7 @@
                   <Insets />
                </GridPane.margin>
             </TextField>
-            <Label alignment="BASELINE_RIGHT" text="Nachname:" GridPane.rowIndex="1">
+            <Label alignment="BASELINE_RIGHT" text="Nachname: *" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
@@ -54,13 +54,13 @@
                   <Insets right="25.0" />
                </GridPane.margin>
             </TextField>
-            <Label text="Geburtsdatum:" GridPane.rowIndex="2">
+            <Label text="Geburtsdatum: *" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
             <DatePicker fx:id="dpGeburtsdatum" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Größe:" GridPane.rowIndex="3">
+            <Label text="Größe: *" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
@@ -86,7 +86,7 @@
                </GridPane.margin>
             </Label>
             <CheckBox fx:id="cbAktiv" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Mannschaft:" GridPane.rowIndex="6">
+            <Label text="Mannschaft: *" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
@@ -124,6 +124,11 @@
                   </Button>
                </children>
             </HBox>
+            <Label text="* Pflichtfeld" GridPane.rowIndex="9">
+               <GridPane.margin>
+                  <Insets left="15.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </center>

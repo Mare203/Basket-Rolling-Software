@@ -27,7 +27,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" text="Halle:">
+            <Label alignment="CENTER" text="Halle: *">
                <GridPane.margin>
                   <Insets left="15.0" top="30.0" />
                </GridPane.margin>
@@ -37,7 +37,7 @@
                   <Insets top="30.0" />
                </GridPane.margin>
             </TextField>
-            <Label alignment="CENTER" text="Straße:" GridPane.rowIndex="1">
+            <Label alignment="CENTER" text="Straße: *" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="15.0" top="20.0" />
                </GridPane.margin>
@@ -47,7 +47,7 @@
                   <Insets top="20.0" />
                </GridPane.margin>
             </TextField>
-            <Label alignment="CENTER" text="PLZ:" GridPane.rowIndex="2">
+            <Label alignment="CENTER" text="PLZ: *" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="15.0" top="20.0" />
                </GridPane.margin>
@@ -57,7 +57,7 @@
                   <Insets top="20.0" />
                </GridPane.margin>
             </TextField>
-            <Label alignment="CENTER" text="Ort:" GridPane.rowIndex="3">
+            <Label alignment="CENTER" text="Ort: *" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="15.0" top="20.0" />
                </GridPane.margin>
@@ -87,6 +87,11 @@
                   </Button>
                </children>
             </HBox>
+            <Label text="* Pflichtfeld" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="15.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </center>

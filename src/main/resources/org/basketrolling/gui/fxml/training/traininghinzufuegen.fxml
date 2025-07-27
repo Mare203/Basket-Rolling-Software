@@ -28,13 +28,13 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Mannschaft:">
+            <Label text="Mannschaft: *">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
             <ComboBox fx:id="cbMannschaft" prefWidth="200.0" promptText="Keine Auswahl" GridPane.columnIndex="1" />
-            <Label text="Halle:" GridPane.rowIndex="1">
+            <Label text="Halle: *" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
@@ -46,7 +46,7 @@
                </GridPane.margin>
             </Label>
             <DatePicker fx:id="dpDatum" maxWidth="-Infinity" prefWidth="200.0" promptText="01.01.2000" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Dauer in Minuten:" GridPane.rowIndex="3">
+            <Label text="Dauer in Minuten: *" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
@@ -76,6 +76,11 @@
                   </Button>
                </children>
             </HBox>
+            <Label text="* Pflichtfeld" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="15.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </center>
