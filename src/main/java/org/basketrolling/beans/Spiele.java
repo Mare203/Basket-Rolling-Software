@@ -119,9 +119,9 @@ public class Spiele {
 
     @Override
     public String toString() {
-        String teams = String.format("%-60s", getMannschaftIntern().getName() + " - " + getMannschaftExtern().getName());
-        String punkte = String.format("%-10s", getInternPunkte() + ":" + getExternPunkte());
-        String halle = String.format("%-22s", getHalle().getName());
+        String teams = String.format("%-50s", getMannschaftIntern().getName() + " - " + getMannschaftExtern().getName());
+        String punkte = String.format("%-9s", getInternPunkte() + ":" + getExternPunkte());
+        String halle = String.format("%-25s", getHalle().getName());
         String datum = getDatum().toString();
 
         return teams + punkte + halle + datum;
