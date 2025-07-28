@@ -24,6 +24,7 @@ import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.service.ElternkontaktService;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -83,7 +84,7 @@ public class ElternkontaktHinzufuegenController implements Initializable {
             elternkontakt.setEMail(tfEmail.getText());
 
             service.create(elternkontakt);
-                      
+
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Speichern erfolgreich");
             alert.setHeaderText("Elternkontakt erfolgreich gespeichert!");
@@ -97,8 +98,7 @@ public class ElternkontaktHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) tfVorname.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfVorname);
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
@@ -107,7 +107,11 @@ public class ElternkontaktHinzufuegenController implements Initializable {
                 tfEmail.clear();
             }
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfVorname);
     }
 }

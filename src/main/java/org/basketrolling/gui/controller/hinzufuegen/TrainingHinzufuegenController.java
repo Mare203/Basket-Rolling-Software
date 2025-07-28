@@ -17,7 +17,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Training;
@@ -28,6 +27,7 @@ import org.basketrolling.service.HalleService;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.TrainingService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -78,6 +78,7 @@ public class TrainingHinzufuegenController implements Initializable {
                 && cbHalle.getValue() != null
                 && cbMannschaft.getValue() != null
                 && !tfDauer.getText().isEmpty()) {
+
             Training training = new Training();
             training.setDatum(dpDatum.getValue());
             training.setDauerInMin(Integer.parseInt(tfDauer.getText()));
@@ -100,8 +101,7 @@ public class TrainingHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) cbHalle.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfDauer);
             } else {
                 cbMannschaft.setValue(null);
                 cbHalle.setValue(null);
@@ -109,7 +109,11 @@ public class TrainingHinzufuegenController implements Initializable {
                 tfDauer.clear();
             }
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfDauer);
     }
 }

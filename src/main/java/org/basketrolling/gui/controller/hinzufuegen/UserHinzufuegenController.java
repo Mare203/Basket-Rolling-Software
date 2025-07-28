@@ -15,12 +15,12 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.enums.Rolle;
 import org.basketrolling.service.LoginService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -42,7 +42,7 @@ public class UserHinzufuegenController implements Initializable {
 
     @FXML
     private TextField pfPasswort;
-    
+
     @FXML
     private ComboBox<Rolle> cbRolle;
 
@@ -50,7 +50,7 @@ public class UserHinzufuegenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         dao = new LoginDAO();
         service = new LoginService(dao);
-        
+
         cbRolle.setItems(FXCollections.observableArrayList(Rolle.values()));
         cbRolle.setValue(Rolle.ADMIN);
     }
@@ -61,7 +61,7 @@ public class UserHinzufuegenController implements Initializable {
                 && !tfBenutzername.getText().isEmpty()
                 && !pfPasswort.getText().isEmpty()
                 && cbRolle.getValue() != null) {
-            
+
             Login login = new Login();
             login.setVorname(tfVorname.getText());
             login.setNachname(tfNachname.getText());
@@ -84,8 +84,7 @@ public class UserHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) tfVorname.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfBenutzername);
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
@@ -94,7 +93,11 @@ public class UserHinzufuegenController implements Initializable {
                 cbRolle.setValue(null);
             }
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfBenutzername);
     }
 }

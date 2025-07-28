@@ -18,6 +18,7 @@ import org.basketrolling.beans.Mitgliedsbeitrag;
 import org.basketrolling.dao.MitgliedsbeitragDAO;
 import org.basketrolling.service.MitgliedsbeitragService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -61,14 +62,17 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) tfSaison.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfSaison);
             } else {
                 tfSaison.clear();
                 tfBetrag.clear();
             }
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfSaison);
     }
 }

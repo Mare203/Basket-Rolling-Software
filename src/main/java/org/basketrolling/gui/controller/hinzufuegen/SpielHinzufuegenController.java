@@ -4,25 +4,19 @@
  */
 package org.basketrolling.gui.controller.hinzufuegen;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftExtern;
@@ -39,6 +33,7 @@ import org.basketrolling.service.MannschaftExternService;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -153,8 +148,7 @@ public class SpielHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) cbHalle.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(cbLiga);
             } else {
                 oeffneStatistik(erstelltesSpiel);
             }
@@ -164,24 +158,15 @@ public class SpielHinzufuegenController implements Initializable {
     }
 
     private void oeffneStatistik(Spiele spiel) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/statistik/statistikhinzufuegen.fxml"));
-            Parent root = loader.load();
+        StatistikHinzufuegenController controller = MenuUtil.neuesFensterAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikhinzufuegen.fxml", "Spielerstatistik erfassen");
 
-            StatistikHinzufuegenController controller = loader.getController();
+        if (controller != null) {
             controller.setSpiel(spiel);
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Spielerstatistik erfassen");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-
-            Stage currentStage = (Stage) cbHalle.getScene().getWindow();
-            currentStage.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        MenuUtil.fensterSchliessenOhneWarning(cbLiga);
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(cbLiga);
     }
 }

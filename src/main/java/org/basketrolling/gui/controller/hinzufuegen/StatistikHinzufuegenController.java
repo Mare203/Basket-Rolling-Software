@@ -19,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.beans.Spieler;
@@ -29,6 +28,7 @@ import org.basketrolling.dao.StatistikDAO;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.service.StatistikService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -131,9 +131,7 @@ public class StatistikHinzufuegenController implements Initializable {
         int erwartetePunkte = spiel.getInternPunkte();
 
         if (summePunkte != erwartetePunkte) {
-            AlertUtil.alertWarning("Fehlerhafte Punktzahl",
-                    "Gesamtsumme der Spieler-Punkte stimmt nicht!",
-                    "Die Summe der Punkte (" + summePunkte + ") stimmt nicht mit den Team-Punkten (" + erwartetePunkte + ") überein.");
+            AlertUtil.alertWarning("Fehlerhafte Punktzahl", "Gesamtsumme der Spieler-Punkte stimmt nicht!", "Die Summe der Punkte (" + summePunkte + ") stimmt nicht mit den Team-Punkten (" + erwartetePunkte + ") überein.");
         } else {
             for (Statistik statistik : statistikListe) {
                 if (statistik.isGespielt()) {
@@ -144,10 +142,12 @@ public class StatistikHinzufuegenController implements Initializable {
                     }
                 }
             }
-
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Alle Einträge wurden erfolgreich gespeichert.");
-            Stage stage = (Stage) tabelleStatistik.getScene().getWindow();
-            stage.close();
+            MenuUtil.fensterSchliessenOhneWarning(lbDatum);
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(lbDatum);
     }
 }

@@ -4,7 +4,6 @@
  */
 package org.basketrolling.gui.controller.hinzufuegen;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -20,15 +19,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftExtern;
-import org.basketrolling.beans.MannschaftIntern;
-import org.basketrolling.beans.Trainer;
 import org.basketrolling.dao.LigaDAO;
 import org.basketrolling.dao.MannschaftExternDAO;
-import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.service.LigaService;
 import org.basketrolling.service.MannschaftExternService;
-import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -86,13 +82,16 @@ public class MannschaftExternHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) tfName.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfName);
             } else {
                 tfName.clear();
             }
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfName);
     }
 }

@@ -34,6 +34,7 @@ import org.basketrolling.service.MitgliedsbeitragService;
 import org.basketrolling.service.MitgliedsbeitragZuweisungService;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -177,8 +178,7 @@ public class SpielerHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) tfVorname.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfVorname);
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
@@ -202,5 +202,9 @@ public class SpielerHinzufuegenController implements Initializable {
             alert.setContentText(text);
             alert.showAndWait();
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfVorname);
     }
 }

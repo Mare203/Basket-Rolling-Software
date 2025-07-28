@@ -13,11 +13,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Trainer;
 import org.basketrolling.dao.TrainerDAO;
 import org.basketrolling.service.TrainerService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -50,7 +50,7 @@ public class TrainerHinzufuegenController implements Initializable {
         if (!tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
                 && !tfTelefon.getText().isEmpty()) {
-            
+
             Trainer trainer = new Trainer();
             trainer.setVorname(tfVorname.getText());
             trainer.setNachname(tfNachname.getText());
@@ -72,8 +72,7 @@ public class TrainerHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                Stage stage = (Stage) tfVorname.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfVorname);
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
@@ -81,7 +80,11 @@ public class TrainerHinzufuegenController implements Initializable {
                 tfEmail.clear();
             }
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfVorname);
     }
 }
