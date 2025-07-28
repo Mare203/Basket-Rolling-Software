@@ -101,7 +101,7 @@ public class TrainingHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                MenuUtil.fensterSchliessenOhneWarning(tfDauer);
+                MenuUtil.fensterSchliessenOhneWarnung(tfDauer);
             } else {
                 cbMannschaft.setValue(null);
                 cbHalle.setValue(null);
@@ -114,6 +114,6 @@ public class TrainingHinzufuegenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfDauer);
+        MenuUtil.fensterSchliessenMitWarnung(tfDauer);
     }
 }

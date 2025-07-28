@@ -178,7 +178,7 @@ public class SpielerHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                MenuUtil.fensterSchliessenOhneWarning(tfVorname);
+                MenuUtil.fensterSchliessenOhneWarnung(tfVorname);
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
@@ -205,6 +205,6 @@ public class SpielerHinzufuegenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfVorname);
+        MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }
 }

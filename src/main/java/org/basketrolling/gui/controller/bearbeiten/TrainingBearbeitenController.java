@@ -95,7 +95,7 @@ public class TrainingBearbeitenController implements Initializable {
             trainingService.update(bearbeitenTraining);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Training erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarning(tfDauer);
+            MenuUtil.fensterSchliessenOhneWarnung(tfDauer);
 
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
@@ -103,6 +103,6 @@ public class TrainingBearbeitenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfDauer);
+        MenuUtil.fensterSchliessenMitWarnung(tfDauer);
     }
 }

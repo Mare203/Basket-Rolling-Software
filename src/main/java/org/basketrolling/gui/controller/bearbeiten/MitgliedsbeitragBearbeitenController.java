@@ -54,7 +54,7 @@ public class MitgliedsbeitragBearbeitenController implements Initializable {
             service.update(bearbeitenMitgliedsbeitrag);
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Mitgliedsbeitrag erfolgreich aktualisiert!");
 
-            MenuUtil.fensterSchliessenOhneWarning(tfSaison);
+            MenuUtil.fensterSchliessenOhneWarnung(tfSaison);
 
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
@@ -62,6 +62,6 @@ public class MitgliedsbeitragBearbeitenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfSaison);
+        MenuUtil.fensterSchliessenMitWarnung(tfSaison);
     }
 }

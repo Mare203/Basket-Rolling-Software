@@ -158,11 +158,11 @@ public class StatistikBearbeitenController implements Initializable {
             }
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Alle Einträge wurden erfolgreich gespeichert.");
-            MenuUtil.fensterSchliessenOhneWarning(lbDatum);
+            MenuUtil.fensterSchliessenOhneWarnung(lbDatum);
         }
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(lbDatum);
+        MenuUtil.fensterSchliessenMitWarnung(lbDatum);
     }
 }

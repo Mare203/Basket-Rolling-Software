@@ -173,11 +173,8 @@ public class SpielerBearbeitenController implements Initializable {
                     }
                 }
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Speichern erfolgreich");
-                alert.setHeaderText("Spieler wurde erfolgreich bearbeitet und gespeichert!");
-
-                MenuUtil.fensterSchliessenOhneWarning(tfVorname);
+                AlertUtil.alertConfirmation("Speichern erfolgreich", "Spieler wurde erfolgreich bearbeitet und gespeichert!");
+                MenuUtil.fensterSchliessenOhneWarnung(tfVorname);
 
             } catch (NumberFormatException e) {
                 AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
@@ -197,6 +194,6 @@ public class SpielerBearbeitenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfVorname);
+        MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }
 }

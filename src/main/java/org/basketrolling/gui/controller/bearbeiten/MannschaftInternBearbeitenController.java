@@ -96,13 +96,13 @@ public class MannschaftInternBearbeitenController implements Initializable {
             service.update(bearbeitenMannschaft);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Mannschaft erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarning(tfName);
+            MenuUtil.fensterSchliessenOhneWarnung(tfName);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfName);
+        MenuUtil.fensterSchliessenMitWarnung(tfName);
     }
 }

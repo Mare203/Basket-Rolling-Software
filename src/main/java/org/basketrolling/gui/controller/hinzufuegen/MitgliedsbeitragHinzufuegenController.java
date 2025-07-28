@@ -62,7 +62,7 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                MenuUtil.fensterSchliessenOhneWarning(tfSaison);
+                MenuUtil.fensterSchliessenOhneWarnung(tfSaison);
             } else {
                 tfSaison.clear();
                 tfBetrag.clear();
@@ -73,6 +73,6 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfSaison);
+        MenuUtil.fensterSchliessenMitWarnung(tfSaison);
     }
 }

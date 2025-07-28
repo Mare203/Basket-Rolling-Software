@@ -82,7 +82,7 @@ public class MannschaftExternHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                MenuUtil.fensterSchliessenOhneWarning(tfName);
+                MenuUtil.fensterSchliessenOhneWarnung(tfName);
             } else {
                 tfName.clear();
             }
@@ -92,6 +92,6 @@ public class MannschaftExternHinzufuegenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfName);
+        MenuUtil.fensterSchliessenMitWarnung(tfName);
     }
 }

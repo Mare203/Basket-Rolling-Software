@@ -146,7 +146,7 @@ public class SpielBearbeitenController implements Initializable {
             spielService.update(bearbeitenSpiel);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Spiel erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarning(cbLiga);
+            MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
@@ -160,10 +160,10 @@ public class SpielBearbeitenController implements Initializable {
             controller.setSpiel(bearbeitenSpiel);
         }
 
-        MenuUtil.fensterSchliessenOhneWarning(cbLiga);
+        MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(cbLiga);
+        MenuUtil.fensterSchliessenMitWarnung(cbLiga);
     }
 }

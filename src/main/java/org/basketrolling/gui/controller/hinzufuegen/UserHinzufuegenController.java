@@ -84,7 +84,7 @@ public class UserHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                MenuUtil.fensterSchliessenOhneWarning(tfBenutzername);
+                MenuUtil.fensterSchliessenOhneWarnung(tfBenutzername);
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
@@ -98,6 +98,6 @@ public class UserHinzufuegenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfBenutzername);
+        MenuUtil.fensterSchliessenMitWarnung(tfBenutzername);
     }
 }

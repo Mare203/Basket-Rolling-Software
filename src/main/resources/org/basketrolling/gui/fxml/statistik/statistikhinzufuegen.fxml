@@ -89,7 +89,7 @@
                               <Insets left="650.0" top="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Button alignment="TOP_RIGHT" mnemonicParsing="false" text="Abbrechen">
+                        <Button fx:id="abbrechen" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#abbrechen" text="Abbrechen">
                            <HBox.margin>
                               <Insets left="15.0" top="15.0" />
                            </HBox.margin>

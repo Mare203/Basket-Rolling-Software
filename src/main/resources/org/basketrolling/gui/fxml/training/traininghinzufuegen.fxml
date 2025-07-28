@@ -33,13 +33,13 @@
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox fx:id="cbMannschaft" prefWidth="200.0" promptText="Keine Auswahl" GridPane.columnIndex="1" />
+            <ComboBox fx:id="cbMannschaft" prefWidth="200.0" GridPane.columnIndex="1" />
             <Label text="Halle: *" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox fx:id="cbHalle" prefWidth="200.0" promptText="Keine Auswahl" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cbHalle" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Datum:" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="15.0" />
@@ -66,7 +66,7 @@
                         <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
                      </padding>
                   </Button>
-                  <Button fx:id="abbrechenBtn" mnemonicParsing="false" text="Abbrechen">
+                  <Button fx:id="abbrechenBtn" mnemonicParsing="false" onAction="#abbrechen" text="Abbrechen">
                      <HBox.margin>
                         <Insets left="15.0" top="25.0" />
                      </HBox.margin>

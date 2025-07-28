@@ -92,13 +92,13 @@ public class ElternkontaktBearbeitenController implements Initializable {
             service.update(bearbeitenElternkontakt);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Elternkontakt erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarning(tfVorname);
+            MenuUtil.fensterSchliessenOhneWarnung(tfVorname);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfVorname);
+        MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }
 }

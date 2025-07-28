@@ -5,10 +5,14 @@
 package org.basketrolling.utils;
 
 import java.io.IOException;
+import java.util.Optional;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -63,14 +67,42 @@ public class MenuUtil {
         }
     }
 
-    public static void fensterSchliessenMitWarning(Node node) {
-        AlertUtil.alertWarning("Fenster schließen", "Sind Sie sicher dass Sie das Fenster schließen wollen?", "Alle nicht gespeicherten Änderungen gehen verloren.");
+    public static void fensterSchliessenMitWarnung(Node node) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Fenster schließen");
+        alert.setHeaderText("Sind Sie sicher, dass Sie das Fenster schließen möchten?");
+        alert.setContentText("Alle nicht gespeicherten Änderungen gehen verloren.");
+
+        ButtonType jaButton = new ButtonType("Ja", ButtonBar.ButtonData.OK_DONE);
+        ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(jaButton, neinButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == jaButton) {
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    public static void fensterSchliessenOhneWarnung(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
     }
 
-    public static void fensterSchliessenOhneWarning(Node node) {
-        Stage stage = (Stage) node.getScene().getWindow();
-        stage.close();
+    public static boolean fensterSchliessenMitEigenerWarnung(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        ButtonType jaButton = new ButtonType("Ja", ButtonBar.ButtonData.OK_DONE);
+        ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(jaButton, neinButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == jaButton;
     }
 }

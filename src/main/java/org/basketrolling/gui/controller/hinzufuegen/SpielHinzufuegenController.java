@@ -148,7 +148,7 @@ public class SpielHinzufuegenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == neinButton) {
-                MenuUtil.fensterSchliessenOhneWarning(cbLiga);
+                MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
             } else {
                 oeffneStatistik(erstelltesSpiel);
             }
@@ -163,10 +163,10 @@ public class SpielHinzufuegenController implements Initializable {
         if (controller != null) {
             controller.setSpiel(spiel);
         }
-        MenuUtil.fensterSchliessenOhneWarning(cbLiga);
+        MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(cbLiga);
+        MenuUtil.fensterSchliessenMitWarnung(cbLiga);
     }
 }

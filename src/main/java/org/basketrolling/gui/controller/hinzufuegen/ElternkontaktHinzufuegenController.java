@@ -16,7 +16,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Elternkontakt;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.ElternkontaktDAO;
@@ -85,20 +84,10 @@ public class ElternkontaktHinzufuegenController implements Initializable {
 
             service.create(elternkontakt);
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Elternkontakt erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie einen weiteren Elternkontakt anlegen?");
+            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Elternkontakt erfolgreich gespeichert!", "Möchten Sie einen weiteren Elternkontakt anlegen?");
 
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(jaButton, neinButton);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
-                MenuUtil.fensterSchliessenOhneWarning(tfVorname);
+            if (!weiter) {
+                MenuUtil.fensterSchliessenOhneWarnung(tfVorname);
             } else {
                 tfVorname.clear();
                 tfNachname.clear();
@@ -112,6 +101,6 @@ public class ElternkontaktHinzufuegenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfVorname);
+        MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }
 }

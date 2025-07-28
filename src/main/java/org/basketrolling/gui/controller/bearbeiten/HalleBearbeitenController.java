@@ -67,13 +67,13 @@ public class HalleBearbeitenController implements Initializable {
             service.update(bearbeitenhalle);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Halle erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarning(tfName);
+            MenuUtil.fensterSchliessenOhneWarnung(tfName);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenMitWarning(tfName);
+        MenuUtil.fensterSchliessenMitWarnung(tfName);
     }
 }
