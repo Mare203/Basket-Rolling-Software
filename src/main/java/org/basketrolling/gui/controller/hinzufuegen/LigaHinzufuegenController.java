@@ -40,7 +40,7 @@ public class LigaHinzufuegenController implements Initializable {
 
             service.create(liga);
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Liga erfolgreich gespeichert!", "Möchten Sie eine weitere Liga anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Liga erfolgreich gespeichert!", "Möchten Sie eine weitere Liga anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfName);

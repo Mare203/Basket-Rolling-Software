@@ -4,27 +4,19 @@
  */
 package org.basketrolling.gui.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Login;
 import org.basketrolling.beans.MitgliedsbeitragZuweisung;
 import org.basketrolling.beans.Spiele;
@@ -40,6 +32,7 @@ import org.basketrolling.service.MitgliedsbeitragZuweisungService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.service.StatistikService;
 import org.basketrolling.service.TrainingService;
+import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.QuickUtil;
 
@@ -60,6 +53,7 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
 
     private Login benutzer;
     private MenuUtil menuUtil;
+    public static final String DEFAULT_CSS = "/org/basketrolling/gui/css/styles.css";
 
     @FXML
     private Label welcomeUser;
@@ -206,44 +200,18 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     }
 
     public void logout() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Bestätigung");
-        alert.setHeaderText("Logout bestätigen");
-        alert.setContentText("Sind Sie sicher, dass Sie sich abmelden möchten?");
+        boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Logout bestätigen", "Sind Sie sicher, dass Sie sich abmelden möchten?");
 
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/login.fxml"));
-                Scene scene = new Scene(loader.load());
-                scene.getStylesheets().add(getClass().getResource("/org/basketrolling/gui/css/styles.css").toExternalForm());
-
-                Stage loginStage = new Stage();
-                loginStage.setTitle("Login - Basket Rolling");
-                loginStage.setScene(scene);
-                loginStage.show();
-
-                Stage hauptmenuStage = (Stage) logout.getScene().getWindow();
-                hauptmenuStage.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (bestaetigung) {
+            MenuUtil.neuesFensterAnzeigen("/org/basketrolling/gui/fxml/login/login.fxml", "Login - Basket Rolling", DEFAULT_CSS);
         }
     }
 
     public void beenden() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Bestätigung");
-        alert.setHeaderText("Programm schließen");
-        alert.setContentText("Sind Sie sicher, dass Sie das Programm beenden möchten?");
+        boolean beenden = AlertUtil.confirmationMitJaNein("Bestätigung", "Programm schließen", "Sind Sie sicher, dass Sie das Programm beenden möchten?");
 
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Stage stage = (Stage) beenden.getScene().getWindow();
-            stage.close();
+        if (beenden) {
+            MenuUtil.fensterSchliessenOhneWarnung(logout);
         }
     }
 
@@ -301,21 +269,9 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     }
 
     public void account() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/accountmenu.fxml"));
-            Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(getClass().getResource("/org/basketrolling/gui/css/styles.css").toExternalForm());
-
-            AccountmenuController controller = loader.getController();
+        AccountmenuController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/login/accountmenu.fxml", "Account", DEFAULT_CSS);
+        if (controller != null) {
             controller.initLogin(benutzer);
-
-            Stage account = new Stage();
-            account.setTitle("Account");
-            account.setScene(scene);
-            account.initModality(Modality.APPLICATION_MODAL);
-            account.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 

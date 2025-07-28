@@ -67,6 +67,55 @@ public class MenuUtil {
         }
     }
 
+    public static <T> T neuesFensterModalAnzeigen(String fxmlPfad, String titel, String cssPfad) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
+            Parent root = loader.load();
+
+            T controller = loader.getController();
+
+            Scene scene = new Scene(root);
+            if (cssPfad != null && !cssPfad.isBlank()) {
+                scene.getStylesheets().add(MenuUtil.class.getResource(cssPfad).toExternalForm());
+            }
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle(titel);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <T> T neuesFensterAnzeigen(String fxmlPfad, String titel, String cssPfad) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
+            Parent root = loader.load();
+
+            T controller = loader.getController();
+
+            Scene scene = new Scene(root);
+            if (cssPfad != null && !cssPfad.isBlank()) {
+                scene.getStylesheets().add(MenuUtil.class.getResource(cssPfad).toExternalForm());
+            }
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle(titel);
+            stage.show();
+
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static void fensterSchliessenMitWarnung(Node node) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Fenster schließen");
@@ -89,20 +138,5 @@ public class MenuUtil {
     public static void fensterSchliessenOhneWarnung(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
-    }
-
-    public static boolean fensterSchliessenMitEigenerWarnung(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-
-        ButtonType jaButton = new ButtonType("Ja", ButtonBar.ButtonData.OK_DONE);
-        ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-        alert.getButtonTypes().setAll(jaButton, neinButton);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == jaButton;
     }
 }

@@ -55,7 +55,7 @@ public class TrainerHinzufuegenController implements Initializable {
 
             service.create(trainer);
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Trainer erfolgreich gespeichert!", "Möchten Sie einen weiteren Trainer anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Trainer erfolgreich gespeichert!", "Möchten Sie einen weiteren Trainer anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfVorname);

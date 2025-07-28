@@ -55,7 +55,7 @@ public class HalleHinzufuegenController implements Initializable {
 
             service.create(halle);
             
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Halle erfolgreich gespeichert!", "Möchten Sie eine weitere Halle anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Halle erfolgreich gespeichert!", "Möchten Sie eine weitere Halle anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfName);

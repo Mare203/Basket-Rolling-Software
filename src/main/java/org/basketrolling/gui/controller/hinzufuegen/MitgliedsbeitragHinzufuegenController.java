@@ -44,7 +44,7 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
 
             service.create(mitgliedsbeitrag);
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Mitgliedsbeitrag erfolgreich gespeichert!", "Möchten Sie einen weiteren Mitgliedsbeitrag anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Mitgliedsbeitrag erfolgreich gespeichert!", "Möchten Sie einen weiteren Mitgliedsbeitrag anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfSaison);

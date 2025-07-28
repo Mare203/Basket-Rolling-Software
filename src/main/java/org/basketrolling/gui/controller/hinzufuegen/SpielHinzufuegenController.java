@@ -131,7 +131,7 @@ public class SpielHinzufuegenController implements Initializable {
 
             Spiele erstelltesSpiel = spielService.create(spiel);
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Spiel erfolgreich gespeichert!", "Möchten Sie eine Statistik für dieses Spiel anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Spiel erfolgreich gespeichert!", "Möchten Sie eine Statistik für dieses Spiel anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(cbLiga);

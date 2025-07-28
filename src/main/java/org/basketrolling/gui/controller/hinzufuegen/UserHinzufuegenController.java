@@ -67,7 +67,7 @@ public class UserHinzufuegenController implements Initializable {
 
             service.create(login);
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "User erfolgreich gespeichert!", "Möchten Sie einen weiteren User anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "User erfolgreich gespeichert!", "Möchten Sie einen weiteren User anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfBenutzername);

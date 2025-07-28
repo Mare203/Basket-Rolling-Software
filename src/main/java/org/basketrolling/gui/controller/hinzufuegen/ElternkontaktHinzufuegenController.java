@@ -84,7 +84,7 @@ public class ElternkontaktHinzufuegenController implements Initializable {
 
             service.create(elternkontakt);
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Elternkontakt erfolgreich gespeichert!", "Möchten Sie einen weiteren Elternkontakt anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Elternkontakt erfolgreich gespeichert!", "Möchten Sie einen weiteren Elternkontakt anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfVorname);

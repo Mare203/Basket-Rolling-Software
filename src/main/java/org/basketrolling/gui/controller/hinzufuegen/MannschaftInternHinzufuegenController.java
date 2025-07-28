@@ -85,7 +85,7 @@ public class MannschaftInternHinzufuegenController implements Initializable {
 
             service.create(mannschaft);
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Mannschaft erfolgreich gespeichert!", "Möchten Sie eine weitere Mannschaft anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Mannschaft erfolgreich gespeichert!", "Möchten Sie eine weitere Mannschaft anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfName);

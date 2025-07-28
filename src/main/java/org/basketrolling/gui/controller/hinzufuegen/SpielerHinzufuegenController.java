@@ -164,7 +164,7 @@ public class SpielerHinzufuegenController implements Initializable {
                 AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
             }
 
-            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Spieler erfolgreich gespeichert!", "Möchten Sie einen weiteren Spieler anlegen?");
+            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Spieler erfolgreich gespeichert!", "Möchten Sie einen weiteren Spieler anlegen?");
 
             if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfVorname);

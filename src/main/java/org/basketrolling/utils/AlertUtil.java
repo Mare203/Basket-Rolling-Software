@@ -4,7 +4,10 @@
  */
 package org.basketrolling.utils;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 
 /**
  *
@@ -48,5 +51,20 @@ public class AlertUtil {
         alert.setHeaderText(header);
         alert.showAndWait();
         return alert;
+    }
+      
+      public static boolean confirmationMitJaNein(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        ButtonType jaButton = new ButtonType("Ja", ButtonBar.ButtonData.OK_DONE);
+        ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(jaButton, neinButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == jaButton;
     }
 }
