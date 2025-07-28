@@ -5,13 +5,9 @@
 package org.basketrolling.gui.controller.hinzufuegen;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import org.basketrolling.beans.Trainer;
 import org.basketrolling.dao.TrainerDAO;
@@ -59,19 +55,9 @@ public class TrainerHinzufuegenController implements Initializable {
 
             service.create(trainer);
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Trainer erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie einen weiteren Trainer anlegen?");
+            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Trainer erfolgreich gespeichert!", "Möchten Sie einen weiteren Trainer anlegen?");
 
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(jaButton, neinButton);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
+            if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfVorname);
             } else {
                 tfVorname.clear();

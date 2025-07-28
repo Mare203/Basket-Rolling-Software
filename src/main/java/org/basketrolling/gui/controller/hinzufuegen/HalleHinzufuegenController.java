@@ -5,15 +5,10 @@
 package org.basketrolling.gui.controller.hinzufuegen;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.dao.HalleDAO;
 import org.basketrolling.service.HalleService;
@@ -59,20 +54,10 @@ public class HalleHinzufuegenController implements Initializable {
             halle.setPlz(Integer.parseInt(tfPlz.getText()));
 
             service.create(halle);
+            
+            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Halle erfolgreich gespeichert!", "Möchten Sie eine weitere Halle anlegen?");
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Halle erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie eine weitere Halle anlegen?");
-
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(jaButton, neinButton);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
+            if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfName);
             } else {
                 tfName.clear();
@@ -80,6 +65,7 @@ public class HalleHinzufuegenController implements Initializable {
                 tfOrt.clear();
                 tfPlz.clear();
             }
+
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }

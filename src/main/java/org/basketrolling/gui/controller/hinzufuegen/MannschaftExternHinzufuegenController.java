@@ -6,17 +6,12 @@ package org.basketrolling.gui.controller.hinzufuegen;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftExtern;
 import org.basketrolling.dao.LigaDAO;
@@ -69,23 +64,14 @@ public class MannschaftExternHinzufuegenController implements Initializable {
 
             service.create(mannschaft);
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Mannschaft erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie eine weitere Mannschaft anlegen?");
+            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Mannschaft erfolgreich gespeichert!", "Möchten Sie eine weitere Mannschaft anlegen?");
 
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(jaButton, neinButton);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
+            if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfName);
             } else {
                 tfName.clear();
             }
+
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }

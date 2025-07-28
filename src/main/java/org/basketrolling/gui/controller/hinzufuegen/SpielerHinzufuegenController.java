@@ -20,7 +20,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Mitgliedsbeitrag;
 import org.basketrolling.beans.MitgliedsbeitragZuweisung;
@@ -165,19 +164,9 @@ public class SpielerHinzufuegenController implements Initializable {
                 AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
             }
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Spieler erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie einen weiteren Spieler anlegen?");
+            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Spieler erfolgreich gespeichert!", "Möchten Sie einen weiteren Spieler anlegen?");
 
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(jaButton, neinButton);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
+            if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfVorname);
             } else {
                 tfVorname.clear();
@@ -190,7 +179,6 @@ public class SpielerHinzufuegenController implements Initializable {
                 cbMannschaft.setValue(null);
                 cbMitgliedsbeitrag.setValue(null);
             }
-
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Eingabefehler");

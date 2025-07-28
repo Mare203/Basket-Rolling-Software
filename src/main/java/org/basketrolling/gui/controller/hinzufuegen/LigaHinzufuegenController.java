@@ -5,15 +5,10 @@
 package org.basketrolling.gui.controller.hinzufuegen;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.dao.LigaDAO;
 import org.basketrolling.service.LigaService;
@@ -45,23 +40,14 @@ public class LigaHinzufuegenController implements Initializable {
 
             service.create(liga);
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Speichern erfolgreich");
-            alert.setHeaderText("Liga erfolgreich gespeichert!");
-            alert.setContentText("Möchten Sie eine weitere Liga anlegen?");
+            boolean weiter = MenuUtil.fensterSchliessenMitEigenerWarnung("Speichern erfolgreich", "Liga erfolgreich gespeichert!", "Möchten Sie eine weitere Liga anlegen?");
 
-            ButtonType jaButton = new ButtonType("Ja");
-            ButtonType neinButton = new ButtonType("Nein", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(jaButton, neinButton);
-
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == neinButton) {
+            if (!weiter) {
                 MenuUtil.fensterSchliessenOhneWarnung(tfName);
             } else {
                 tfName.clear();
             }
+
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
