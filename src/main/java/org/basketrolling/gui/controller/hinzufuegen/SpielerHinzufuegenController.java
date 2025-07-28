@@ -5,6 +5,8 @@
 package org.basketrolling.gui.controller.hinzufuegen;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -124,7 +126,16 @@ public class SpielerHinzufuegenController implements Initializable {
                 Spieler spieler = new Spieler();
                 spieler.setVorname(tfVorname.getText());
                 spieler.setNachname(tfNachname.getText());
-                spieler.setGeburtsdatum(dpGeburtsdatum.getValue());
+                LocalDate geburtsdatum = dpGeburtsdatum.getValue();
+                LocalDate heute = LocalDate.now();
+
+                int alter = Period.between(geburtsdatum, heute).getYears();
+
+                if (alter < 5) {
+                    AlertUtil.alertWarning("Ungültiges Geburtsdatum", "Spieler ist zu jung", "Ein Spieler muss mindestens 5 Jahre alt sein.");
+                    return;
+                }
+                spieler.setGeburtsdatum(geburtsdatum);
                 String groesseEingabe = tfGroesse.getText();
 
                 if (!groesseEingabe.matches("^\\d+\\.\\d{2}$")) {

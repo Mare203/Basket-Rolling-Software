@@ -5,7 +5,10 @@
 package org.basketrolling.gui.controller.bearbeiten;
 
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -105,7 +108,10 @@ public class SpielerBearbeitenController implements Initializable {
         tfVorname.setText(spieler.getVorname());
         tfNachname.setText(spieler.getNachname());
         dpGeburtsdatum.setValue(spieler.getGeburtsdatum());
-        tfGroesse.setText(String.valueOf(spieler.getGroesse()));
+        
+        DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        tfGroesse.setText(df.format(spieler.getGroesse()));
+        
         tfEmail.setText(spieler.geteMail());
         cbAktiv.setSelected(spieler.isAktiv());
         cbMannschaft.setValue(spieler.getMannschaftIntern());
@@ -113,7 +119,14 @@ public class SpielerBearbeitenController implements Initializable {
         List<MitgliedsbeitragZuweisung> zuweisungen = zuweisungService.getAktiveBySpieler(spieler);
         if (!zuweisungen.isEmpty()) {
             zuweisung = zuweisungen.get(0);
-            cbMitgliedsbeitrag.setValue(zuweisung.getMitgliedsbeitrag());
+
+            Mitgliedsbeitrag beitragVonZuweisung = zuweisung.getMitgliedsbeitrag();
+            for (Mitgliedsbeitrag beitrag : cbMitgliedsbeitrag.getItems()) {
+                if (beitrag.getMitgliedsbeitragId().equals(beitragVonZuweisung.getMitgliedsbeitragId())) {
+                    cbMitgliedsbeitrag.setValue(beitrag);
+                    break;
+                }
+            }
             cbBezahlt.setSelected(zuweisung.isBezahlt());
         }
     }
@@ -126,7 +139,7 @@ public class SpielerBearbeitenController implements Initializable {
                 && !tfGroesse.getText().isEmpty()
                 && cbMannschaft.getValue() != null;
 
-        boolean beitragsPflichtErfuellt = !cbAktiv.isSelected() || cbMitgliedsbeitrag.getValue() != null;
+        boolean beitragsPflichtErfuellt = !cbAktiv.isSelected() || cbMitgliedsbeitrag.getValue() != null || zuweisung != null;
 
         if (pflichtfelderAusgefuellt && beitragsPflichtErfuellt) {
             try {
@@ -150,7 +163,14 @@ public class SpielerBearbeitenController implements Initializable {
                     Mitgliedsbeitrag beitrag = cbMitgliedsbeitrag.getValue();
                     boolean bezahlt = cbBezahlt.isSelected();
 
-                    zuweisungService.aktivereNeueZuweisung(gespeicherterSpieler, beitrag, bezahlt);
+                    if (zuweisung != null) {
+                        zuweisung.setMitgliedsbeitrag(beitrag);
+                        zuweisung.setBezahlt(bezahlt);
+                        zuweisungService.update(zuweisung);
+
+                    } else {
+                        zuweisungService.aktivereNeueZuweisung(gespeicherterSpieler, beitrag, bezahlt);
+                    }
                 }
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -169,7 +189,7 @@ public class SpielerBearbeitenController implements Initializable {
             alert.setTitle("Eingabefehler");
             alert.setHeaderText("Unvollständige oder ungültige Eingaben");
             String text = "- Alle Pflichtfelder (inkl. Mannschaft) müssen ausgefüllt sein.";
-            if (cbAktiv.isSelected() && cbMitgliedsbeitrag.getValue() == null) {
+            if (cbAktiv.isSelected() && cbMitgliedsbeitrag.getValue() == null && zuweisung == null) {
                 text += "\n- Ein aktiver Spieler muss einen Mitgliedsbeitrag haben.";
             }
             alert.setContentText(text);

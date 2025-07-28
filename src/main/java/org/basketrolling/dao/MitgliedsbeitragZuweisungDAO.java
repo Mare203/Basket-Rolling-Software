@@ -52,7 +52,7 @@ public class MitgliedsbeitragZuweisungDAO extends BaseDAO<MitgliedsbeitragZuweis
     public List<MitgliedsbeitragZuweisung> findAktiveBySpieler(Spieler spieler) {
         EntityManager em = getEntityManager();
         try {
-            String jpql = "SELECT z FROM MitgliedsbeitragZuweisung z WHERE z.spieler = :spieler AND z.aktiv = true";
+            String jpql = "SELECT z FROM MitgliedsbeitragZuweisung z WHERE z.spieler = :spieler";
             return em.createQuery(jpql, MitgliedsbeitragZuweisung.class)
                     .setParameter("spieler", spieler)
                     .getResultList();
