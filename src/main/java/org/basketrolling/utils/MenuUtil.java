@@ -92,6 +92,32 @@ public class MenuUtil {
         }
     }
 
+    public static <T> T neuesFensterMaximiertAnzeigen(String fxmlPfad, String titel, String cssPfad) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
+            Parent root = loader.load();
+
+            T controller = loader.getController();
+
+            Scene scene = new Scene(root);
+            if (cssPfad != null && !cssPfad.isBlank()) {
+                scene.getStylesheets().add(MenuUtil.class.getResource(cssPfad).toExternalForm());
+            }
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle(titel);
+            stage.setMaximized(true);
+            stage.show();
+
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertUtil.alertError("Fehler", "Fehler beim Laden");
+            return null;
+        }
+    }
+
     public static <T> T neuesFensterAnzeigen(String fxmlPfad, String titel, String cssPfad) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));

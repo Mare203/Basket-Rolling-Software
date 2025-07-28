@@ -6,21 +6,20 @@ package org.basketrolling.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.service.LoginService;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -59,53 +58,26 @@ public class LoginController implements Initializable {
 
         if (user != null) {
             openHauptmenue(user);
-            Stage currentStage = (Stage) anmeldeBtn.getScene().getWindow();
-            currentStage.close();
+            MenuUtil.fensterSchliessenOhneWarnung(anmeldeBtn);
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fehler");
-            alert.setHeaderText("Benutzername und/oder Passwort falsch!");
-            alert.showAndWait();
+            AlertUtil.alertError("Fehler", "Benutzername und/oder Passwort falsch!");
         }
     }
 
     private void openHauptmenue(Login benutzer) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenue.fxml"));
-            Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(getClass().getResource("/org/basketrolling/gui/css/styles.css").toExternalForm());
-
-            HauptmenueController hauptmenueController = loader.getController();
-            hauptmenueController.initUser(benutzer);
-
-            Stage stage = new Stage();
-            stage.setTitle("Hauptmenü - Basket Rolling");
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fehler");
-            alert.setHeaderText("Fehler beim Laden des Hauptmenüs");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+        HauptmenueController controller = MenuUtil.neuesFensterMaximiertAnzeigen("/org/basketrolling/gui/fxml/hauptmenu/hauptmenue.fxml", "Hauptmenü - Basket Rolling", "/org/basketrolling/gui/css/styles.css");
+       
+        if(controller != null){
+            controller.initUser(benutzer);
         }
     }
 
     @FXML
     private void abbruch() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Bestätigung");
-        alert.setHeaderText("Programm schließen");
-        alert.setContentText("Sind Sie sicher, dass Sie das Programm beenden möchten?");
+        boolean beenden = AlertUtil.confirmationMitJaNein("Bestätigung", "Programm schließen", "Sind Sie sicher, dass Sie das Programm beenden möchten?");
 
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Stage stage = (Stage) abbruchBtn.getScene().getWindow();
-            stage.close();
+        if (beenden) {
+            MenuUtil.fensterSchliessenOhneWarnung(anmeldeBtn);
         }
     }
 }

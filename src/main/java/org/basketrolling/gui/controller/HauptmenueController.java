@@ -204,6 +204,7 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
 
         if (bestaetigung) {
             MenuUtil.neuesFensterAnzeigen("/org/basketrolling/gui/fxml/login/login.fxml", "Login - Basket Rolling", DEFAULT_CSS);
+            MenuUtil.fensterSchliessenOhneWarnung(logout);
         }
     }
 

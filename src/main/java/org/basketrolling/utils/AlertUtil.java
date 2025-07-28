@@ -35,7 +35,32 @@ public class AlertUtil {
         alert.showAndWait();
         return alert;
     }
-    
+
+    public static Alert alertWarning(String title, String header) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.showAndWait();
+        return alert;
+    }
+
+    public static Alert alertError(String title, String header, String text) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(text);
+        alert.showAndWait();
+        return alert;
+    }
+
+    public static Alert alertError(String title, String header) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.showAndWait();
+        return alert;
+    }
+
     public static Alert alertConfirmation(String title, String header, String text) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -44,16 +69,16 @@ public class AlertUtil {
         alert.showAndWait();
         return alert;
     }
-    
-      public static Alert alertConfirmation(String title, String header) {
+
+    public static Alert alertConfirmation(String title, String header) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.showAndWait();
         return alert;
     }
-      
-      public static boolean confirmationMitJaNein(String title, String header, String content) {
+
+    public static boolean confirmationMitJaNein(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
