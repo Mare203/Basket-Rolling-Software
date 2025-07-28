@@ -10,11 +10,9 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Training;
@@ -25,6 +23,7 @@ import org.basketrolling.service.HalleService;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.TrainingService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -94,14 +93,16 @@ public class TrainingBearbeitenController implements Initializable {
             bearbeitenTraining.setWochentag(dpDatum.getValue().getDayOfWeek().toString());
 
             trainingService.update(bearbeitenTraining);
-            
-            AlertUtil.alertConfirmation("Speichern erfolgreich", "Training erfolgreich aktualisiert!");
 
-            Stage stage = (Stage) cbHalle.getScene().getWindow();
-            stage.close();
+            AlertUtil.alertConfirmation("Speichern erfolgreich", "Training erfolgreich aktualisiert!");
+            MenuUtil.fensterSchliessenOhneWarning(tfDauer);
 
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfDauer);
     }
 }

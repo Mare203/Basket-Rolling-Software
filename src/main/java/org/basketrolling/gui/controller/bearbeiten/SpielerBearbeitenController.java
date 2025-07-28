@@ -18,7 +18,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Mitgliedsbeitrag;
 import org.basketrolling.beans.MitgliedsbeitragZuweisung;
@@ -32,6 +31,7 @@ import org.basketrolling.service.MitgliedsbeitragService;
 import org.basketrolling.service.MitgliedsbeitragZuweisungService;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -108,10 +108,10 @@ public class SpielerBearbeitenController implements Initializable {
         tfVorname.setText(spieler.getVorname());
         tfNachname.setText(spieler.getNachname());
         dpGeburtsdatum.setValue(spieler.getGeburtsdatum());
-        
+
         DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
         tfGroesse.setText(df.format(spieler.getGroesse()));
-        
+
         tfEmail.setText(spieler.geteMail());
         cbAktiv.setSelected(spieler.isAktiv());
         cbMannschaft.setValue(spieler.getMannschaftIntern());
@@ -177,8 +177,7 @@ public class SpielerBearbeitenController implements Initializable {
                 alert.setTitle("Speichern erfolgreich");
                 alert.setHeaderText("Spieler wurde erfolgreich bearbeitet und gespeichert!");
 
-                Stage stage = (Stage) tfVorname.getScene().getWindow();
-                stage.close();
+                MenuUtil.fensterSchliessenOhneWarning(tfVorname);
 
             } catch (NumberFormatException e) {
                 AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
@@ -195,5 +194,9 @@ public class SpielerBearbeitenController implements Initializable {
             alert.setContentText(text);
             alert.showAndWait();
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfVorname);
     }
 }

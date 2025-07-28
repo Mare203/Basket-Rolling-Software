@@ -4,7 +4,6 @@
  */
 package org.basketrolling.gui.controller.bearbeiten;
 
-import org.basketrolling.gui.controller.hinzufuegen.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.beans.Spieler;
@@ -30,6 +28,7 @@ import org.basketrolling.dao.StatistikDAO;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.service.StatistikService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -159,8 +158,11 @@ public class StatistikBearbeitenController implements Initializable {
             }
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Alle Einträge wurden erfolgreich gespeichert.");
-            Stage stage = (Stage) tabelleStatistik.getScene().getWindow();
-            stage.close();
+            MenuUtil.fensterSchliessenOhneWarning(lbDatum);
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(lbDatum);
     }
 }

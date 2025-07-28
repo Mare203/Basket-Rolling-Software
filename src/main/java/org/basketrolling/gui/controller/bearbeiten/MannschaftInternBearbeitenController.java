@@ -10,10 +10,8 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Trainer;
@@ -24,6 +22,7 @@ import org.basketrolling.service.LigaService;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.TrainerService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -97,12 +96,13 @@ public class MannschaftInternBearbeitenController implements Initializable {
             service.update(bearbeitenMannschaft);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Mannschaft erfolgreich aktualisiert!");
-
-            Stage stage = (Stage) tfName.getScene().getWindow();
-            stage.close();
-
+            MenuUtil.fensterSchliessenOhneWarning(tfName);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfName);
     }
 }

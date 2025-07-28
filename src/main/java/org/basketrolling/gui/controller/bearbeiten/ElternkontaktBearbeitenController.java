@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Elternkontakt;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.ElternkontaktDAO;
@@ -20,6 +19,7 @@ import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.service.ElternkontaktService;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -92,12 +92,13 @@ public class ElternkontaktBearbeitenController implements Initializable {
             service.update(bearbeitenElternkontakt);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Elternkontakt erfolgreich aktualisiert!");
-
-            Stage stage = (Stage) tfVorname.getScene().getWindow();
-            stage.close();
-
+            MenuUtil.fensterSchliessenOhneWarning(tfVorname);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfVorname);
     }
 }

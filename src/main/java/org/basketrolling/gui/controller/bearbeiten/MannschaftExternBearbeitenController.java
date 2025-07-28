@@ -6,17 +6,12 @@ package org.basketrolling.gui.controller.bearbeiten;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftExtern;
 import org.basketrolling.dao.LigaDAO;
@@ -24,6 +19,7 @@ import org.basketrolling.dao.MannschaftExternDAO;
 import org.basketrolling.service.LigaService;
 import org.basketrolling.service.MannschaftExternService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -78,12 +74,13 @@ public class MannschaftExternBearbeitenController implements Initializable {
             service.update(bearbeitenMannschaft);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Mannschaft erfolgreich aktualisiert!");
-
-            Stage stage = (Stage) tfName.getScene().getWindow();
-            stage.close();
-
+            MenuUtil.fensterSchliessenOhneWarning(tfName);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfName);
     }
 }

@@ -4,25 +4,15 @@
  */
 package org.basketrolling.gui.controller.bearbeiten;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftExtern;
@@ -33,13 +23,13 @@ import org.basketrolling.dao.LigaDAO;
 import org.basketrolling.dao.MannschaftExternDAO;
 import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.dao.SpieleDAO;
-import org.basketrolling.gui.controller.hinzufuegen.StatistikHinzufuegenController;
 import org.basketrolling.service.HalleService;
 import org.basketrolling.service.LigaService;
 import org.basketrolling.service.MannschaftExternService;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -156,10 +146,7 @@ public class SpielBearbeitenController implements Initializable {
             spielService.update(bearbeitenSpiel);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Spiel erfolgreich aktualisiert!");
-
-            Stage stage = (Stage) cbHalle.getScene().getWindow();
-            stage.close();
-
+            MenuUtil.fensterSchliessenOhneWarning(cbLiga);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
@@ -167,22 +154,16 @@ public class SpielBearbeitenController implements Initializable {
 
     @FXML
     private void statistikAnpassen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/statistik/statistikbearbeiten.fxml"));
-            Scene scene = new Scene(loader.load());
+        StatistikBearbeitenController controller = MenuUtil.neuesFensterAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikbearbeiten.fxml", "Statistik bearbeiten");
 
-            StatistikBearbeitenController controller = loader.getController();
+        if (controller != null) {
             controller.setSpiel(bearbeitenSpiel);
-
-            Stage stage = new Stage();
-            stage.setTitle("Statistik bearbeiten");
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            AlertUtil.alertWarning("Fehler", "Das Statistik-Fenster konnte nicht geöffnet werden.", "");
         }
+
+        MenuUtil.fensterSchliessenOhneWarning(cbLiga);
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(cbLiga);
     }
 }

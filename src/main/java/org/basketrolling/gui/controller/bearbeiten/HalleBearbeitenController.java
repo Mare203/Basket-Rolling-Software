@@ -5,19 +5,15 @@
 package org.basketrolling.gui.controller.bearbeiten;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.dao.HalleDAO;
 import org.basketrolling.service.HalleService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -71,12 +67,13 @@ public class HalleBearbeitenController implements Initializable {
             service.update(bearbeitenhalle);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Halle erfolgreich aktualisiert!");
-
-            Stage stage = (Stage) tfName.getScene().getWindow();
-            stage.close();
-
+            MenuUtil.fensterSchliessenOhneWarning(tfName);
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfName);
     }
 }

@@ -8,13 +8,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Trainer;
 import org.basketrolling.dao.TrainerDAO;
 import org.basketrolling.service.TrainerService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -67,12 +66,14 @@ public class TrainerBearbeitenController implements Initializable {
             service.update(bearbeitenTrainer);
 
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Trainer erfolgreich aktualisiert!");
-
-            Stage stage = (Stage) tfVorname.getScene().getWindow();
-            stage.close();
-
+            MenuUtil.fensterSchliessenOhneWarning(tfVorname);
         } else {
-            AlertUtil.alertWarning("Eingabefehler","Unvollständige oder ungültige Eingaben","- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarning(tfVorname);
+    }
+
 }
