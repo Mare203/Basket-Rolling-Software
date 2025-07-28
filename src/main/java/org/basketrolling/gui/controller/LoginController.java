@@ -66,8 +66,8 @@ public class LoginController implements Initializable {
 
     private void openHauptmenue(Login benutzer) {
         HauptmenueController controller = MenuUtil.neuesFensterMaximiertAnzeigen("/org/basketrolling/gui/fxml/hauptmenu/hauptmenue.fxml", "Hauptmenü - Basket Rolling", "/org/basketrolling/gui/css/styles.css");
-       
-        if(controller != null){
+
+        if (controller != null) {
             controller.initUser(benutzer);
         }
     }
