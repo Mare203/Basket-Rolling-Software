@@ -300,10 +300,10 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     }
 
     public void quickMitgliedsbeitragHinzufuegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/mitgliedsbeitraghinzufuegen.fxml", "Mitgliedsbeitrag hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitraghinzufuegen.fxml", "Mitgliedsbeitrag hinzufügen");
     }
 
     public void quickHalleHinzufuegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/hallehinzufuegen.fxml", "Halle hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/halle/hallehinzufuegen.fxml", "Halle hinzufügen");
     }
 }
