@@ -280,7 +280,7 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     }
 
     public void quickTrainingAnlegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/training/traininghinzufuegen.fxml", "Training anlegen");
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/training/traininghinzufuegen.fxml", "Training hinzufügen");
     }
 
     public void quickSpielHinzufuegen() {
