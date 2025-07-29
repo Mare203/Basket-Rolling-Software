@@ -353,7 +353,7 @@
                                         </Label>
                                         <Button fx:id="spielerHinzu" mnemonicParsing="false" onAction="#quickSpielerHinzufuegen" styleClass="quick-btns" text="Spieler hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="15.0" right="15.0" top="9.0" />
+                                                <Insets bottom="9.0" left="19.0" right="20.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets right="10.0" />
@@ -361,15 +361,15 @@
                                         </Button>
                                         <Button fx:id="trainingHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Training anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="20.0" right="20.0" top="9.0" />
+                                                <Insets bottom="9.0" left="24.0" right="25.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets top="10.0" />
                                             </GridPane.margin>
                                         </Button>
-                                        <Button fx:id="spielHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Spiel anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                        <Button fx:id="spielHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Spiel hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="28.0" right="28.0" top="9.0" />
+                                                <Insets bottom="9.0" left="24.0" right="25.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets top="10.0" />
@@ -377,15 +377,15 @@
                                         </Button>
                                         <Button fx:id="trainerHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Trainer hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="14.0" right="14.0" top="9.0" />
+                                                <Insets bottom="9.0" left="19.0" right="19.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets top="10.0" />
                                             </GridPane.margin>
                                         </Button>
-                                        <Button fx:id="mannschaftHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Mannschaft anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                        <Button fx:id="mannschaftHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Mannschaft (E) anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="11.0" right="10.0" top="9.0" />
+                                                <Insets bottom="9.0" left="7.0" right="7.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets left="155.0" />
@@ -393,23 +393,23 @@
                                         </Button>
                                         <Button fx:id="halleHinzu" mnemonicParsing="false" styleClass="quick-btns" text="Halle hinzufügen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="20.0" right="19.0" top="9.0" />
+                                                <Insets bottom="9.0" left="24.0" right="24.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets left="155.0" top="10.0" />
                                             </GridPane.margin>
                                         </Button>
-                                        <Button fx:id="statsWatch" mnemonicParsing="false" styleClass="quick-btns" text="Statistiken ansehen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                                        <Button fx:id="statsWatch" mnemonicParsing="false" styleClass="quick-btns" text="Mitgliedsbeitrag anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="13.0" right="13.0" top="9.0" />
+                                                <Insets bottom="9.0" left="2.0" right="3.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets left="155.0" top="10.0" />
                                             </GridPane.margin>
                                         </Button>
-                                        <Button fx:id="spielerWatch" mnemonicParsing="false" styleClass="quick-btns" text="Spieler ansehen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                        <Button fx:id="spielerWatch" mnemonicParsing="false" styleClass="quick-btns" text="Mannschaft (I) anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                                             <padding>
-                                                <Insets bottom="9.0" left="23.0" right="22.0" top="9.0" />
+                                                <Insets bottom="9.0" left="8.0" right="8.0" top="9.0" />
                                             </padding>
                                             <GridPane.margin>
                                                 <Insets left="155.0" top="10.0" />
@@ -497,7 +497,7 @@
                                                 <Insets right="70.0" />
                                             </GridPane.margin>
                                         </ListView>
-                                        <Label text="Spieler mit offenen Mitgliedsbeiträgen" textFill="#22418f" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                                        <Label text="Spieler mit offenen Mitgliedsbeiträgen:" textFill="#22418f" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                                             <font>
                                                 <Font name="Arial Italic" size="15.0" />
                                             </font>

@@ -35,7 +35,7 @@
             <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
          </padding>
       </Button>
-      <Button mnemonicParsing="false" text="Abbrechen" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#abbrechen" text="Abbrechen" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets left="100.0" />
          </GridPane.margin>

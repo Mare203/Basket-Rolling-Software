@@ -18,6 +18,7 @@ import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -73,5 +74,9 @@ public class PasswortChangeController implements Initializable, MainBorderSettab
             alert.setHeaderText("Ungültiges Passwort eingegeben!");
             alert.show();
         }
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarnung(pfPasswort);
     }
 }

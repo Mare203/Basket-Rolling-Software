@@ -14,6 +14,7 @@ import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -49,5 +50,9 @@ public class PasswortNeuController implements Initializable, MainBorderSettable 
     public void speichern() {
         aktuellerLogin.setPasswort(pfPasswort.getText());
         service.update(aktuellerLogin);
+    }
+
+    public void abbrechen() {
+        MenuUtil.fensterSchliessenMitWarnung(pfPasswort);
     }
 }
