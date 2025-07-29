@@ -34,7 +34,6 @@ import org.basketrolling.service.StatistikService;
 import org.basketrolling.service.TrainingService;
 import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
-import org.basketrolling.utils.QuickUtil;
 
 /**
  *
@@ -212,7 +211,7 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         boolean beenden = AlertUtil.confirmationMitJaNein("Bestätigung", "Programm schließen", "Sind Sie sicher, dass Sie das Programm beenden möchten?");
 
         if (beenden) {
-            MenuUtil.fensterSchliessenOhneWarnung(logout);
+            MenuUtil.fensterSchliessenOhneWarnung(this.beenden);
         }
     }
 
@@ -277,6 +276,34 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     }
 
     public void quickSpielerHinzufuegen() {
-        QuickUtil.quickHinzufuegen("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml", "Spieler hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml", "Spieler hinzufügen");
+    }
+
+    public void quickTrainingAnlegen() {
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/training/traininghinzufuegen.fxml", "Training anlegen");
+    }
+
+    public void quickSpielHinzufuegen() {
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spiele/spielhinzufuegen.fxml", "Spiel hinzufügen");
+    }
+
+    public void quickTrainerHinzufuegen() {
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/trainer/trainerhinzufuegen.fxml", "Trainer hinzufügen");
+    }
+
+    public void quickMannschaftExternHinzufuegen() {
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternhinzufuegen.fxml", "Mannschaft Extern hinzufügen");
+    }
+
+    public void quickMannschaftInternHinzufuegen() {
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternhinzufuegen.fxml", "Mannschaft Intern hinzufügen");
+    }
+
+    public void quickMitgliedsbeitragHinzufuegen() {
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/mitgliedsbeitraghinzufuegen.fxml", "Mitgliedsbeitrag hinzufügen");
+    }
+
+    public void quickHalleHinzufuegen() {
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/hallehinzufuegen.fxml", "Halle hinzufügen");
     }
 }
