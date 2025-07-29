@@ -47,7 +47,7 @@ public class MenuUtil {
         }
     }
 
-    public static <T> T neuesFensterAnzeigen(String pfad, String titel) {
+    public static <T> T neuesFensterModalAnzeigen(String pfad, String titel) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(pfad));
             Parent root = loader.load();
