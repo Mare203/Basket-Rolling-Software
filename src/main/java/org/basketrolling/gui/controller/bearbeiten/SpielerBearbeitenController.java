@@ -142,6 +142,10 @@ public class SpielerBearbeitenController implements Initializable {
         boolean beitragsPflichtErfuellt = !cbAktiv.isSelected() || cbMitgliedsbeitrag.getValue() != null || zuweisung != null;
 
         if (pflichtfelderAusgefuellt && beitragsPflichtErfuellt) {
+            if (!cbAktiv.isSelected() && cbMitgliedsbeitrag.getValue() != null) {
+                AlertUtil.alertWarning("Mitgliedsbeitrag wird ignoriert", "Spieler ist nicht aktiv", "Ein Mitgliedsbeitrag wird nur aktiven Spielern zugewiesen. Bitte aktiviere den Spieler, wenn du einen Beitrag zuweisen willst.");
+                return;
+            }
             try {
                 bearbeitenSpieler.setVorname(tfVorname.getText());
                 bearbeitenSpieler.setNachname(tfNachname.getText());

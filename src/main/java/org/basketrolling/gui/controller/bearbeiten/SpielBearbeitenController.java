@@ -154,7 +154,7 @@ public class SpielBearbeitenController implements Initializable {
 
     @FXML
     private void statistikAnpassen() {
-        StatistikBearbeitenController controller = MenuUtil.neuesFensterAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikbearbeiten.fxml", "Statistik bearbeiten");
+        StatistikBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikbearbeiten.fxml", "Statistik bearbeiten");
 
         if (controller != null) {
             controller.setSpiel(bearbeitenSpiel);

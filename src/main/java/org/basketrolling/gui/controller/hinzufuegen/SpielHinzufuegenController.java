@@ -144,7 +144,7 @@ public class SpielHinzufuegenController implements Initializable {
     }
 
     private void oeffneStatistik(Spiele spiel) {
-        StatistikHinzufuegenController controller = MenuUtil.neuesFensterAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikhinzufuegen.fxml", "Spielerstatistik erfassen");
+        StatistikHinzufuegenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikhinzufuegen.fxml", "Spielerstatistik erfassen");
 
         if (controller != null) {
             controller.setSpiel(spiel);

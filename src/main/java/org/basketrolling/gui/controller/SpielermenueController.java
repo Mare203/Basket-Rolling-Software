@@ -34,6 +34,8 @@ import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.gui.controller.bearbeiten.SpielerBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.SpielerService;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -129,50 +131,25 @@ public class SpielermenueController implements Initializable, MainBorderSettable
                 loeschenBtn.getStyleClass().add("icon-btn");
 
                 ansehenBtn.setOnAction(e -> {
-                    try {
-                        Spieler spieler = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml"));
-                        Scene scene = new Scene(loader.load());
+                    Spieler spieler = getTableView().getItems().get(getIndex());
+                    MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml", "Spieler ansehen");
 
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Spieler ansehen");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        Spieler spieler = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
+                    Spieler spieler = getTableView().getItems().get(getIndex());
+                    SpielerBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml", "Spieler Bearbeiten");
 
-                        SpielerBearbeitenController controller = loader.getController();
+                    if (controller != null) {
                         controller.initSpieler(spieler);
-
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Spieler Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
                     Spieler spieler = getTableView().getItems().get(getIndex());
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Spieler löschen", "Möchten Sie den Spieler " + spieler.getVorname() + " " + spieler.getNachname() + " wirklich löschen?");
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText("Spieler löschen");
-                    alert.setContentText("Möchten Sie den Spieler " + spieler.getVorname() + " " + spieler.getNachname() + " wirklich löschen?");
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(spieler);
                         tabelleSpieler.getItems().remove(spieler);
                     }
@@ -211,17 +188,6 @@ public class SpielermenueController implements Initializable, MainBorderSettable
     }
 
     public void spielerHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage spielerHinzufuegen = new Stage();
-            spielerHinzufuegen.setTitle("Spieler hinzufügen");
-            spielerHinzufuegen.setScene(scene);
-            spielerHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            spielerHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml", "Spieler hinzufügen");
     }
 }
