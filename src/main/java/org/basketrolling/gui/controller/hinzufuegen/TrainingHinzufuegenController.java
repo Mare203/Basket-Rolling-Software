@@ -70,32 +70,47 @@ public class TrainingHinzufuegenController implements Initializable {
     }
 
     public void speichern() {
+        String dauerText = tfDauer.getText().trim();
+
         if (dpDatum.getValue() != null
                 && cbHalle.getValue() != null
                 && cbMannschaft.getValue() != null
-                && !tfDauer.getText().isEmpty()) {
+                && !dauerText.isEmpty()) {
 
-            Training training = new Training();
-            training.setDatum(dpDatum.getValue());
-            training.setDauerInMin(Integer.parseInt(tfDauer.getText()));
-            training.setHalle(cbHalle.getValue());
-            training.setMannschaftIntern(cbMannschaft.getValue());
-            training.setWochentag(dpDatum.getValue().getDayOfWeek().toString());
+            try {
+                int dauer = Integer.parseInt(dauerText);
 
-            trainingService.create(training);
+                if (dauer <= 0) {
+                    throw new NumberFormatException();
+                }
 
-            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Training erfolgreich gespeichert!", "Möchten Sie ein weiteres Training anlegen?");
+                Training training = new Training();
+                training.setDatum(dpDatum.getValue());
+                training.setDauerInMin(dauer);
+                training.setHalle(cbHalle.getValue());
+                training.setMannschaftIntern(cbMannschaft.getValue());
+                training.setWochentag(dpDatum.getValue().getDayOfWeek().toString());
 
-            if (!weiter) {
-                MenuUtil.fensterSchliessenOhneWarnung(tfDauer);
-            } else {
-                cbMannschaft.setValue(null);
-                cbHalle.setValue(null);
-                dpDatum.setValue(null);
-                tfDauer.clear();
+                trainingService.create(training);
+
+                boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Training erfolgreich gespeichert!", "Möchten Sie ein weiteres Training anlegen?");
+
+                if (!weiter) {
+                    MenuUtil.fensterSchliessenOhneWarnung(tfDauer);
+                } else {
+                    cbMannschaft.setValue(null);
+                    cbHalle.setValue(null);
+                    dpDatum.setValue(null);
+                    tfDauer.clear();
+                }
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Die Dauer muss eine ganze Zahl größer als 0 sein.", "Beispiel: 60");
             }
+
         } else {
-            AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
+            AlertUtil.alertWarning(
+                    "Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 

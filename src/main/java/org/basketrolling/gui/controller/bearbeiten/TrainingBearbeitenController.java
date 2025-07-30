@@ -81,21 +81,33 @@ public class TrainingBearbeitenController implements Initializable {
     }
 
     public void aktualisieren() {
+        String dauerText = tfDauer.getText().trim();
+
         if (dpDatum.getValue() != null
                 && cbHalle.getValue() != null
                 && cbMannschaft.getValue() != null
-                && !tfDauer.getText().isEmpty()) {
+                && !dauerText.isEmpty()) {
 
-            bearbeitenTraining.setDatum(dpDatum.getValue());
-            bearbeitenTraining.setDauerInMin(Integer.parseInt(tfDauer.getText()));
-            bearbeitenTraining.setHalle(cbHalle.getValue());
-            bearbeitenTraining.setMannschaftIntern(cbMannschaft.getValue());
-            bearbeitenTraining.setWochentag(dpDatum.getValue().getDayOfWeek().toString());
+            try {
+                int dauer = Integer.parseInt(dauerText);
+                if (dauer <= 0) {
+                    throw new NumberFormatException();
+                }
 
-            trainingService.update(bearbeitenTraining);
+                bearbeitenTraining.setDatum(dpDatum.getValue());
+                bearbeitenTraining.setDauerInMin(dauer);
+                bearbeitenTraining.setHalle(cbHalle.getValue());
+                bearbeitenTraining.setMannschaftIntern(cbMannschaft.getValue());
+                bearbeitenTraining.setWochentag(dpDatum.getValue().getDayOfWeek().toString());
 
-            AlertUtil.alertConfirmation("Speichern erfolgreich", "Training erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarnung(tfDauer);
+                trainingService.update(bearbeitenTraining);
+
+                AlertUtil.alertConfirmation("Speichern erfolgreich", "Training erfolgreich aktualisiert!");
+                MenuUtil.fensterSchliessenOhneWarnung(tfDauer);
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Die Dauer muss eine ganze Zahl größer als 0 sein.", "Beispiel: 60");
+            }
 
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
