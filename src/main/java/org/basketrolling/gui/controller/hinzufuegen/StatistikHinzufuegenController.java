@@ -19,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.beans.Statistik;
@@ -58,9 +57,9 @@ public class StatistikHinzufuegenController implements Initializable {
     @FXML
     private TableColumn<Statistik, String> spalteSpieler;
     @FXML
-    private TableColumn<Statistik, Integer> spaltePunkte;
+    private TableColumn<Statistik, String> spaltePunkte;
     @FXML
-    private TableColumn<Statistik, Integer> spalteFouls;
+    private TableColumn<Statistik, String> spalteFouls;
     @FXML
     private TableColumn<Statistik, Boolean> spalteGespielt;
 
@@ -108,13 +107,47 @@ public class StatistikHinzufuegenController implements Initializable {
                 )
         );
 
-        spaltePunkte.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getPunkte()).asObject());
-        spaltePunkte.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        spaltePunkte.setOnEditCommit(event -> event.getRowValue().setPunkte(event.getNewValue()));
+        spaltePunkte.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getPunkte())));
+        spaltePunkte.setCellFactory(TextFieldTableCell.forTableColumn());
+        spaltePunkte.setOnEditCommit(event -> {
+            String eingabe = event.getNewValue();
 
-        spalteFouls.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getFouls()).asObject());
-        spalteFouls.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        spalteFouls.setOnEditCommit(event -> event.getRowValue().setFouls(event.getNewValue()));
+            try {
+                int wert = Integer.parseInt(eingabe);
+                if (wert < 0) {
+                    throw new NumberFormatException();
+                }
+                event.getRowValue().setPunkte(wert);
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning(
+                        "Ungültige Eingabe",
+                        "Nur ganze Zahlen erlaubt",
+                        "Eingabe: \"" + eingabe + "\" ist ungültig."
+                );
+                tabelleStatistik.refresh();
+            }
+        });
+
+        spalteFouls.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getFouls())));
+        spalteFouls.setCellFactory(TextFieldTableCell.forTableColumn());
+        spalteFouls.setOnEditCommit(event -> {
+            String eingabe = event.getNewValue();
+
+            try {
+                int wert = Integer.parseInt(eingabe);
+                if (wert < 0) {
+                    throw new NumberFormatException();
+                }
+                event.getRowValue().setFouls(wert);
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning(
+                        "Ungültige Eingabe",
+                        "Nur ganze Zahlen erlaubt",
+                        "Eingabe: \"" + eingabe + "\" ist ungültig."
+                );
+                tabelleStatistik.refresh();
+            }
+        });
 
         spalteGespielt.setCellValueFactory(cell -> new SimpleBooleanProperty(cell.getValue().isGespielt()));
         spalteGespielt.setCellFactory(CheckBoxTableCell.forTableColumn(spalteGespielt));
