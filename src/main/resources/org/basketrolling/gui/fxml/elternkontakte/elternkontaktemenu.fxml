@@ -49,7 +49,7 @@
                               <Insets left="10.0" top="7.0" />
                            </HBox.margin>
                         </Label>
-                        <Button fx:id="hinzufuegenBtn" mnemonicParsing="false" onAction="#elternkontaktHinzufuegen" styleClass="add-btn" text="Elternkontakt hinzufügen" textFill="WHITE">
+                        <Button fx:id="btnHinzufuegen" mnemonicParsing="false" onAction="#elternkontaktHinzufuegen" styleClass="add-btn" text="Elternkontakt hinzufügen" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

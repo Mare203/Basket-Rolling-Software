@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,9 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,6 +31,9 @@ import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.gui.controller.bearbeiten.MannschaftInternBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftInternService;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -58,6 +58,9 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
 
     @FXML
     private TableColumn<MannschaftIntern, Void> aktionenSpalte;
+
+    @FXML
+    private Button btnHinzufuegen;
 
     private BorderPane mainBorderPane;
 
@@ -114,34 +117,20 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        MannschaftIntern mannschaftIntern = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternbearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
+                    MannschaftIntern mannschaftIntern = getTableView().getItems().get(getIndex());
 
-                        MannschaftInternBearbeitenController controller = loader.getController();
+                    MannschaftInternBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternbearbeiten.fxml", "Interne Mannschaft Bearbeiten");
+                    if (controller != null) {
                         controller.initMannschaftIntern(mannschaftIntern);
-                        
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Interne Mannschaft Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
                     MannschaftIntern mannschaftIntern = getTableView().getItems().get(getIndex());
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText(mannschaftIntern.getName() + " löschen");
-                    alert.setContentText("Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftIntern.getName());
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", mannschaftIntern.getName() + " löschen", "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftIntern.getName());
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(mannschaftIntern);
                         tabelleMannschaftIntern.getItems().remove(mannschaftIntern);
                     }
@@ -155,6 +144,9 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
                     setGraphic(null);
                 } else {
                     setGraphic(buttonBox);
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });
@@ -178,12 +170,12 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
             ex.printStackTrace();
         }
     }
-    
+
     public void mannschaftHinzufuegen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternhinzufuegen.fxml"));
             Scene scene = new Scene(loader.load());
-            
+
             Stage mannschaftHinzufuegen = new Stage();
             mannschaftHinzufuegen.setTitle("Mannschaft hinzufügen");
             mannschaftHinzufuegen.setScene(scene);

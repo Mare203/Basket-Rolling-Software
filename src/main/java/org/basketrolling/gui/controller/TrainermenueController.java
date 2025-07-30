@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,9 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,6 +34,9 @@ import javafx.stage.Stage;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.gui.controller.bearbeiten.TrainerBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -67,6 +67,9 @@ public class TrainermenueController implements Initializable, MainBorderSettable
 
     @FXML
     private TableColumn<Trainer, Void> aktionenSpalte;
+
+    @FXML
+    private Button btnHinzufuegen;
 
     private BorderPane mainBorderPane;
 
@@ -129,34 +132,22 @@ public class TrainermenueController implements Initializable, MainBorderSettable
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        Trainer trainer = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/trainer/trainerbearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
+                    Trainer trainer = getTableView().getItems().get(getIndex());
 
-                        TrainerBearbeitenController controller = loader.getController();
+                    TrainerBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/trainer/trainerbearbeiten.fxml", "Trainer Bearbeiten");
+                    if (controller != null) {
                         controller.initTrainer(trainer);
-                        
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Trainer Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
                     Trainer trainer = getTableView().getItems().get(getIndex());
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText(trainer.getVorname() + " " + trainer.getNachname() + " löschen");
-                    alert.setContentText("Möchten Sie den Trainer " + trainer.getVorname() + " " + trainer.getNachname() + " wirklich löschen?");
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung",
+                            trainer.getVorname() + " " + trainer.getNachname() + " löschen",
+                            "Möchten Sie den Trainer " + trainer.getVorname() + " " + trainer.getNachname() + " wirklich löschen?");
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(trainer);
                         tabelleTrainer.getItems().remove(trainer);
                     }
@@ -164,12 +155,16 @@ public class TrainermenueController implements Initializable, MainBorderSettable
             }
 
             @Override
+
             protected void updateItem(Void item, boolean leer) {
                 super.updateItem(item, leer);
                 if (leer) {
                     setGraphic(null);
                 } else {
                     setGraphic(buttonBox);
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

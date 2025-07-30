@@ -62,6 +62,9 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
     @FXML
     private TableColumn<Halle, Void> aktionenSpalte;
 
+    @FXML
+    private Button btnHinzufuegen;
+
     private BorderPane mainBorderPane;
 
     public void setMainBorder(BorderPane mainBorderPane) {
@@ -146,6 +149,7 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
                     setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,9 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -67,6 +64,9 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
 
     @FXML
     private TableColumn<Elternkontakt, Void> aktionenSpalte;
+
+    @FXML
+    private Button btnHinzufuegen;
 
     private BorderPane mainBorderPane;
 
@@ -145,6 +145,7 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
                 } else {
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                     setGraphic(buttonBox);
                 }
             }

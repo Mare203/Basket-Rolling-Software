@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -17,9 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,6 +32,9 @@ import org.basketrolling.dao.SpieleDAO;
 import org.basketrolling.gui.controller.bearbeiten.SpielBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.SpieleService;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -44,9 +44,6 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
     SpieleDAO dao = new SpieleDAO();
     SpieleService service = new SpieleService(dao);
-
-    @FXML
-    private Button backBtn;
 
     @FXML
     private TableView<Spiele> tabelleSpiele;
@@ -71,6 +68,9 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
     @FXML
     private TableColumn<Spiele, Void> aktionenSpalte;
+
+    @FXML
+    private Button btnHinzufuegen;
 
     private BorderPane mainBorderPane;
 
@@ -137,34 +137,20 @@ public class SpieleController implements Initializable, MainBorderSettable {
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        Spiele spiel = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spiele/spielbearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
-                        
-                        SpielBearbeitenController controller = loader.getController();
-                        controller.initSpiel(spiel);
+                    Spiele spiel = getTableView().getItems().get(getIndex());
 
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Spiel Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    SpielBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spiele/spielbearbeiten.fxml", "Spiel Bearbeiten");
+                    if (controller != null) {
+                        controller.initSpiel(spiel);
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
                     Spiele spiele = getTableView().getItems().get(getIndex());
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText("Spiel löschen");
-                    alert.setContentText("Möchten Sie das Spiel wirklich löschen?");
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Spiel löschen", "Möchten Sie das Spiel wirklich löschen?");
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(spiele);
                         tabelleSpiele.getItems().remove(spiele);
                     }
@@ -178,6 +164,9 @@ public class SpieleController implements Initializable, MainBorderSettable {
                     setGraphic(null);
                 } else {
                     setGraphic(buttonBox);
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

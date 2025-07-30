@@ -86,6 +86,30 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
 
     @FXML
     private BorderPane borderPane;
+    
+    @FXML
+    private Button spielerHinzu;
+    
+    @FXML
+    private Button trainingHinzu;
+    
+    @FXML
+    private Button spielHinzu;
+    
+    @FXML
+    private Button trainerHinzu;
+    
+    @FXML
+    private Button mannschaftEHinzu;
+    
+    @FXML
+    private Button mannschaftIHinzu;
+    
+    @FXML
+    private Button mitgliedsbeitragHinzu;
+    
+    @FXML
+    private Button halleHinzu;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,7 +129,7 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
 
         if (spieleList != null) {
             String rollingLL = "LL";
-            String rollingH2 = "H2";
+            String rollingH2 = "/2";
             String rollingRossau = "Rossau";
 
             List<Spiele> rollingLLSpiele = spieleList.stream()
@@ -195,6 +219,14 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         if (benutzer.getRolle() != Rolle.ADMIN) {
             adminBtn.setDisable(true);
             adminBtn.setVisible(false);
+            spielerHinzu.setDisable(true);
+            trainingHinzu.setDisable(true);
+            spielHinzu.setDisable(true);
+            trainerHinzu.setDisable(true);
+            mannschaftEHinzu.setDisable(true);
+            mannschaftIHinzu.setDisable(true);
+            mitgliedsbeitragHinzu.setDisable(true);
+            halleHinzu.setDisable(true);
         }
     }
 

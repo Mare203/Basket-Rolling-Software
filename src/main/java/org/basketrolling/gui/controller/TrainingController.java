@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,9 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,6 +31,9 @@ import org.basketrolling.dao.TrainingDAO;
 import org.basketrolling.gui.controller.bearbeiten.TrainingBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.TrainingService;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -61,6 +61,9 @@ public class TrainingController implements Initializable, MainBorderSettable {
 
     @FXML
     private TableColumn<Training, Void> aktionenSpalte;
+    
+    @FXML
+    private Button btnHinzufuegen;
 
     private BorderPane mainBorderPane;
 
@@ -119,34 +122,21 @@ public class TrainingController implements Initializable, MainBorderSettable {
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        Training training = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/training/trainingbearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
-                        
-                        TrainingBearbeitenController controller = loader.getController();
-                        controller.initTraining(training);
 
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Training Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    Training training = getTableView().getItems().get(getIndex());
+
+                    TrainingBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/training/trainingbearbeiten.fxml", "Training Bearbeiten");
+                    if (controller != null) {
+                        controller.initTraining(training);
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
                     Training training = getTableView().getItems().get(getIndex());
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText("Training löschen");
-                    alert.setContentText("Möchten Sie das Training wirklich löschen?");
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Training löschen", "Möchten Sie das Training wirklich löschen?");
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(training);
                         tabelleTraining.getItems().remove(training);
                     }
@@ -160,6 +150,9 @@ public class TrainingController implements Initializable, MainBorderSettable {
                     setGraphic(null);
                 } else {
                     setGraphic(buttonBox);
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

@@ -42,9 +42,6 @@ public class SpielermenueController implements Initializable, MainBorderSettable
     SpielerService service = new SpielerService(dao);
 
     @FXML
-    private Button backBtn;
-
-    @FXML
     private TableView<Spieler> tabelleSpieler;
 
     @FXML
@@ -70,6 +67,9 @@ public class SpielermenueController implements Initializable, MainBorderSettable
 
     @FXML
     private TableColumn<Spieler, Void> aktionenSpalte;
+
+    @FXML
+    private Button btnHinzufuegen;
 
     private BorderPane mainBorderPane;
 
@@ -159,6 +159,7 @@ public class SpielermenueController implements Initializable, MainBorderSettable
                 } else {
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                     setGraphic(buttonBox);
                 }
             }

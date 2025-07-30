@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,9 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,6 +31,9 @@ import org.basketrolling.dao.MannschaftExternDAO;
 import org.basketrolling.gui.controller.bearbeiten.MannschaftExternBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftExternService;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -55,6 +55,9 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
 
     @FXML
     private TableColumn<MannschaftExtern, Void> aktionenSpalte;
+
+    @FXML
+    private Button btnHinzufuegen;
 
     private BorderPane mainBorderPane;
 
@@ -110,34 +113,20 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        MannschaftExtern mannschaftExtern = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternbearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
-                        
-                        MannschaftExternBearbeitenController controller = loader.getController();
-                        controller.initMannschaftExtern(mannschaftExtern);
+                    MannschaftExtern mannschaftExtern = getTableView().getItems().get(getIndex());
 
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Externe Mannschaft Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    MannschaftExternBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternbearbeiten.fxml", "Externe Mannschaft Bearbeiten");
+                    if (controller != null) {
+                        controller.initMannschaftExtern(mannschaftExtern);
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
                     MannschaftExtern mannschaftExtern = getTableView().getItems().get(getIndex());
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText(mannschaftExtern.getName() + " löschen");
-                    alert.setContentText("Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftExtern.getName());
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", mannschaftExtern.getName() + " löschen", "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftExtern.getName());
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(mannschaftExtern);
                         tabelleMannschaftExtern.getItems().remove(mannschaftExtern);
                     }
@@ -151,6 +140,9 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
                     setGraphic(null);
                 } else {
                     setGraphic(buttonBox);
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
+                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });
