@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -119,11 +118,7 @@ public class StatistikHinzufuegenController implements Initializable {
                 }
                 event.getRowValue().setPunkte(wert);
             } catch (NumberFormatException e) {
-                AlertUtil.alertWarning(
-                        "Ungültige Eingabe",
-                        "Nur ganze Zahlen erlaubt",
-                        "Eingabe: \"" + eingabe + "\" ist ungültig."
-                );
+                AlertUtil.alertWarning("Ungültige Eingabe", "Nur ganze Zahlen erlaubt", "Eingabe \"" + eingabe + "\" ist ungültig.");
                 tabelleStatistik.refresh();
             }
         });
@@ -140,11 +135,7 @@ public class StatistikHinzufuegenController implements Initializable {
                 }
                 event.getRowValue().setFouls(wert);
             } catch (NumberFormatException e) {
-                AlertUtil.alertWarning(
-                        "Ungültige Eingabe",
-                        "Nur ganze Zahlen erlaubt",
-                        "Eingabe: \"" + eingabe + "\" ist ungültig."
-                );
+                AlertUtil.alertWarning("Ungültige Eingabe", "Nur ganze Zahlen erlaubt", "Eingabe \"" + eingabe + "\" ist ungültig.");
                 tabelleStatistik.refresh();
             }
         });

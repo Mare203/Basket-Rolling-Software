@@ -128,25 +128,41 @@ public class SpielBearbeitenController implements Initializable {
     }
 
     public void aktualisieren() {
+        String eingabeIntern = tfPunkteIntern.getText().trim();
+        String eingabeExtern = tfPunkteExtern.getText().trim();
+
         if (cbLiga.getValue() != null
                 && cbHalle.getValue() != null
                 && cbMannschaftIntern.getValue() != null
                 && cbMannschaftExtern.getValue() != null
-                && !tfPunkteIntern.getText().isEmpty()
-                && !tfPunkteExtern.getText().isEmpty()) {
+                && !eingabeIntern.isEmpty()
+                && !eingabeExtern.isEmpty()) {
 
-            bearbeitenSpiel.setLiga(cbLiga.getValue());
-            bearbeitenSpiel.setDatum(dpDatum.getValue());
-            bearbeitenSpiel.setHalle(cbHalle.getValue());
-            bearbeitenSpiel.setMannschaftIntern(cbMannschaftIntern.getValue());
-            bearbeitenSpiel.setMannschaftExtern(cbMannschaftExtern.getValue());
-            bearbeitenSpiel.setInternPunkte(Integer.parseInt(tfPunkteIntern.getText()));
-            bearbeitenSpiel.setExternPunkte(Integer.parseInt(tfPunkteExtern.getText()));
+            try {
+                int punkteIntern = Integer.parseInt(eingabeIntern);
+                int punkteExtern = Integer.parseInt(eingabeExtern);
 
-            spielService.update(bearbeitenSpiel);
+                if (punkteIntern < 0 || punkteExtern < 0) {
+                    throw new NumberFormatException();
+                }
 
-            AlertUtil.alertConfirmation("Speichern erfolgreich", "Spiel erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
+                bearbeitenSpiel.setLiga(cbLiga.getValue());
+                bearbeitenSpiel.setDatum(dpDatum.getValue());
+                bearbeitenSpiel.setHalle(cbHalle.getValue());
+                bearbeitenSpiel.setMannschaftIntern(cbMannschaftIntern.getValue());
+                bearbeitenSpiel.setMannschaftExtern(cbMannschaftExtern.getValue());
+                bearbeitenSpiel.setInternPunkte(punkteIntern);
+                bearbeitenSpiel.setExternPunkte(punkteExtern);
+
+                spielService.update(bearbeitenSpiel);
+
+                AlertUtil.alertConfirmation("Speichern erfolgreich", "Spiel erfolgreich aktualisiert!");
+                MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Fehler", "Nur ganze Zahlen erlaubt", "Bitte geben Sie gültige Punktzahlen ein.");
+            }
+
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }

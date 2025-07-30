@@ -114,30 +114,47 @@ public class SpielHinzufuegenController implements Initializable {
     }
 
     public void speichern() {
+        String eingabeIntern = tfPunkteIntern.getText().trim();
+        String eingabeExtern = tfPunkteExtern.getText().trim();
+
         if (cbLiga.getValue() != null
                 && cbHalle.getValue() != null
                 && cbMannschaftIntern.getValue() != null
                 && cbMannschaftExtern.getValue() != null
-                && !tfPunkteIntern.getText().isEmpty()
-                && !tfPunkteExtern.getText().isEmpty()) {
-            Spiele spiel = new Spiele();
-            spiel.setLiga(cbLiga.getValue());
-            spiel.setDatum(dpDatum.getValue());
-            spiel.setHalle(cbHalle.getValue());
-            spiel.setMannschaftIntern(cbMannschaftIntern.getValue());
-            spiel.setMannschaftExtern(cbMannschaftExtern.getValue());
-            spiel.setInternPunkte(Integer.parseInt(tfPunkteIntern.getText()));
-            spiel.setExternPunkte(Integer.parseInt(tfPunkteExtern.getText()));
+                && !eingabeIntern.isEmpty()
+                && !eingabeExtern.isEmpty()) {
 
-            Spiele erstelltesSpiel = spielService.create(spiel);
+            try {
+                int punkteIntern = Integer.parseInt(eingabeIntern);
+                int punkteExtern = Integer.parseInt(eingabeExtern);
 
-            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Spiel erfolgreich gespeichert!", "Möchten Sie eine Statistik für dieses Spiel anlegen?");
+                if (punkteIntern < 0 || punkteExtern < 0) {
+                    throw new NumberFormatException();
+                }
 
-            if (!weiter) {
-                MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
-            } else {
-                oeffneStatistik(erstelltesSpiel);
+                Spiele spiel = new Spiele();
+                spiel.setLiga(cbLiga.getValue());
+                spiel.setDatum(dpDatum.getValue());
+                spiel.setHalle(cbHalle.getValue());
+                spiel.setMannschaftIntern(cbMannschaftIntern.getValue());
+                spiel.setMannschaftExtern(cbMannschaftExtern.getValue());
+                spiel.setInternPunkte(punkteIntern);
+                spiel.setExternPunkte(punkteExtern);
+
+                Spiele erstelltesSpiel = spielService.create(spiel);
+
+                boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Spiel erfolgreich gespeichert!", "Möchten Sie eine Statistik für dieses Spiel anlegen?");
+
+                if (!weiter) {
+                    MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
+                } else {
+                    oeffneStatistik(erstelltesSpiel);
+                }
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Nur ganze Zahlen erlaubt", "Bitte geben Sie gültige Punktzahlen ein.");
             }
+
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
