@@ -46,15 +46,28 @@ public class MitgliedsbeitragBearbeitenController implements Initializable {
     }
 
     public void aktualisieren() {
-        if (!tfSaison.getText().isEmpty() && !tfBetrag.getText().isEmpty()) {
+        String saisonText = tfSaison.getText().trim();
+        String betragText = tfBetrag.getText().trim();
 
-            bearbeitenMitgliedsbeitrag.setSaison(tfSaison.getText());
-            bearbeitenMitgliedsbeitrag.setBetrag(Double.parseDouble(tfBetrag.getText()));
+        if (!saisonText.isEmpty() && !betragText.isEmpty()) {
 
-            service.update(bearbeitenMitgliedsbeitrag);
-            AlertUtil.alertConfirmation("Speichern erfolgreich", "Mitgliedsbeitrag erfolgreich aktualisiert!");
+            try {
+                double betrag = Double.parseDouble(betragText.replace(",", "."));
 
-            MenuUtil.fensterSchliessenOhneWarnung(tfSaison);
+                if (betrag < 0) {
+                    throw new NumberFormatException();
+                }
+
+                bearbeitenMitgliedsbeitrag.setSaison(saisonText);
+                bearbeitenMitgliedsbeitrag.setBetrag(betrag);
+
+                service.update(bearbeitenMitgliedsbeitrag);
+                AlertUtil.alertConfirmation("Speichern erfolgreich", "Mitgliedsbeitrag erfolgreich aktualisiert!");
+                MenuUtil.fensterSchliessenOhneWarnung(tfSaison);
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültiger Betrag", "Der Betrag muss eine gültige Zahl (z. B. 20.00) sein.");
+            }
 
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");

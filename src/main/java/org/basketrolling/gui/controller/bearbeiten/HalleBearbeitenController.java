@@ -54,20 +54,30 @@ public class HalleBearbeitenController implements Initializable {
     }
 
     public void aktualisieren() {
+        String plzText = tfPlz.getText().trim();
+
         if (!tfName.getText().isEmpty()
                 && !tfStrasse.getText().isEmpty()
                 && !tfOrt.getText().isEmpty()
-                && !tfPlz.getText().isEmpty()) {
+                && !plzText.isEmpty()) {
 
-            bearbeitenhalle.setName(tfName.getText());
-            bearbeitenhalle.setStrasse(tfStrasse.getText());
-            bearbeitenhalle.setOrt(tfOrt.getText());
-            bearbeitenhalle.setPlz(Integer.parseInt(tfPlz.getText()));
+            try {
+                int plz = Integer.parseInt(plzText);
 
-            service.update(bearbeitenhalle);
+                bearbeitenhalle.setName(tfName.getText());
+                bearbeitenhalle.setStrasse(tfStrasse.getText());
+                bearbeitenhalle.setOrt(tfOrt.getText());
+                bearbeitenhalle.setPlz(plz);
 
-            AlertUtil.alertConfirmation("Speichern erfolgreich", "Halle erfolgreich aktualisiert!");
-            MenuUtil.fensterSchliessenOhneWarnung(tfName);
+                service.create(bearbeitenhalle);
+
+                AlertUtil.alertConfirmation("Speichern erfolgreich", "Halle erfolgreich aktualisiert!");
+                MenuUtil.fensterSchliessenOhneWarnung(tfName);
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültige PLZ", "Postleitzahl muss eine Zahl sein.", "Beispiel: 1010, 1220, 8010");
+            }
+
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }

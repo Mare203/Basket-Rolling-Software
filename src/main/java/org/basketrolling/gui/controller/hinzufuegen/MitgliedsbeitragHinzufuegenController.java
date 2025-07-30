@@ -37,20 +37,34 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
     }
 
     public void speichern() {
-        if (!tfSaison.getText().isEmpty() && !tfBetrag.getText().isEmpty()) {
-            Mitgliedsbeitrag mitgliedsbeitrag = new Mitgliedsbeitrag();
-            mitgliedsbeitrag.setSaison(tfSaison.getText());
-            mitgliedsbeitrag.setBetrag(Double.parseDouble(tfBetrag.getText()));
+        String saisonText = tfSaison.getText().trim();
+        String betragText = tfBetrag.getText().trim();
 
-            service.create(mitgliedsbeitrag);
+        if (!saisonText.isEmpty() && !betragText.isEmpty()) {
+            try {
+                double betrag = Double.parseDouble(betragText.replace(",", "."));
 
-            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Mitgliedsbeitrag erfolgreich gespeichert!", "Möchten Sie einen weiteren Mitgliedsbeitrag anlegen?");
+                if (betrag < 0) {
+                    throw new NumberFormatException();
+                }
 
-            if (!weiter) {
-                MenuUtil.fensterSchliessenOhneWarnung(tfSaison);
-            } else {
-                tfSaison.clear();
-                tfBetrag.clear();
+                Mitgliedsbeitrag mitgliedsbeitrag = new Mitgliedsbeitrag();
+                mitgliedsbeitrag.setSaison(saisonText);
+                mitgliedsbeitrag.setBetrag(betrag);
+
+                service.create(mitgliedsbeitrag);
+
+                boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Mitgliedsbeitrag erfolgreich gespeichert!", "Möchten Sie einen weiteren Mitgliedsbeitrag anlegen?");
+
+                if (!weiter) {
+                    MenuUtil.fensterSchliessenOhneWarnung(tfSaison);
+                } else {
+                    tfSaison.clear();
+                    tfBetrag.clear();
+                }
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültiger Betrag", "Bitte geben Sie eine gültige Zahl ein.", "Beispiel: 50,00 oder 75.50");
             }
 
         } else {

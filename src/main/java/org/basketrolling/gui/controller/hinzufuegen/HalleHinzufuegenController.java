@@ -43,27 +43,37 @@ public class HalleHinzufuegenController implements Initializable {
     }
 
     public void speichern() {
+        String plzText = tfPlz.getText().trim();
+
         if (!tfName.getText().isEmpty()
                 && !tfStrasse.getText().isEmpty()
                 && !tfOrt.getText().isEmpty()
-                && !tfPlz.getText().isEmpty()) {
-            Halle halle = new Halle();
-            halle.setName(tfName.getText());
-            halle.setStrasse(tfStrasse.getText());
-            halle.setOrt(tfOrt.getText());
-            halle.setPlz(Integer.parseInt(tfPlz.getText()));
+                && !plzText.isEmpty()) {
 
-            service.create(halle);
-            
-            boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Halle erfolgreich gespeichert!", "Möchten Sie eine weitere Halle anlegen?");
+            try {
+                int plz = Integer.parseInt(plzText);
 
-            if (!weiter) {
-                MenuUtil.fensterSchliessenOhneWarnung(tfName);
-            } else {
-                tfName.clear();
-                tfStrasse.clear();
-                tfOrt.clear();
-                tfPlz.clear();
+                Halle halle = new Halle();
+                halle.setName(tfName.getText());
+                halle.setStrasse(tfStrasse.getText());
+                halle.setOrt(tfOrt.getText());
+                halle.setPlz(plz);
+
+                service.create(halle);
+
+                boolean weiter = AlertUtil.confirmationMitJaNein("Speichern erfolgreich", "Halle erfolgreich gespeichert!", "Möchten Sie eine weitere Halle anlegen?");
+
+                if (!weiter) {
+                    MenuUtil.fensterSchliessenOhneWarnung(tfName);
+                } else {
+                    tfName.clear();
+                    tfStrasse.clear();
+                    tfOrt.clear();
+                    tfPlz.clear();
+                }
+
+            } catch (NumberFormatException e) {
+                AlertUtil.alertWarning("Ungültige PLZ", "Postleitzahl muss eine Zahl sein.", "Beispiel: 1010, 1220, 8010");
             }
 
         } else {
