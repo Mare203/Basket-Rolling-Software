@@ -6,6 +6,8 @@ package org.basketrolling.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -130,6 +132,11 @@ public class StatistikController implements Initializable, MainBorderSettable {
         lbAktiveSpieler1.setText("Aktive Spieler im Kader: " + aktiveSpieler1.size());
         lbAktiveSpieler2.setText("Aktive Spieler im Kader: " + aktiveSpieler2.size());
         lbAktiveSpieler3.setText("Aktive Spieler im Kader: " + aktiveSpieler3.size());
+
+        lbDurchschnittsalter1.setText("Durchschnittsalter: " + String.format("%.2f", berechneDurchschnittsalter(aktiveSpieler1)));
+        lbDurchschnittsalter2.setText("Durchschnittsalter: " + String.format("%.2f", berechneDurchschnittsalter(aktiveSpieler2)));
+        lbDurchschnittsalter3.setText("Durchschnittsalter: " + String.format("%.2f", berechneDurchschnittsalter(aktiveSpieler3)));
+   
     }
 
     private XYChart.Series setzeStatistik(List<Spiele> spieleList) {
@@ -167,4 +174,20 @@ public class StatistikController implements Initializable, MainBorderSettable {
         }
     }
 
+    public double berechneDurchschnittsalter(List<Spieler> spielerListe) {
+        LocalDate heute = LocalDate.now();
+        int summe = 0;
+        int zaehler = 0;
+
+        for (Spieler spieler : spielerListe) {
+            LocalDate geburt = spieler.getGeburtsdatum();
+            if (geburt != null) {
+                int alter = Period.between(geburt, heute).getYears();
+                summe += alter;
+                zaehler++;
+            }
+        }
+
+        return zaehler == 0 ? 0 : (double) summe / zaehler;
+    }
 }
