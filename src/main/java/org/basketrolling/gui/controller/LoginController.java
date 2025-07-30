@@ -16,6 +16,7 @@ import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.service.LoginService;
 import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -53,6 +54,7 @@ public class LoginController implements Initializable {
         Login user = service.pruefung(benutzername, passwort);
 
         if (user != null) {
+            Session.setBenutzer(user);
             openHauptmenue(user);
             MenuUtil.fensterSchliessenOhneWarnung(anmeldeBtn);
         } else {
