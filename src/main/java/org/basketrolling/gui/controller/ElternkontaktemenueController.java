@@ -34,6 +34,9 @@ import org.basketrolling.dao.ElternkontaktDAO;
 import org.basketrolling.gui.controller.bearbeiten.ElternkontaktBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.ElternkontaktService;
+import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -107,50 +110,26 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
                 loeschenBtn.getStyleClass().add("icon-btn");
 
                 ansehenBtn.setOnAction(e -> {
-                    try {
-                        Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml"));
-                        Scene scene = new Scene(loader.load());
-
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Elternkontakt ansehen");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                    Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
+                    MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml", "Elternkontakt ansehen");
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktebearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
+                    Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
+                    ElternkontaktBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktebearbeiten.fxml", "Elternkontakt Bearbeiten");
 
-                        ElternkontaktBearbeitenController controller = loader.getController();
+                    if (controller != null) {
                         controller.initElternkontakt(elternkontakt);
-
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Elternkontakt Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
                     Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung",
+                            elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " löschen",
+                            "Möchten Sie den Elternkontakt " + elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " wirklich löschen?");
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText(elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " löschen");
-                    alert.setContentText("Möchten Sie den Elternkontakt " + elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " wirklich löschen?");
-
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(elternkontakt);
                         tabelleElternkontakte.getItems().remove(elternkontakt);
                     }
@@ -158,11 +137,14 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
             }
 
             @Override
+
             protected void updateItem(Void item, boolean leer) {
                 super.updateItem(item, leer);
                 if (leer) {
                     setGraphic(null);
                 } else {
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
                     setGraphic(buttonBox);
                 }
             }

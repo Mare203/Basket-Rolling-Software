@@ -32,6 +32,8 @@ import org.basketrolling.gui.controller.bearbeiten.LigaBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LigaService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -104,21 +106,11 @@ public class LigaController implements Initializable, MainBorderSettable {
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        Liga liga = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/liga/ligabearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
+                    Liga liga = getTableView().getItems().get(getIndex());
 
-                        LigaBearbeitenController controller = loader.getController();
+                    LigaBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/liga/ligabearbeiten.fxml", "Liga Bearbeiten");
+                    if (controller != null) {
                         controller.initLiga(liga);
-
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Liga Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
                     }
                 });
 
@@ -135,12 +127,15 @@ public class LigaController implements Initializable, MainBorderSettable {
             }
 
             @Override
+
             protected void updateItem(Void item, boolean leer) {
                 super.updateItem(item, leer);
                 if (leer) {
                     setGraphic(null);
                 } else {
                     setGraphic(buttonBox);
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
                 }
             }
         });
