@@ -21,17 +21,23 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
+import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.dao.SpieleDAO;
+import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.SpieleService;
+import org.basketrolling.service.SpielerService;
 
 /**
  *
  * @author Marko
  */
 public class StatistikController implements Initializable, MainBorderSettable {
+
+    SpielerDAO spielerDao;
+    SpielerService spielerService;
 
     SpieleDAO spieleDao;
     SpieleService spieleService;
@@ -58,6 +64,33 @@ public class StatistikController implements Initializable, MainBorderSettable {
     @FXML
     private CategoryAxis gegner1;
 
+    @FXML
+    private Label lbAktiveSpieler1;
+
+    @FXML
+    private Label lbAktiveSpieler2;
+
+    @FXML
+    private Label lbAktiveSpieler3;
+
+    @FXML
+    private Label lbDurchschnittsalter1;
+
+    @FXML
+    private Label lbDurchschnittsalter2;
+
+    @FXML
+    private Label lbDurchschnittsalter3;
+
+    @FXML
+    private Label lbTopScorer1;
+
+    @FXML
+    private Label lbTopScorer2;
+
+    @FXML
+    private Label lbTopScorer3;
+
     private BorderPane mainBorderPane;
 
     public void setMainBorder(BorderPane mainBorderPane) {
@@ -67,9 +100,11 @@ public class StatistikController implements Initializable, MainBorderSettable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spieleDao = new SpieleDAO();
+        spielerDao = new SpielerDAO();
         mannInDao = new MannschaftInternDAO();
 
         spieleService = new SpieleService(spieleDao);
+        spielerService = new SpielerService(spielerDao);
         mannInService = new MannschaftInternService(mannInDao);
 
         List<MannschaftIntern> mannschaft1 = mannInService.getByName("Basket Rolling/1");
@@ -87,6 +122,14 @@ public class StatistikController implements Initializable, MainBorderSettable {
         bcRolling1.getData().add(setzeStatistik(spieleList1));
         bcRolling2.getData().add(setzeStatistik(spieleList2));
         bcRolling3.getData().add(setzeStatistik(spieleList3));
+
+        List<Spieler> aktiveSpieler1 = spielerService.getByAktivUndMannschaft(true, mannIn1);
+        List<Spieler> aktiveSpieler2 = spielerService.getByAktivUndMannschaft(true, mannIn2);
+        List<Spieler> aktiveSpieler3 = spielerService.getByAktivUndMannschaft(true, mannIn3);
+
+        lbAktiveSpieler1.setText("Aktive Spieler im Kader: " + aktiveSpieler1.size());
+        lbAktiveSpieler2.setText("Aktive Spieler im Kader: " + aktiveSpieler2.size());
+        lbAktiveSpieler3.setText("Aktive Spieler im Kader: " + aktiveSpieler3.size());
     }
 
     private XYChart.Series setzeStatistik(List<Spiele> spieleList) {

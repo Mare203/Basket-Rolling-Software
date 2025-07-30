@@ -88,14 +88,15 @@ public class SpielerService extends BaseService<Spieler> {
     }
 
     /**
-     * Sucht Spieler anhand ihres Aktivitätsstatus.
+     * Sucht Spieler anhand ihres Aktivitätsstatus und ihrer Mannschaft.
      *
      * @param aktiv {@code true} für aktive Spieler, {@code false} für inaktive
      * Spieler
+     * @param mannschaft die {@link MannschaftIntern}, nach der gefiltert wird
      * @return Liste der passenden {@link Spieler}-Objekte
      */
-    public List<Spieler> getByAktiv(boolean aktiv) {
-        return TryCatchUtil.tryCatchList(() -> dao.findByAktiv(aktiv));
+    public List<Spieler> getByAktivUndMannschaft(boolean aktiv, MannschaftIntern mannschaft) {
+        return TryCatchUtil.tryCatchList(() -> dao.findByAktivUndMannschaft(aktiv, mannschaft));
     }
 
     public List<Spieler> getByMannschaft(MannschaftIntern mannschaft) {

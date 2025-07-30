@@ -4,7 +4,6 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -61,40 +60,34 @@
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="407.0" minHeight="10.0" prefHeight="163.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="660.0" minHeight="10.0" prefHeight="660.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Label text="Basket Rolling Rossau/3 H2:" GridPane.columnIndex="2">
                            <GridPane.margin>
-                              <Insets top="15.0" />
+                              <Insets left="35.0" top="15.0" />
                            </GridPane.margin>
+                           <font>
+                              <Font name="System Italic" size="14.0" />
+                           </font>
                         </Label>
                         <Label text="Basket Rolling/2 H2:" GridPane.columnIndex="1">
                            <GridPane.margin>
-                              <Insets top="15.0" />
+                              <Insets left="35.0" top="15.0" />
                            </GridPane.margin>
+                           <font>
+                              <Font name="System Italic" size="14.0" />
+                           </font>
                         </Label>
                         <Label text="Basket Rolling/1 LL:">
                            <GridPane.margin>
                               <Insets left="15.0" top="15.0" />
                            </GridPane.margin>
+                           <font>
+                              <Font name="System Italic" size="14.0" />
+                           </font>
                         </Label>
-                        <PieChart title="Mitgliedsbeiträge" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets top="5.0" />
-                           </GridPane.margin>
-                        </PieChart>
-                        <PieChart title="Mitgliedsbeiträge" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets top="5.0" />
-                           </GridPane.margin>
-                        </PieChart>
-                        <PieChart title="Mitgliedsbeiträge" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets top="5.0" />
-                           </GridPane.margin>
-                        </PieChart>
                         <BarChart fx:id="bcRolling1" styleClass="default-color0" GridPane.rowIndex="2">
                           <xAxis>
                             <CategoryAxis fx:id="gegner1" label="Gegner" side="BOTTOM" />
@@ -102,6 +95,9 @@
                           <yAxis>
                             <NumberAxis fx:id="punkte1" label="Punkte" side="LEFT" />
                           </yAxis>
+                           <GridPane.margin>
+                              <Insets bottom="15.0" />
+                           </GridPane.margin>
                         </BarChart>
                         <BarChart fx:id="bcRolling2" styleClass="default-color0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <xAxis>
@@ -110,6 +106,9 @@
                            <yAxis>
                               <NumberAxis fx:id="punkte2" label="Punkte" side="LEFT" />
                            </yAxis>
+                           <GridPane.margin>
+                              <Insets bottom="15.0" />
+                           </GridPane.margin>
                         </BarChart>
                         <BarChart fx:id="bcRolling3" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <xAxis>
@@ -118,7 +117,75 @@
                            <yAxis>
                               <NumberAxis fx:id="punkte3" label="Punkte" side="LEFT" />
                            </yAxis>
+                           <GridPane.margin>
+                              <Insets bottom="15.0" />
+                           </GridPane.margin>
                         </BarChart>
+                        <Label text="Label" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="15.0" top="75.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbDurchschnittsalter1" text="Durchschnittsalter:" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="15.0" top="35.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbTopScorer1" text="Top-Scorer des Teams:" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="15.0" top="55.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbAktiveSpieler1" text="Aktive Spieler im Kader:" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="15.0" top="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbPunktedurchschnit1" text="Punktedurchschnitt:" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                           <GridPane.margin>
+                              <Insets bottom="15.0" left="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbAktiveSpieler2" text="Aktive Spieler im Kader:" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="35.0" top="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbDurchschnittsalter2" text="Durchschnittsalter:" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="35.0" top="35.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbTopScorer2" text="Top-Scorer des Teams:" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="35.0" top="55.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbPunktedurchschnit2" text="Punktedurchschnitt:" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                           <GridPane.margin>
+                              <Insets bottom="15.0" left="35.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbAktiveSpieler3" text="Aktive Spieler im Kader:" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="35.0" top="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbDurchschnittsalter3" text="Durchschnittsalter:" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="35.0" top="35.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbTopScorer3" text="Top-Scorer des Teams:" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets left="35.0" top="55.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="lbPunktedurchschnit3" text="Punktedurchschnitt:" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                           <GridPane.margin>
+                              <Insets bottom="15.0" left="35.0" />
+                           </GridPane.margin>
+                        </Label>
                      </children>
                   </GridPane>
                </children>

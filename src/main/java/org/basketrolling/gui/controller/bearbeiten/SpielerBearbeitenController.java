@@ -100,6 +100,13 @@ public class SpielerBearbeitenController implements Initializable {
         cbMannschaft.setItems(FXCollections.observableArrayList(mannschaften));
         cbMitgliedsbeitrag.setItems(FXCollections.observableArrayList(mitgliedsbeitraege));
 
+        cbAktiv.selectedProperty().addListener((obs, alt, neu) -> {
+            if (!neu) {
+                cbMitgliedsbeitrag.setValue(null);
+                cbBezahlt.setSelected(false);
+            }
+        });
+
     }
 
     public void initSpieler(Spieler spieler) {

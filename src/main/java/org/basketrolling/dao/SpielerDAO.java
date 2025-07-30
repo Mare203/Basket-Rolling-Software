@@ -119,17 +119,19 @@ public class SpielerDAO extends BaseDAO<Spieler> {
     }
 
     /**
-     * Sucht Spieler nach Aktivitätsstatus.
+     * Sucht Spieler nach Aktivitätsstatus und Mannschaft.
      *
      * @param aktiv {@code true} für aktive Spieler, {@code false} für inaktive
+     * @param mannschaft die interne Mannschaft
      * @return Liste der passenden Spieler
      */
-    public List<Spieler> findByAktiv(boolean aktiv) {
+    public List<Spieler> findByAktivUndMannschaft(boolean aktiv, MannschaftIntern mannschaft) {
         EntityManager em = getEntityManager();
         try {
-            String jpql = "SELECT s FROM Spieler s WHERE s.aktiv = :aktiv";
+            String jpql = "SELECT s FROM Spieler s WHERE s.aktiv = :aktiv AND s.mannschaftIntern = :mannschaft";
             return em.createQuery(jpql, Spieler.class)
                     .setParameter("aktiv", aktiv)
+                    .setParameter("mannschaft", mannschaft)
                     .getResultList();
         } finally {
             em.close();

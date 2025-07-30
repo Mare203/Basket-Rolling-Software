@@ -8,14 +8,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -108,6 +105,13 @@ public class SpielerHinzufuegenController implements Initializable {
         } else {
             cbMitgliedsbeitrag.setDisable(true);
         }
+
+        cbAktiv.selectedProperty().addListener((obs, alt, neu) -> {
+            if (!neu) {
+                cbMitgliedsbeitrag.setValue(null);
+                cbBezahlt.setSelected(false);
+            }
+        });
     }
 
     public void speichern() {
@@ -121,6 +125,10 @@ public class SpielerHinzufuegenController implements Initializable {
         boolean beitragsPflichtErfuellt = !cbAktiv.isSelected() || cbMitgliedsbeitrag.getValue() != null;
 
         if (pflichtfelderAusgefuellt && beitragsPflichtErfuellt) {
+            if (!cbAktiv.isSelected() && cbMitgliedsbeitrag.getValue() != null) {
+                AlertUtil.alertWarning("Mitgliedsbeitrag wird ignoriert", "Spieler ist nicht aktiv", "Ein Mitgliedsbeitrag wird nur aktiven Spielern zugewiesen. Bitte aktiviere den Spieler, wenn du einen Beitrag zuweisen willst.");
+                return;
+            }
             try {
 
                 Spieler spieler = new Spieler();
