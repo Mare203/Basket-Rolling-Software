@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,9 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,6 +31,7 @@ import org.basketrolling.dao.LigaDAO;
 import org.basketrolling.gui.controller.bearbeiten.LigaBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LigaService;
+import org.basketrolling.utils.AlertUtil;
 
 /**
  *
@@ -113,7 +111,7 @@ public class LigaController implements Initializable, MainBorderSettable {
 
                         LigaBearbeitenController controller = loader.getController();
                         controller.initLiga(liga);
-                        
+
                         Stage spielerBearbeiten = new Stage();
                         spielerBearbeiten.setTitle("Liga Bearbeiten");
                         spielerBearbeiten.setScene(scene);
@@ -127,13 +125,9 @@ public class LigaController implements Initializable, MainBorderSettable {
                 loeschenBtn.setOnAction(e -> {
                     Liga liga = getTableView().getItems().get(getIndex());
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText(liga.getName() + " löschen");
-                    alert.setContentText("Möchten Sie folgende Liga wirklich löschen? - " + liga.getName());
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", liga.getName() + " löschen", "Möchten Sie folgende Liga wirklich löschen? - " + liga.getName());
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(liga);
                         tabelleLiga.getItems().remove(liga);
                     }
@@ -159,7 +153,6 @@ public class LigaController implements Initializable, MainBorderSettable {
         bild.setFitWidth(20);
         return bild;
     }
-    
 
     public void backToHauptmenue() {
         try {
@@ -171,12 +164,12 @@ public class LigaController implements Initializable, MainBorderSettable {
             ex.printStackTrace();
         }
     }
-    
-            public void ligaHinzufuegen() {
+
+    public void ligaHinzufuegen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/liga/ligahinzufuegen.fxml"));
             Scene scene = new Scene(loader.load());
-            
+
             Stage ligaHinzufuegen = new Stage();
             ligaHinzufuegen.setTitle("Liga hinzufügen");
             ligaHinzufuegen.setScene(scene);

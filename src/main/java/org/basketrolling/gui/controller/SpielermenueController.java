@@ -7,7 +7,6 @@ package org.basketrolling.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -15,10 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,8 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.SpielerDAO;
 import org.basketrolling.gui.controller.bearbeiten.SpielerBearbeitenController;
@@ -36,6 +30,7 @@ import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
+import org.basketrolling.utils.Session;
 
 /**
  *
@@ -162,6 +157,8 @@ public class SpielermenueController implements Initializable, MainBorderSettable
                 if (leer) {
                     setGraphic(null);
                 } else {
+                    bearbeitenBtn.setVisible(Session.istAdmin());
+                    loeschenBtn.setVisible(Session.istAdmin());
                     setGraphic(buttonBox);
                 }
             }
