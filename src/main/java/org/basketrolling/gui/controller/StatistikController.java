@@ -33,6 +33,7 @@ import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.service.StatistikService;
+import org.basketrolling.utils.AlertUtil;
 
 /**
  *
@@ -127,13 +128,18 @@ public class StatistikController implements Initializable, MainBorderSettable {
         List<MannschaftIntern> mannschaft2 = mannInService.getByName("Basket Rolling/2");
         List<MannschaftIntern> mannschaftRossau = mannInService.getByName("Basket Rolling Rossau");
 
+        if (mannschaft1.isEmpty() || mannschaft2.isEmpty() || mannschaftRossau.isEmpty()) {
+            AlertUtil.alertError("Initialisierung fehlgeschlagen", "Keine Mannschaft(en) gefunden.", "Bitte prüfen Sie, ob die Mannschaften in der Datenbank vorhanden sind.");
+            return;
+        }
+
         mannIn1 = mannschaft1.get(0);
         mannIn2 = mannschaft2.get(0);
         mannIn3 = mannschaftRossau.get(0);
 
-        List<Spiele> spieleList1 = spieleService.getByMannschaft(mannIn1);
-        List<Spiele> spieleList2 = spieleService.getByMannschaft(mannIn2);
-        List<Spiele> spieleList3 = spieleService.getByMannschaft(mannIn3);
+        List<Spiele> spieleList1 = spieleService.getByMannschaftIntern(mannIn1);
+        List<Spiele> spieleList2 = spieleService.getByMannschaftIntern(mannIn2);
+        List<Spiele> spieleList3 = spieleService.getByMannschaftIntern(mannIn3);
 
         bcRolling1.getData().add(setzeStatistik(spieleList1));
         bcRolling2.getData().add(setzeStatistik(spieleList2));

@@ -28,10 +28,13 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Spiele;
+import org.basketrolling.beans.Statistik;
 import org.basketrolling.dao.SpieleDAO;
+import org.basketrolling.dao.StatistikDAO;
 import org.basketrolling.gui.controller.bearbeiten.SpielBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.SpieleService;
+import org.basketrolling.service.StatistikService;
 import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
@@ -42,8 +45,11 @@ import org.basketrolling.utils.Session;
  */
 public class SpieleController implements Initializable, MainBorderSettable {
 
-    SpieleDAO dao = new SpieleDAO();
-    SpieleService service = new SpieleService(dao);
+    SpieleDAO spieleDao;
+    StatistikDAO statistikDao;
+
+    SpieleService spieleService;
+    StatistikService statistikService;
 
     @FXML
     private TableView<Spiele> tabelleSpiele;
@@ -80,6 +86,12 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        spieleDao = new SpieleDAO();
+        statistikDao = new StatistikDAO();
+
+        spieleService = new SpieleService(spieleDao);
+        statistikService = new StatistikService(statistikDao);
+
         rollingSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftIntern"));
         ergebnisSpalte.setCellValueFactory(daten -> {
             Spiele spiel = daten.getValue();
@@ -95,7 +107,7 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
         buttonsHinzufuegen();
 
-        List<Spiele> spieleListe = service.getAll();
+        List<Spiele> spieleListe = spieleService.getAll();
         tabelleSpiele.setItems(FXCollections.observableArrayList(spieleListe));
 
     }
@@ -148,11 +160,33 @@ public class SpieleController implements Initializable, MainBorderSettable {
                 loeschenBtn.setOnAction(e -> {
                     Spiele spiele = getTableView().getItems().get(getIndex());
 
-                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Spiel löschen", "Möchten Sie das Spiel wirklich löschen?");
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein(
+                            "Bestätigung", "Spiel löschen", "Möchten Sie das Spiel wirklich löschen?"
+                    );
 
-                    if (bestaetigung) {
-                        service.delete(spiele);
+                    if (!bestaetigung) {
+                        return;
+                    }
+
+                    List<Statistik> statistiken = statistikService.getBySpiel(spiele);
+
+                    if (!statistiken.isEmpty()) {
+                        boolean mitStatistikLoeschen = AlertUtil.confirmationMitJaNein("Achtung – Verknüpfte Daten", 
+                                "Dieses Spiel hat verknüpfte Statistik-Einträge.",
+                                "Wenn Sie fortfahren, werden auch alle zugehörigen Statistiken gelöscht.\nMöchten Sie trotzdem fortfahren?");
+
+                        if (!mitStatistikLoeschen) {
+                            return;
+                        }
+                    }
+
+                    try {
+                        spieleService.delete(spiele);
                         tabelleSpiele.getItems().remove(spiele);
+                        AlertUtil.alertConfirmation("Erfolg", "Spiel wurde erfolgreich gelöscht.");
+                    } catch (Exception ex) {
+                        AlertUtil.alertError("Fehler beim Löschen", "Das Spiel konnte nicht gelöscht werden.", ex.getMessage());
+                        ex.printStackTrace();
                     }
                 });
             }

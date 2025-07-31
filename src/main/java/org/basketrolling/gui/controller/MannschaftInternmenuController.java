@@ -27,10 +27,19 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.MannschaftIntern;
+import org.basketrolling.beans.Spiele;
+import org.basketrolling.beans.Spieler;
+import org.basketrolling.beans.Training;
 import org.basketrolling.dao.MannschaftInternDAO;
+import org.basketrolling.dao.SpieleDAO;
+import org.basketrolling.dao.SpielerDAO;
+import org.basketrolling.dao.TrainingDAO;
 import org.basketrolling.gui.controller.bearbeiten.MannschaftInternBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftInternService;
+import org.basketrolling.service.SpieleService;
+import org.basketrolling.service.SpielerService;
+import org.basketrolling.service.TrainingService;
 import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
@@ -41,8 +50,15 @@ import org.basketrolling.utils.Session;
  */
 public class MannschaftInternmenuController implements Initializable, MainBorderSettable {
 
-    MannschaftInternDAO dao = new MannschaftInternDAO();
-    MannschaftInternService service = new MannschaftInternService(dao);
+    MannschaftInternDAO mannInDao;
+    SpielerDAO spielerDao;
+    SpieleDAO spieleDao;
+    TrainingDAO trainingDao;
+
+    MannschaftInternService mannInService;
+    SpielerService spielerService;
+    SpieleService spieleService;
+    TrainingService trainingService;
 
     @FXML
     private TableView<MannschaftIntern> tabelleMannschaftIntern;
@@ -70,11 +86,21 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        mannInDao = new MannschaftInternDAO();
+        spielerDao = new SpielerDAO();
+        spieleDao = new SpieleDAO();
+        trainingDao = new TrainingDAO();
+
+        mannInService = new MannschaftInternService(mannInDao);
+        spielerService = new SpielerService(spielerDao);
+        spieleService = new SpieleService(spieleDao);
+        trainingService = new TrainingService(trainingDao);
+
         nameSpalte.setCellValueFactory(new PropertyValueFactory<>("name"));
         ligaSpalte.setCellValueFactory(new PropertyValueFactory<>("liga"));
         trainerSpalte.setCellValueFactory(new PropertyValueFactory<>("trainer"));
 
-        List<MannschaftIntern> mannschaftInternList = service.getAll();
+        List<MannschaftIntern> mannschaftInternList = mannInService.getAll();
         tabelleMannschaftIntern.setItems(FXCollections.observableArrayList(mannschaftInternList));
 
         buttonsHinzufuegen();
@@ -128,12 +154,17 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
                 loeschenBtn.setOnAction(e -> {
                     MannschaftIntern mannschaftIntern = getTableView().getItems().get(getIndex());
 
-                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", mannschaftIntern.getName() + " löschen", "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftIntern.getName());
+                    if (kannMannschaftGeloeschtWerden(mannschaftIntern)) {
+                        boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", mannschaftIntern.getName() + " löschen", "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftIntern.getName());
 
-                    if (bestaetigung) {
-                        service.delete(mannschaftIntern);
-                        tabelleMannschaftIntern.getItems().remove(mannschaftIntern);
+                        if (bestaetigung) {
+                            mannInService.delete(mannschaftIntern);
+                            tabelleMannschaftIntern.getItems().remove(mannschaftIntern);
+                        }
+                    } else {
+                        AlertUtil.alertWarning("Löschen nicht möglich", "Die Mannschaft hat noch Spieler und/oder Spiele und/oder Trainings zugeordnet", "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Mannschaft löschen.");
                     }
+
                 });
             }
 
@@ -184,5 +215,13 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public boolean kannMannschaftGeloeschtWerden(MannschaftIntern mannschaft) {
+        List<Spieler> spieler = spielerService.getByMannschaft(mannschaft);
+        List<Spiele> spiele = spieleService.getByMannschaftIntern(mannschaft);
+        List<Training> training = trainingService.getByMannschaft(mannschaft);
+
+        return spieler.isEmpty() && spiele.isEmpty() && training.isEmpty();
     }
 }

@@ -4,6 +4,7 @@
  */
 package org.basketrolling.beans;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,8 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -52,6 +55,9 @@ public class Spiele {
 
     @Column(name = "extern_punkte")
     private int externPunkte;
+
+    @OneToMany(mappedBy = "spiel", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Statistik> statistiken;
 
     public UUID getSpielId() {
         return spielId;

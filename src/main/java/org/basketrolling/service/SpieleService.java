@@ -6,6 +6,8 @@ package org.basketrolling.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.basketrolling.beans.Halle;
+import org.basketrolling.beans.MannschaftExtern;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.dao.SpieleDAO;
@@ -45,11 +47,19 @@ public class SpieleService extends BaseService<Spiele> {
         return TryCatchUtil.tryCatchList(() -> dao.findByDatum(datum));
     }
 
-    public List<Spiele> getByMannschaft(MannschaftIntern mannschaft) {
-        return TryCatchUtil.tryCatchList(() -> dao.findByMannschaft(mannschaft));
+    public List<Spiele> getByMannschaftIntern(MannschaftIntern mannschaft) {
+        return TryCatchUtil.tryCatchList(() -> dao.findByMannschaftIntern(mannschaft));
+    }
+
+    public List<Spiele> getByMannschaftExtern(MannschaftExtern mannschaft) {
+        return TryCatchUtil.tryCatchList(() -> dao.findByMannschaftExtern(mannschaft));
     }
 
     public Double getPunkteschnittProMannschaft(MannschaftIntern mannschaft) {
-        return TryCatchUtil.tryCatch(()->dao.findPunkteschnittProMannschaft(mannschaft));
+        return TryCatchUtil.tryCatch(() -> dao.findPunkteschnittProMannschaft(mannschaft));
+    }
+
+    public List<Spiele> getByHalle(Halle halle) {
+        return TryCatchUtil.tryCatchList(() -> dao.findByHalle(halle));
     }
 }

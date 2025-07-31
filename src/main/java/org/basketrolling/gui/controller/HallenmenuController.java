@@ -27,10 +27,19 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
+import org.basketrolling.beans.Liga;
+import org.basketrolling.beans.MannschaftExtern;
+import org.basketrolling.beans.MannschaftIntern;
+import org.basketrolling.beans.Spiele;
+import org.basketrolling.beans.Training;
 import org.basketrolling.dao.HalleDAO;
+import org.basketrolling.dao.SpieleDAO;
+import org.basketrolling.dao.TrainingDAO;
 import org.basketrolling.gui.controller.bearbeiten.HalleBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.HalleService;
+import org.basketrolling.service.SpieleService;
+import org.basketrolling.service.TrainingService;
 import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
@@ -41,8 +50,13 @@ import org.basketrolling.utils.Session;
  */
 public class HallenmenuController implements Initializable, MainBorderSettable {
 
-    HalleDAO dao = new HalleDAO();
-    HalleService service = new HalleService(dao);
+    HalleDAO halleDao;
+    TrainingDAO trainingDao;
+    SpieleDAO spieleDao;
+
+    HalleService halleService;
+    TrainingService trainingService;
+    SpieleService spieleService;
 
     @FXML
     private TableView<Halle> tabelleHalle;
@@ -73,6 +87,14 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        halleDao = new HalleDAO();
+        trainingDao = new TrainingDAO();
+        spieleDao = new SpieleDAO();
+
+        halleService = new HalleService(halleDao);
+        trainingService = new TrainingService(trainingDao);
+        spieleService = new SpieleService(spieleDao);
+
         halleSpalte.setCellValueFactory(new PropertyValueFactory<>("name"));
         strasseSpalte.setCellValueFactory(new PropertyValueFactory<>("strasse"));
         postleitzahlSpalte.setCellValueFactory(new PropertyValueFactory<>("plz"));
@@ -80,7 +102,7 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
 
         buttonsHinzufuegen();
 
-        List<Halle> halleList = service.getAll();
+        List<Halle> halleList = halleService.getAll();
         tabelleHalle.setItems(FXCollections.observableArrayList(halleList));
     }
 
@@ -131,12 +153,17 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
                 loeschenBtn.setOnAction(e -> {
                     Halle halle = getTableView().getItems().get(getIndex());
 
-                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", halle.getName() + " löschen", "Möchten Sie folgende Halle wirklich löschen? - " + halle.getName());
+                    if (kannHalleGeloeschtWerden(halle)) {
+                        boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", halle.getName() + " löschen", "Möchten Sie folgende Halle wirklich löschen? - " + halle.getName());
 
-                    if (bestaetigung) {
-                        service.delete(halle);
-                        tabelleHalle.getItems().remove(halle);
+                        if (bestaetigung) {
+                            halleService.delete(halle);
+                            tabelleHalle.getItems().remove(halle);
+                        }
+                    } else {
+                        AlertUtil.alertWarning("Löschen nicht möglich", "Die Halle ist noch mit Trainingseinheiten und/oder Spielen verknüpft.", "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Halle löschen.");
                     }
+
                 });
             }
 
@@ -189,4 +216,10 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
         }
     }
 
+    public boolean kannHalleGeloeschtWerden(Halle halle) {
+        List<Training> training = trainingService.getByHalle(halle);
+        List<Spiele> spiele = spieleService.getByHalle(halle);
+
+        return training.isEmpty() && spiele.isEmpty();
+    }
 }

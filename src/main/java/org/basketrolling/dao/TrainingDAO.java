@@ -7,6 +7,8 @@ package org.basketrolling.dao;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
+import org.basketrolling.beans.Halle;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Training;
 
 /**
@@ -60,6 +62,44 @@ public class TrainingDAO extends BaseDAO<Training> {
             String jpql = "SELECT t FROM Training t LEFT JOIN FETCH t.mannschaftIntern WHERE t.wochentag = :wochentag";
             return em.createQuery(jpql, Training.class)
                     .setParameter("wochentag", LocalDate.now().getDayOfWeek().toString())
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Sucht alle Trainings, die in einer bestimmten {@link Halle} stattfinden.
+     *
+     * @param halle Die Halle, in der die Trainings stattfinden sollen.
+     * @return Liste aller {@link Training}-Einträge in dieser Halle
+     */
+    public List<Training> findByHalle(Halle halle) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT t FROM Training t WHERE t.halle = :halle";
+            return em.createQuery(jpql, Training.class)
+                    .setParameter("halle", halle)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Sucht alle Trainings, die einer bestimmten internen Mannschaft zugeordnet
+     * sind.
+     *
+     * @param mannschaftIntern die {@link MannschaftIntern}, für die Trainings
+     * gesucht werden sollen
+     * @return Liste aller {@link Training}-Einträge dieser Mannschaft
+     */
+    public List<Training> findByMannschaftIntern(MannschaftIntern mannschaftIntern) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT t FROM Training t WHERE t.mannschaftIntern = :mannschaft";
+            return em.createQuery(jpql, Training.class)
+                    .setParameter("mannschaft", mannschaftIntern)
                     .getResultList();
         } finally {
             em.close();

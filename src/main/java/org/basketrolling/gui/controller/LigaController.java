@@ -27,10 +27,16 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Liga;
+import org.basketrolling.beans.MannschaftExtern;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.dao.LigaDAO;
+import org.basketrolling.dao.MannschaftExternDAO;
+import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.gui.controller.bearbeiten.LigaBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LigaService;
+import org.basketrolling.service.MannschaftExternService;
+import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
@@ -41,8 +47,13 @@ import org.basketrolling.utils.Session;
  */
 public class LigaController implements Initializable, MainBorderSettable {
 
-    LigaDAO dao = new LigaDAO();
-    LigaService service = new LigaService(dao);
+    LigaDAO ligaDao;
+    LigaService ligaService;
+
+    MannschaftInternService mannInService;
+    MannschaftInternDAO mannInDao;
+    MannschaftExternService mannExService;
+    MannschaftExternDAO mannExDao;
 
     @FXML
     private TableView<Liga> tabelleLiga;
@@ -64,9 +75,17 @@ public class LigaController implements Initializable, MainBorderSettable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ligaDao = new LigaDAO();
+        mannInDao = new MannschaftInternDAO();
+        mannExDao = new MannschaftExternDAO();
+
+        ligaService = new LigaService(ligaDao);
+        mannInService = new MannschaftInternService(mannInDao);
+        mannExService = new MannschaftExternService(mannExDao);
+
         ligaSpalte.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        List<Liga> mannschaftExternList = service.getAll();
+        List<Liga> mannschaftExternList = ligaService.getAll();
         tabelleLiga.setItems(FXCollections.observableArrayList(mannschaftExternList));
 
         buttonsHinzufuegen();
@@ -120,11 +139,15 @@ public class LigaController implements Initializable, MainBorderSettable {
                 loeschenBtn.setOnAction(e -> {
                     Liga liga = getTableView().getItems().get(getIndex());
 
-                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", liga.getName() + " löschen", "Möchten Sie folgende Liga wirklich löschen? - " + liga.getName());
+                    if (kannLigaGeloeschtWerden(liga)) {
+                        boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", liga.getName() + " löschen", "Möchten Sie folgende Liga wirklich löschen? - " + liga.getName());
 
-                    if (bestaetigung) {
-                        service.delete(liga);
-                        tabelleLiga.getItems().remove(liga);
+                        if (bestaetigung) {
+                            ligaService.delete(liga);
+                            tabelleLiga.getItems().remove(liga);
+                        }
+                    } else {
+                        AlertUtil.alertWarning("Löschen nicht möglich", "Die Liga ist noch mit Mannschaften verknüpft.", "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Liga löschen.");
                     }
                 });
             }
@@ -177,5 +200,12 @@ public class LigaController implements Initializable, MainBorderSettable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public boolean kannLigaGeloeschtWerden(Liga liga) {
+        List<MannschaftIntern> internTeams = mannInService.getByLiga(liga);
+        List<MannschaftExtern> externTeams = mannExService.getByLiga(liga);
+
+        return internTeams.isEmpty() && externTeams.isEmpty();
     }
 }
