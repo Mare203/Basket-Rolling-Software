@@ -44,7 +44,7 @@ public class SpieleDAO extends BaseDAO<Spiele> {
             em.close();
         }
     }
-    
+
     public List<Spiele> findByMannschaft(MannschaftIntern mannschaft) {
         EntityManager em = getEntityManager();
         try {
@@ -52,6 +52,19 @@ public class SpieleDAO extends BaseDAO<Spiele> {
             return em.createQuery(jpql, Spiele.class)
                     .setParameter("mannschaft", mannschaft)
                     .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Double findPunkteschnittProMannschaft(MannschaftIntern mannschaft) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT AVG(s.internPunkte * 1.0) FROM Spiele s WHERE s.mannschaftIntern = :mannschaft";
+
+            return em.createQuery(jpql, Double.class)
+                    .setParameter("mannschaft", mannschaft)
+                    .getSingleResult();
         } finally {
             em.close();
         }

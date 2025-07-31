@@ -155,36 +155,13 @@ public class StatistikController implements Initializable, MainBorderSettable {
         Object[] topScorer2 = statsitikService.getTopScorerByMannschaft(mannIn2);
         Object[] topScorer3 = statsitikService.getTopScorerByMannschaft(mannIn3);
 
-        if (topScorer1 != null) {
-            Spieler spieler = (Spieler) topScorer1[0];
-            double punkte = ((Number) topScorer1[1]).doubleValue();
-            int spiele = ((Number) topScorer1[2]).intValue();
+        zeigeTopScorer(lbTopScorer1, topScorer1);
+        zeigeTopScorer(lbTopScorer2, topScorer2);
+        zeigeTopScorer(lbTopScorer3, topScorer3);
 
-            lbTopScorer1.setText("TopScorer: " + spieler.getVorname() + " " + spieler.getNachname() + " | " + String.format("%.2f", punkte) + " PPG" + " in " + spiele + (spiele == 1 ? " Spiel" : " Spielen"));
-        } else {
-            lbTopScorer1.setText("TopScorer: Nicht verfügbar");
-        }
-
-        if (topScorer2 != null) {
-            Spieler spieler = (Spieler) topScorer2[0];
-            double punkte = ((Number) topScorer2[1]).doubleValue();
-            int spiele = ((Number) topScorer2[2]).intValue();
-
-            lbTopScorer2.setText("TopScorer: " + spieler.getVorname() + " " + spieler.getNachname() + " | " + String.format("%.2f", punkte) + " PPG" + " in " + spiele + (spiele == 1 ? " Spiel" : " Spielen"));
-        } else {
-            lbTopScorer2.setText("TopScorer: Nicht verfügbar");
-        }
-
-        if (topScorer3 != null) {
-            Spieler spieler = (Spieler) topScorer3[0];
-            double punkte = ((Number) topScorer3[1]).doubleValue();
-            int spiele = ((Number) topScorer3[2]).intValue();
-
-            lbTopScorer3.setText("TopScorer: " + spieler.getVorname() + " " + spieler.getNachname() + " | " + String.format("%.2f", punkte) + " PPG" + " in " + spiele + (spiele == 1 ? " Spiel" : " Spielen"));
-        } else {
-            lbTopScorer3.setText("TopScorer: Nicht verfügbar");
-        }
-
+        zeigePunkteschnitt(lbPunktedurchschnit1, mannIn1);
+        zeigePunkteschnitt(lbPunktedurchschnit2, mannIn2);
+        zeigePunkteschnitt(lbPunktedurchschnit3, mannIn3);
     }
 
     private XYChart.Series setzeStatistik(List<Spiele> spieleList) {
@@ -237,5 +214,28 @@ public class StatistikController implements Initializable, MainBorderSettable {
         }
 
         return zaehler == 0 ? 0 : (double) summe / zaehler;
+    }
+
+    private void zeigeTopScorer(Label label, Object[] scorer) {
+        if (scorer != null) {
+            Spieler spieler = (Spieler) scorer[0];
+            double punkte = ((Number) scorer[1]).doubleValue();
+            int spiele = ((Number) scorer[2]).intValue();
+
+            label.setText("Top-Scorer: " + spieler.getVorname() + " " + spieler.getNachname()
+                    + " | " + String.format("%.1f", punkte) + " PPG in "
+                    + spiele + (spiele == 1 ? " Spiel" : " Spielen"));
+        } else {
+            label.setText("Top-Scorer: Nicht verfügbar");
+        }
+    }
+
+    private void zeigePunkteschnitt(Label label, MannschaftIntern mannschaft) {
+        Double schnitt = spieleService.getPunkteschnittProMannschaft(mannschaft);
+        if (schnitt != null) {
+            label.setText("Punktedurchschnitt: " + String.format("%.1f", schnitt) + " PPG");
+        } else {
+            label.setText("Punktedurchschnitt: Nicht verfügbar");
+        }
     }
 }

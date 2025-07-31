@@ -48,4 +48,8 @@ public class SpieleService extends BaseService<Spiele> {
     public List<Spiele> getByMannschaft(MannschaftIntern mannschaft) {
         return TryCatchUtil.tryCatchList(() -> dao.findByMannschaft(mannschaft));
     }
+
+    public Double getPunkteschnittProMannschaft(MannschaftIntern mannschaft) {
+        return TryCatchUtil.tryCatch(()->dao.findPunkteschnittProMannschaft(mannschaft));
+    }
 }
