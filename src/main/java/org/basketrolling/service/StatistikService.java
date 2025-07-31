@@ -5,6 +5,7 @@
 package org.basketrolling.service;
 
 import java.util.List;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.beans.Statistik;
 import org.basketrolling.dao.StatistikDAO;
@@ -50,4 +51,9 @@ public class StatistikService extends BaseService<Statistik> {
     public List<Object[]> getTop5Scorer() {
         return TryCatchUtil.tryCatchList(() -> dao.findTop5Scorer());
     }
+
+    public Object[] getTopScorerByMannschaft(MannschaftIntern mannschaft) {
+        return TryCatchUtil.tryCatch(() -> dao.findTopScorerByMannschaft(mannschaft));
+    }
+
 }

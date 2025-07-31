@@ -121,11 +121,6 @@
                               <Insets bottom="15.0" />
                            </GridPane.margin>
                         </BarChart>
-                        <Label text="Label" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                           <GridPane.margin>
-                              <Insets left="15.0" top="75.0" />
-                           </GridPane.margin>
-                        </Label>
                         <Label fx:id="lbDurchschnittsalter1" text="Durchschnittsalter:" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets left="15.0" top="35.0" />

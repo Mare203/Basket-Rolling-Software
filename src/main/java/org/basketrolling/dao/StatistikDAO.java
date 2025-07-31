@@ -6,7 +6,9 @@ package org.basketrolling.dao;
 
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
+import org.basketrolling.beans.Spieler;
 import org.basketrolling.beans.Statistik;
 
 /**
@@ -55,6 +57,26 @@ public class StatistikDAO extends BaseDAO<Statistik> {
                     + " FROM Statistik s GROUP BY s.spieler"
                     + " ORDER BY SUM(s.punkte) * 1.0 / COUNT(DISTINCT s.spiel) DESC";
             return em.createQuery(jpql, Object[].class).setMaxResults(5).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Object[] findTopScorerByMannschaft(MannschaftIntern mannschaft) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT s.spieler, SUM(s.punkte) * 1.0 / COUNT(DISTINCT s.spiel), COUNT(DISTINCT s.spiel) "
+                    + "FROM Statistik s "
+                    + "WHERE s.spiel.mannschaftIntern = :mannschaft "
+                    + "GROUP BY s.spieler "
+                    + "ORDER BY SUM(s.punkte) * 1.0 / COUNT(DISTINCT s.spiel) DESC";
+
+            List<Object[]> result = em.createQuery(jpql, Object[].class)
+                    .setParameter("mannschaft", mannschaft)
+                    .setMaxResults(1)
+                    .getResultList();
+
+            return result.isEmpty() ? null : result.get(0);
         } finally {
             em.close();
         }

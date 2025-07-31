@@ -27,10 +27,12 @@ import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.dao.SpieleDAO;
 import org.basketrolling.dao.SpielerDAO;
+import org.basketrolling.dao.StatistikDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.service.SpielerService;
+import org.basketrolling.service.StatistikService;
 
 /**
  *
@@ -39,13 +41,14 @@ import org.basketrolling.service.SpielerService;
 public class StatistikController implements Initializable, MainBorderSettable {
 
     SpielerDAO spielerDao;
-    SpielerService spielerService;
-
-    SpieleDAO spieleDao;
-    SpieleService spieleService;
-
     MannschaftInternDAO mannInDao;
+    SpieleDAO spieleDao;
+    StatistikDAO statsitikDao;
+
+    SpielerService spielerService;
+    SpieleService spieleService;
     MannschaftInternService mannInService;
+    StatistikService statsitikService;
 
     MannschaftIntern mannIn1;
     MannschaftIntern mannIn2;
@@ -93,6 +96,15 @@ public class StatistikController implements Initializable, MainBorderSettable {
     @FXML
     private Label lbTopScorer3;
 
+    @FXML
+    private Label lbPunktedurchschnit1;
+
+    @FXML
+    private Label lbPunktedurchschnit2;
+
+    @FXML
+    private Label lbPunktedurchschnit3;
+
     private BorderPane mainBorderPane;
 
     public void setMainBorder(BorderPane mainBorderPane) {
@@ -104,10 +116,12 @@ public class StatistikController implements Initializable, MainBorderSettable {
         spieleDao = new SpieleDAO();
         spielerDao = new SpielerDAO();
         mannInDao = new MannschaftInternDAO();
+        statsitikDao = new StatistikDAO();
 
         spieleService = new SpieleService(spieleDao);
         spielerService = new SpielerService(spielerDao);
         mannInService = new MannschaftInternService(mannInDao);
+        statsitikService = new StatistikService(statsitikDao);
 
         List<MannschaftIntern> mannschaft1 = mannInService.getByName("Basket Rolling/1");
         List<MannschaftIntern> mannschaft2 = mannInService.getByName("Basket Rolling/2");
@@ -136,7 +150,41 @@ public class StatistikController implements Initializable, MainBorderSettable {
         lbDurchschnittsalter1.setText("Durchschnittsalter: " + String.format("%.2f", berechneDurchschnittsalter(aktiveSpieler1)));
         lbDurchschnittsalter2.setText("Durchschnittsalter: " + String.format("%.2f", berechneDurchschnittsalter(aktiveSpieler2)));
         lbDurchschnittsalter3.setText("Durchschnittsalter: " + String.format("%.2f", berechneDurchschnittsalter(aktiveSpieler3)));
-   
+
+        Object[] topScorer1 = statsitikService.getTopScorerByMannschaft(mannIn1);
+        Object[] topScorer2 = statsitikService.getTopScorerByMannschaft(mannIn2);
+        Object[] topScorer3 = statsitikService.getTopScorerByMannschaft(mannIn3);
+
+        if (topScorer1 != null) {
+            Spieler spieler = (Spieler) topScorer1[0];
+            double punkte = ((Number) topScorer1[1]).doubleValue();
+            int spiele = ((Number) topScorer1[2]).intValue();
+
+            lbTopScorer1.setText("TopScorer: " + spieler.getVorname() + " " + spieler.getNachname() + " | " + String.format("%.2f", punkte) + " PPG" + " in " + spiele + (spiele == 1 ? " Spiel" : " Spielen"));
+        } else {
+            lbTopScorer1.setText("TopScorer: Nicht verfügbar");
+        }
+
+        if (topScorer2 != null) {
+            Spieler spieler = (Spieler) topScorer2[0];
+            double punkte = ((Number) topScorer2[1]).doubleValue();
+            int spiele = ((Number) topScorer2[2]).intValue();
+
+            lbTopScorer2.setText("TopScorer: " + spieler.getVorname() + " " + spieler.getNachname() + " | " + String.format("%.2f", punkte) + " PPG" + " in " + spiele + (spiele == 1 ? " Spiel" : " Spielen"));
+        } else {
+            lbTopScorer2.setText("TopScorer: Nicht verfügbar");
+        }
+
+        if (topScorer3 != null) {
+            Spieler spieler = (Spieler) topScorer3[0];
+            double punkte = ((Number) topScorer3[1]).doubleValue();
+            int spiele = ((Number) topScorer3[2]).intValue();
+
+            lbTopScorer3.setText("TopScorer: " + spieler.getVorname() + " " + spieler.getNachname() + " | " + String.format("%.2f", punkte) + " PPG" + " in " + spiele + (spiele == 1 ? " Spiel" : " Spielen"));
+        } else {
+            lbTopScorer3.setText("TopScorer: Nicht verfügbar");
+        }
+
     }
 
     private XYChart.Series setzeStatistik(List<Spiele> spieleList) {
