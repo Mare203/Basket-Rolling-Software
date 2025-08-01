@@ -4,16 +4,13 @@
  */
 package org.basketrolling.gui.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -21,8 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Training;
 import org.basketrolling.dao.TrainingDAO;
 import org.basketrolling.gui.controller.bearbeiten.TrainingBearbeitenController;
@@ -88,38 +83,19 @@ public class TrainingController implements Initializable, MainBorderSettable {
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
-            private final Button ansehenBtn = new Button();
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
 
-            private final HBox buttonBox = new HBox(15, ansehenBtn, bearbeitenBtn, loeschenBtn);
+            private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
                 buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-                ansehenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/see.png"));
                 bearbeitenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/edit.png"));
                 loeschenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/delete.png"));
 
-                ansehenBtn.getStyleClass().add("icon-btn");
                 bearbeitenBtn.getStyleClass().add("icon-btn");
                 loeschenBtn.getStyleClass().add("icon-btn");
-
-                ansehenBtn.setOnAction(e -> {
-                    try {
-                        Training training = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml"));
-                        Scene scene = new Scene(loader.load());
-
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("Training ansehen");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
 
                 bearbeitenBtn.setOnAction(e -> {
                     Training training = getTableView().getItems().get(getIndex());

@@ -51,10 +51,7 @@ public class SpielerAnzeigenController implements Initializable {
     MitgliedsbeitragZuweisung zuweisung;
 
     @FXML
-    private Label lbVorname;
-
-    @FXML
-    private Label lbNachname;
+    private Label lbName;
 
     @FXML
     private Label lbGeburtsdatum;
@@ -103,9 +100,8 @@ public class SpielerAnzeigenController implements Initializable {
             lbMitgliedsbeitrag.setText("Kein Mitgliedsbeitrag zugewiesen");
         }
 
-        lbVorname.setText(spieler.getVorname());
-        lbNachname.setText(spieler.getNachname());
-        lbGeburtsdatum.setText(String.valueOf(spieler.getGeburtsdatum()));
+        lbName.setText(spieler.getVorname() + " " + spieler.getNachname());
+        lbGeburtsdatum.setText(String.valueOf(spieler.getGeburtsdatum()) + " (" + spieler.getAlter() + ")");
         lbGroesse.setText(String.format("%.2f m", spieler.getGroesse()));
         lbEmail.setText(spieler.geteMail());
         lbMannschaft.setText(spieler.getMannschaftIntern().getName());
@@ -127,6 +123,6 @@ public class SpielerAnzeigenController implements Initializable {
     }
 
     public void abbrechen() {
-        MenuUtil.fensterSchliessenOhneWarnung(lbVorname);
+        MenuUtil.fensterSchliessenOhneWarnung(lbName);
     }
 }
