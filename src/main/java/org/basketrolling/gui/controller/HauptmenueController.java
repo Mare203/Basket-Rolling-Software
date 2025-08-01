@@ -51,7 +51,6 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     MitgliedsbeitragZuweisungService mitgliedsbeitragZuweisungService = new MitgliedsbeitragZuweisungService(mitgliedsbeitragDao);
 
     private Login benutzer;
-    private MenuUtil menuUtil;
     public static final String DEFAULT_CSS = "/org/basketrolling/gui/css/styles.css";
 
     @FXML
@@ -118,7 +117,6 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         List<String> topScorerAlsString = new ArrayList<>();
         List<Training> heutigeTrainings = trainingService.getHeutigeTrainings();
         List<MitgliedsbeitragZuweisung> spielerOffeneBeitraege = mitgliedsbeitragZuweisungService.getOffeneBeitraege();
-        menuUtil = new MenuUtil(borderPane);
 
         Label platzhalterLL = new Label("Keine Spiele vorhanden");
         Label platzhalterH2 = new Label("Keine Spiele vorhanden");
@@ -250,55 +248,55 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     }
 
     public void spielerMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/spieler/spielermenue.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/spieler/spielermenue.fxml");
     }
 
     public void trainerMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/trainer/trainermenue.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/trainer/trainermenue.fxml");
     }
 
     public void mannschaftInternMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternmenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/mannschaften/mannschaftinternmenu.fxml");
     }
 
     public void mannschaftExternMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternmenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/mannschaften/mannschaftexternmenu.fxml");
     }
 
     public void hallenMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/halle/hallenmenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/halle/hallenmenu.fxml");
     }
 
     public void trainingMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/training/trainingmenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/training/trainingmenu.fxml");
     }
 
     public void mitgliedsbeitragMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragmenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragmenu.fxml");
     }
 
     public void userMenu() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/login/usermenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/login/usermenu.fxml");
     }
 
     public void ligaMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/liga/ligamenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/liga/ligamenu.fxml");
     }
 
     public void spieleMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/spiele/spielemenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/spiele/spielemenu.fxml");
     }
 
     public void elternkontaktMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktemenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/elternkontakte/elternkontaktemenu.fxml");
     }
 
     public void statistikMenuOeffnen() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/statistik/statistikmenu.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/statistik/statistikmenu.fxml");
     }
 
     public void backToHauptmenu() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/hauptmenu/hauptmenuecenter.fxml");
+        MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/hauptmenu/hauptmenuecenter.fxml");
 
     }
 

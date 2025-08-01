@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.BorderPane;
 import org.basketrolling.beans.Login;
@@ -56,17 +55,10 @@ public class PasswortChangeController implements Initializable, MainBorderSettab
         Login loginPruefung = service.pruefung(aktuellerLogin.getBenutzername(), pfPasswort.getText());
 
         if (loginPruefung != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/neuespasswort.fxml"));
-                Parent neuesPasswort = loader.load();
+            PasswortNeuController controller = MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/login/neuespasswort.fxml");
 
-                PasswortNeuController controller = loader.getController();
+            if (controller != null) {
                 controller.initLogin(aktuellerLogin);
-                controller.setMainBorder(borderPane);
-
-                borderPane.setCenter(neuesPasswort);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
         } else {

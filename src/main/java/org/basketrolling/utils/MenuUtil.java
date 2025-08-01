@@ -25,29 +25,6 @@ import org.basketrolling.interfaces.MainBorderSettable;
  */
 public class MenuUtil {
 
-    private final BorderPane borderPane;
-
-    public MenuUtil(BorderPane borderPane) {
-        this.borderPane = borderPane;
-    }
-
-    public void menuOeffnen(String pfad) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(pfad));
-            Parent p = loader.load();
-
-            Object controller = loader.getController();
-
-            if (controller instanceof MainBorderSettable mbSettable) {
-                mbSettable.setMainBorder(borderPane);
-            }
-
-            borderPane.setCenter(p);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static <T> T neuesFensterModalAnzeigen(String pfad, String titel) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(pfad));
@@ -173,13 +150,31 @@ public class MenuUtil {
             Parent hauptMenue = loader.load();
 
             HauptmenueController controller = loader.getController();
-            
+
             borderPane.setCenter(hauptMenue);
             controller.initUser(Session.getBenutzer());
 
         } catch (IOException ex) {
             ex.printStackTrace();
             AlertUtil.alertError("Fehler beim Zurückkehren", "Das Hauptmenü konnte nicht geladen werden.", ex.getMessage());
+        }
+    }
+
+    public static <T> T ladeMenuUndSetzeCenter(BorderPane borderPane, String fxmlPfad) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
+            Parent view = loader.load();
+            T controller = loader.getController();
+
+            if (controller instanceof MainBorderSettable mbSettable) {
+                mbSettable.setMainBorder(borderPane);
+            }
+
+            borderPane.setCenter(view);
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

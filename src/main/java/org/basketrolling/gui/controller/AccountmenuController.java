@@ -18,6 +18,7 @@ import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -44,7 +45,7 @@ public class AccountmenuController implements Initializable, MainBorderSettable 
 
     @FXML
     private Button passwortChange;
-    
+
     @FXML
     private BorderPane borderPane;
 
@@ -62,24 +63,16 @@ public class AccountmenuController implements Initializable, MainBorderSettable 
         lBenutzername.setText(login.getBenutzername());
         lRolle.setText(login.getRolle().toString());
     }
-    
-     public void setMainBorder(BorderPane mainBorderPane) {
+
+    public void setMainBorder(BorderPane mainBorderPane) {
         this.borderPane = mainBorderPane;
     }
 
-
     public void passwortChange() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/passwortcheck.fxml"));
-            Parent passwortMenu = loader.load();
-            
-            PasswortChangeController controller = loader.getController();
-            controller.initLogin(aktuellerLogin);
-            controller.setMainBorder(borderPane);
+        PasswortChangeController controller = MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/login/passwortcheck.fxml");
 
-            borderPane.setCenter(passwortMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (controller != null) {
+            controller.initLogin(aktuellerLogin);
         }
     }
 }
