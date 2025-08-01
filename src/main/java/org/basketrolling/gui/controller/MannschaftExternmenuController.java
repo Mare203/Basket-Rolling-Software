@@ -19,8 +19,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -34,6 +32,7 @@ import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.MannschaftExternService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.BildUtil;
 import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
@@ -101,9 +100,9 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
             {
                 buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-                ansehenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/see.png"));
-                bearbeitenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/edit.png"));
-                loeschenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/delete.png"));
+                ansehenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/see.png"));
+                bearbeitenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/edit.png"));
+                loeschenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/delete.png"));
 
                 ansehenBtn.getStyleClass().add("icon-btn");
                 bearbeitenBtn.getStyleClass().add("icon-btn");
@@ -163,14 +162,6 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
                 }
             }
         });
-    }
-
-    private ImageView ladeBild(String pfad) {
-        Image icon = new Image(getClass().getResourceAsStream(pfad));
-        ImageView bild = new ImageView(icon);
-        bild.setFitHeight(20);
-        bild.setFitWidth(20);
-        return bild;
     }
 
     public void backToHauptmenue() {

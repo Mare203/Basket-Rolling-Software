@@ -17,8 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.basketrolling.beans.Elternkontakt;
 import org.basketrolling.dao.ElternkontaktDAO;
@@ -26,6 +24,7 @@ import org.basketrolling.gui.controller.bearbeiten.ElternkontaktBearbeitenContro
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.ElternkontaktService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.BildUtil;
 import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
@@ -96,8 +95,8 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
             {
                 buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-                bearbeitenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/edit.png"));
-                loeschenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/delete.png"));
+                bearbeitenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/edit.png"));
+                loeschenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/delete.png"));
 
                 bearbeitenBtn.getStyleClass().add("icon-btn");
                 loeschenBtn.getStyleClass().add("icon-btn");
@@ -137,14 +136,6 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
                 }
             }
         });
-    }
-
-    private ImageView ladeBild(String pfad) {
-        Image icon = new Image(getClass().getResourceAsStream(pfad));
-        ImageView bild = new ImageView(icon);
-        bild.setFitHeight(20);
-        bild.setFitWidth(20);
-        return bild;
     }
 
     public void backToHauptmenue() {

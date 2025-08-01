@@ -25,6 +25,7 @@ import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.BildUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
@@ -87,7 +88,7 @@ public class UserController implements Initializable, MainBorderSettable {
             {
                 buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-                loeschenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/delete.png"));
+                loeschenBtn.setGraphic(BildUtil.ladeBildSmall("/org/basketrolling/gui/images/delete.png"));
                 loeschenBtn.getStyleClass().add("icon-btn");
 
                 loeschenBtn.setOnAction(e -> {
@@ -112,14 +113,6 @@ public class UserController implements Initializable, MainBorderSettable {
                 }
             }
         });
-    }
-
-    private ImageView ladeBild(String pfad) {
-        Image icon = new Image(getClass().getResourceAsStream(pfad));
-        ImageView bild = new ImageView(icon);
-        bild.setFitHeight(20);
-        bild.setFitWidth(20);
-        return bild;
     }
 
     public void backToHauptmenue() {
