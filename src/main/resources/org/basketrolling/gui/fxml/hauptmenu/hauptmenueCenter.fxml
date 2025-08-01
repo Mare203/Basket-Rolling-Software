@@ -89,7 +89,7 @@
                         <Insets top="10.0" />
                     </GridPane.margin>
                 </Button>
-                <Button fx:id="mannschaftHinzu" mnemonicParsing="false" onAction="#quickMannschaftExternHinzufuegen" styleClass="quick-btns" text="Mannschaft (E) anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                <Button fx:id="mannschaftEHinzu" mnemonicParsing="false" onAction="#quickMannschaftExternHinzufuegen" styleClass="quick-btns" text="Mannschaft (E) anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
                     <padding>
                         <Insets bottom="9.0" left="7.0" right="7.0" top="9.0" />
                     </padding>
@@ -105,7 +105,7 @@
                         <Insets left="155.0" top="10.0" />
                     </GridPane.margin>
                 </Button>
-                <Button fx:id="statsWatch" mnemonicParsing="false" onAction="#quickMitgliedsbeitragHinzufuegen" styleClass="quick-btns" text="Mitgliedsbeitrag anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                <Button fx:id="mitgliedsbeitragHinzu" mnemonicParsing="false" onAction="#quickMitgliedsbeitragHinzufuegen" styleClass="quick-btns" text="Mitgliedsbeitrag anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                     <padding>
                         <Insets bottom="9.0" left="2.0" right="3.0" top="9.0" />
                     </padding>
@@ -113,7 +113,7 @@
                         <Insets left="155.0" top="10.0" />
                     </GridPane.margin>
                 </Button>
-                <Button fx:id="spielerWatch" mnemonicParsing="false" onAction="#quickMannschaftInternHinzufuegen" styleClass="quick-btns" text="Mannschaft (I) anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                <Button fx:id="mannschaftIHinzu" mnemonicParsing="false" onAction="#quickMannschaftInternHinzufuegen" styleClass="quick-btns" text="Mannschaft (I) anlegen" textFill="#3553b5" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                     <padding>
                         <Insets bottom="9.0" left="8.0" right="8.0" top="9.0" />
                     </padding>

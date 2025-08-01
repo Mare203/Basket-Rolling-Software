@@ -86,28 +86,28 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
 
     @FXML
     private BorderPane borderPane;
-    
+
     @FXML
     private Button spielerHinzu;
-    
+
     @FXML
     private Button trainingHinzu;
-    
+
     @FXML
     private Button spielHinzu;
-    
+
     @FXML
     private Button trainerHinzu;
-    
+
     @FXML
     private Button mannschaftEHinzu;
-    
+
     @FXML
     private Button mannschaftIHinzu;
-    
+
     @FXML
     private Button mitgliedsbeitragHinzu;
-    
+
     @FXML
     private Button halleHinzu;
 
@@ -217,8 +217,10 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         welcomeUser.setText("Willkommen, " + benutzer.getVorname() + "!");
 
         if (benutzer.getRolle() != Rolle.ADMIN) {
-            adminBtn.setDisable(true);
-            adminBtn.setVisible(false);
+            if (adminBtn != null) {
+                adminBtn.setDisable(true);
+                adminBtn.setVisible(false);
+            }
             spielerHinzu.setDisable(true);
             trainingHinzu.setDisable(true);
             spielHinzu.setDisable(true);

@@ -34,6 +34,7 @@ import org.basketrolling.service.SpieleService;
 import org.basketrolling.service.SpielerService;
 import org.basketrolling.service.StatistikService;
 import org.basketrolling.utils.AlertUtil;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -195,14 +196,7 @@ public class StatistikController implements Initializable, MainBorderSettable {
     }
 
     public void backToHauptmenue() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenueCenter.fxml"));
-            Parent hauptMenue = loader.load();
-
-            mainBorderPane.setCenter(hauptMenue);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
     public double berechneDurchschnittsalter(List<Spieler> spielerListe) {

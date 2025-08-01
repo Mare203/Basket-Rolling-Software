@@ -154,28 +154,10 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
     }
 
     public void backToHauptmenue() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenueCenter.fxml"));
-            Parent hauptMenue = loader.load();
-
-            mainBorderPane.setCenter(hauptMenue);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
     public void elternkontaktHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktehinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage elternkontaktHinzufuegen = new Stage();
-            elternkontaktHinzufuegen.setTitle("Elternkontakt hinzufügen");
-            elternkontaktHinzufuegen.setScene(scene);
-            elternkontaktHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            elternkontaktHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktehinzufuegen.fxml", "Elternkontakt hinzufügen");
     }
 }

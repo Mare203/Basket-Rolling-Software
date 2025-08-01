@@ -33,6 +33,7 @@ import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
+import org.basketrolling.utils.MenuUtil;
 
 /**
  *
@@ -154,14 +155,7 @@ public class UserController implements Initializable, MainBorderSettable {
     }
 
     public void backToHauptmenue() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenueCenter.fxml"));
-            Parent hauptMenue = loader.load();
-
-            mainBorderPane.setCenter(hauptMenue);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
     public void userHinzufuegen() {

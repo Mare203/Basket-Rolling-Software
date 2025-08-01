@@ -175,14 +175,7 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
     }
 
     public void backToHauptmenue() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenueCenter.fxml"));
-            Parent hauptMenue = loader.load();
-
-            mainBorderPane.setCenter(hauptMenue);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
     public void mannschaftHinzufuegen() {

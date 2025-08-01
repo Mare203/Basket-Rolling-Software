@@ -181,14 +181,7 @@ public class SpielermenueController implements Initializable, MainBorderSettable
     }
 
     public void backToHauptmenue() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenueCenter.fxml"));
-            Parent hauptMenue = loader.load();
-
-            mainBorderPane.setCenter(hauptMenue);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
     public void spielerHinzufuegen() {

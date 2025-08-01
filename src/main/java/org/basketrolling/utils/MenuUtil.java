@@ -16,6 +16,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.basketrolling.gui.controller.HauptmenueController;
 import org.basketrolling.interfaces.MainBorderSettable;
 
 /**
@@ -164,5 +165,21 @@ public class MenuUtil {
     public static void fensterSchliessenOhneWarnung(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
+    }
+
+    public static void backToHauptmenu(BorderPane borderPane) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenueCenter.fxml"));
+            Parent hauptMenue = loader.load();
+
+            HauptmenueController controller = loader.getController();
+            
+            borderPane.setCenter(hauptMenue);
+            controller.initUser(Session.getBenutzer());
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            AlertUtil.alertError("Fehler beim Zurückkehren", "Das Hauptmenü konnte nicht geladen werden.", ex.getMessage());
+        }
     }
 }
