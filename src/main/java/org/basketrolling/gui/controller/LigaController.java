@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -182,18 +181,7 @@ public class LigaController implements Initializable, MainBorderSettable {
     }
 
     public void ligaHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/liga/ligahinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage ligaHinzufuegen = new Stage();
-            ligaHinzufuegen.setTitle("Liga hinzufügen");
-            ligaHinzufuegen.setScene(scene);
-            ligaHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            ligaHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/liga/ligahinzufuegen.fxml", "Liga hinzufügen");
     }
 
     public boolean kannLigaGeloeschtWerden(Liga liga) {

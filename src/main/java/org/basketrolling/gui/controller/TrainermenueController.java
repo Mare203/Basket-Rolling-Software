@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -183,17 +182,6 @@ public class TrainermenueController implements Initializable, MainBorderSettable
     }
 
     public void trainerHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/trainer/trainerhinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage trainerHinzufuegen = new Stage();
-            trainerHinzufuegen.setTitle("Trainer hinzufügen");
-            trainerHinzufuegen.setScene(scene);
-            trainerHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            trainerHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/trainer/trainerhinzufuegen.fxml", "Trainer hinzufügen");
     }
 }

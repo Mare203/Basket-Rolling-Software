@@ -14,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -159,17 +158,6 @@ public class UserController implements Initializable, MainBorderSettable {
     }
 
     public void userHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/userhinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage halle = new Stage();
-            halle.setTitle("User hinzufügen");
-            halle.setScene(scene);
-            halle.initModality(Modality.APPLICATION_MODAL);
-            halle.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/login/userhinzufuegen.fxml", "User hinzufügen");
     }
 }

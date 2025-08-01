@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -193,18 +192,7 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
     }
 
     public void halleHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/halle/hallehinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage halle = new Stage();
-            halle.setTitle("Halle hinzufügen");
-            halle.setScene(scene);
-            halle.initModality(Modality.APPLICATION_MODAL);
-            halle.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/halle/hallehinzufuegen.fxml", "Halle hinzufügen");
     }
 
     public boolean kannHalleGeloeschtWerden(Halle halle) {

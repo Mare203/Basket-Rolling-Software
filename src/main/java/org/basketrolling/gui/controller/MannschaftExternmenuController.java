@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -179,18 +178,7 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
     }
 
     public void mannschaftHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternhinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage mannschaftHinzufuegen = new Stage();
-            mannschaftHinzufuegen.setTitle("Mannschaft hinzufügen");
-            mannschaftHinzufuegen.setScene(scene);
-            mannschaftHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            mannschaftHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternhinzufuegen.fxml", "Mannschaft hinzufügen");
     }
 
     public boolean kannMannschaftGeloeschtWerden(MannschaftExtern mannschaft) {

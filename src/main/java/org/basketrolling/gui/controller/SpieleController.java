@@ -14,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -220,17 +219,6 @@ public class SpieleController implements Initializable, MainBorderSettable {
     }
 
     public void spielHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spiele/spielhinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage spielHinzufuegen = new Stage();
-            spielHinzufuegen.setTitle("Spiel hinzufügen");
-            spielHinzufuegen.setScene(scene);
-            spielHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            spielHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spiele/spielhinzufuegen.fxml", "Spiel hinzufügen");
     }
 }

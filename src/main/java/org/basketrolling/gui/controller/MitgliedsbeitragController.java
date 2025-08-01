@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -173,17 +172,6 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
     }
 
     public void mitgliedsbeitragHinzufuegen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitraghinzufuegen.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            Stage mitgliedsbeitragHinzufuegen = new Stage();
-            mitgliedsbeitragHinzufuegen.setTitle("Mitgliedsbeitrag hinzufügen");
-            mitgliedsbeitragHinzufuegen.setScene(scene);
-            mitgliedsbeitragHinzufuegen.initModality(Modality.APPLICATION_MODAL);
-            mitgliedsbeitragHinzufuegen.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitraghinzufuegen.fxml", "Mitgliedsbeitrag hinzufügen");
     }
 }
