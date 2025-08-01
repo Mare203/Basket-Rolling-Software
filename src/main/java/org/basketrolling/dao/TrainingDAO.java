@@ -5,11 +5,13 @@
 package org.basketrolling.dao;
 
 import jakarta.persistence.EntityManager;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Training;
+import org.basketrolling.enums.Wochentag;
 
 /**
  * DAO-Klasse für den Zugriff auf {@link Training}-Entitäten. Diese Klasse
@@ -59,9 +61,10 @@ public class TrainingDAO extends BaseDAO<Training> {
     public List<Training> findHeutigeTrainings() {
         EntityManager em = getEntityManager();
         try {
+            Wochentag heute = mapDayOfWeekToWochentag(LocalDate.now().getDayOfWeek());
             String jpql = "SELECT t FROM Training t LEFT JOIN FETCH t.mannschaftIntern WHERE t.wochentag = :wochentag";
             return em.createQuery(jpql, Training.class)
-                    .setParameter("wochentag", LocalDate.now().getDayOfWeek().toString())
+                    .setParameter("wochentag", heute)
                     .getResultList();
         } finally {
             em.close();
@@ -104,5 +107,24 @@ public class TrainingDAO extends BaseDAO<Training> {
         } finally {
             em.close();
         }
+    }
+
+    private Wochentag mapDayOfWeekToWochentag(DayOfWeek dayOfWeek) {
+        return switch (dayOfWeek) {
+            case MONDAY ->
+                Wochentag.Montag;
+            case TUESDAY ->
+                Wochentag.Dienstag;
+            case WEDNESDAY ->
+                Wochentag.Mittwoch;
+            case THURSDAY ->
+                Wochentag.Donnerstag;
+            case FRIDAY ->
+                Wochentag.Freitag;
+            case SATURDAY ->
+                Wochentag.Samstag;
+            case SUNDAY ->
+                Wochentag.Sonntag;
+        };
     }
 }

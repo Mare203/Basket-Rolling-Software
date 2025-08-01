@@ -11,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.beans.MannschaftIntern;
@@ -19,6 +18,7 @@ import org.basketrolling.beans.Training;
 import org.basketrolling.dao.HalleDAO;
 import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.dao.TrainingDAO;
+import org.basketrolling.enums.Wochentag;
 import org.basketrolling.service.HalleService;
 import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.TrainingService;
@@ -43,7 +43,7 @@ public class TrainingBearbeitenController implements Initializable {
     MannschaftInternService mannschaftInternService;
 
     @FXML
-    private DatePicker dpDatum;
+    private ComboBox<Wochentag> cbWochentag;
 
     @FXML
     private ComboBox<Halle> cbHalle;
@@ -69,12 +69,13 @@ public class TrainingBearbeitenController implements Initializable {
 
         cbHalle.setItems(FXCollections.observableArrayList(halle));
         cbMannschaft.setItems(FXCollections.observableArrayList(mannschaft));
+        cbWochentag.setItems(FXCollections.observableArrayList(Wochentag.values()));
     }
 
     public void initTraining(Training training) {
         this.bearbeitenTraining = training;
 
-        dpDatum.setValue(training.getDatum());
+        cbWochentag.setValue(training.getWochentag());
         cbHalle.setValue(training.getHalle());
         cbMannschaft.setValue(training.getMannschaftIntern());
         tfDauer.setText(String.valueOf(training.getDauerInMin()));
@@ -83,7 +84,7 @@ public class TrainingBearbeitenController implements Initializable {
     public void aktualisieren() {
         String dauerText = tfDauer.getText().trim();
 
-        if (dpDatum.getValue() != null
+        if (cbWochentag.getValue() != null
                 && cbHalle.getValue() != null
                 && cbMannschaft.getValue() != null
                 && !dauerText.isEmpty()) {
@@ -94,11 +95,10 @@ public class TrainingBearbeitenController implements Initializable {
                     throw new NumberFormatException();
                 }
 
-                bearbeitenTraining.setDatum(dpDatum.getValue());
+                bearbeitenTraining.setWochentag(cbWochentag.getValue());
                 bearbeitenTraining.setDauerInMin(dauer);
                 bearbeitenTraining.setHalle(cbHalle.getValue());
                 bearbeitenTraining.setMannschaftIntern(cbMannschaft.getValue());
-                bearbeitenTraining.setWochentag(dpDatum.getValue().getDayOfWeek().toString());
 
                 trainingService.update(bearbeitenTraining);
 

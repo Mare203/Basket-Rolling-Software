@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -40,22 +39,27 @@
                </GridPane.margin>
             </Label>
             <ComboBox fx:id="cbHalle" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Datum:" GridPane.rowIndex="2">
+            <Label text="Tag: *" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker fx:id="dpDatum" maxWidth="-Infinity" prefWidth="200.0" promptText="01.01.2000" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="cbWochentag" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Dauer in Minuten: *" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="tfDauer" maxWidth="-Infinity" prefWidth="50.0" promptText="z.b. 90" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <TextField fx:id="tfDauer" maxWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="44.0" />
                </GridPane.margin>
             </TextField>
+            <Label text="* Pflichtfeld" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="15.0" />
+               </GridPane.margin>
+            </Label>
             <HBox prefHeight="100.0" prefWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <Button fx:id="speichernBtn" mnemonicParsing="false" onAction="#speichern" text="Speichern">
@@ -76,11 +80,6 @@
                   </Button>
                </children>
             </HBox>
-            <Label text="* Pflichtfeld" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="15.0" />
-               </GridPane.margin>
-            </Label>
          </children>
       </GridPane>
    </center>

@@ -6,14 +6,16 @@ package org.basketrolling.beans;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 import java.util.UUID;
+import org.basketrolling.enums.Wochentag;
 
 /**
  *
@@ -36,11 +38,9 @@ public class Training {
     @JoinColumn(name = "mannschaft_intern_id")
     private MannschaftIntern mannschaftIntern;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "wochentag")
-    private String wochentag;
-
-    @Column(name = "datum", nullable = false)
-    private LocalDate datum;
+    private Wochentag wochentag;
 
     @Column(name = "dauer_minuten")
     private int dauerInMin;
@@ -67,21 +67,13 @@ public class Training {
 
     public void setMannschaftIntern(MannschaftIntern mannschaftIntern) {
         this.mannschaftIntern = mannschaftIntern;
-    }    
-    
-    public LocalDate getDatum() {
-        return datum;
     }
 
-    public void setDatum(LocalDate datum) {
-        this.datum = datum;
-    }
-
-    public String getWochentag() {
+    public Wochentag getWochentag() {
         return wochentag;
     }
 
-    public void setWochentag(String wochentag) {
+    public void setWochentag(Wochentag wochentag) {
         this.wochentag = wochentag;
     }
 
