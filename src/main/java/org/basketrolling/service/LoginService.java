@@ -55,29 +55,6 @@ public class LoginService extends BaseService<Login> {
         return TryCatchUtil.tryCatchList(() -> dao.findByRolle(rolle));
     }
 
-    /**
-     * Registriert einen neuen Benutzer, indem das Passwort mit BCrypt gehasht
-     * und gespeichert wird.
-     *
-     * @param login das übergebene {@link Login}-Objekt mit Klartextpasswort
-     * @return {@code null} (optional kann auch das neue Login-Objekt
-     * zurückgegeben werden)
-     */
-    @Override
-    public Login create(Login login) {
-        String gehashtesPasswort = Password.hash(login.getPasswort()).withBcrypt().getResult();
-
-        Login newLogin = new Login();
-        newLogin.setBenutzername(login.getBenutzername());
-        newLogin.setVorname(login.getVorname());
-        newLogin.setNachname(login.getNachname());
-        newLogin.setPasswort(gehashtesPasswort);
-        newLogin.setRolle(login.getRolle());
-
-        dao.save(newLogin);
-        return null;
-    }
-
     @Override
     public Login update(Login login) {
 

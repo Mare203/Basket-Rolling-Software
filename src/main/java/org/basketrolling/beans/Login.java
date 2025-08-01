@@ -4,6 +4,7 @@
  */
 package org.basketrolling.beans;
 
+import com.password4j.Password;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -81,7 +82,7 @@ public class Login {
     }
 
     public void setPasswort(String passwort) {
-        this.passwort = passwort;
+        this.passwort = Password.hash(passwort).withBcrypt().getResult();
     }
         
     public Rolle getRolle() {
@@ -94,6 +95,6 @@ public class Login {
 
     @Override
     public String toString() {
-        return "Login{" + "loginId=" + loginId + ", vorname=" + vorname + ", nachname=" + nachname + ", benutzername=" + benutzername + ", passwort=" + passwort + ", rolle=" + rolle + '}';
+        return getBenutzername();
     }
 }
