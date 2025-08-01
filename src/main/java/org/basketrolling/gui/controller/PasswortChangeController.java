@@ -18,6 +18,7 @@ import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
+import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
@@ -69,10 +70,7 @@ public class PasswortChangeController implements Initializable, MainBorderSettab
             }
 
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Passwort falsch");
-            alert.setHeaderText("Ungültiges Passwort eingegeben!");
-            alert.show();
+            AlertUtil.alertError("Passwort falsch", "Ungültiges Passwort eingegeben!");
         }
     }
 

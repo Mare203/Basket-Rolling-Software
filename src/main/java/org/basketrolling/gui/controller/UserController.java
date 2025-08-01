@@ -4,20 +4,14 @@
  */
 package org.basketrolling.gui.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,12 +20,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.basketrolling.beans.Login;
 import org.basketrolling.dao.LoginDAO;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.LoginService;
+import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
@@ -87,46 +80,22 @@ public class UserController implements Initializable, MainBorderSettable {
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
-            private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
 
-            private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
+            private final HBox buttonBox = new HBox(15, loeschenBtn);
 
             {
                 buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-                bearbeitenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/edit.png"));
                 loeschenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/delete.png"));
-
-                bearbeitenBtn.getStyleClass().add("icon-btn");
                 loeschenBtn.getStyleClass().add("icon-btn");
-
-                bearbeitenBtn.setOnAction(e -> {
-                    try {
-                        Login login = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spielerbearbeiten.fxml"));
-                        Scene scene = new Scene(loader.load());
-
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("User Bearbeiten");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
 
                 loeschenBtn.setOnAction(e -> {
                     Login login = getTableView().getItems().get(getIndex());
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Bestätigung");
-                    alert.setHeaderText("User löschen");
-                    alert.setContentText("Möchten Sie den User " + login.getVorname() + " " + login.getNachname() + " / " + login.getBenutzername() + " wirklich löschen?");
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Training löschen", "Möchten Sie das Training wirklich löschen?");
 
-                    Optional<ButtonType> result = alert.showAndWait();
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (bestaetigung) {
                         service.delete(login);
                         tabelleLogin.getItems().remove(login);
                     }

@@ -123,7 +123,6 @@ public class TrainingController implements Initializable, MainBorderSettable {
                 });
 
                 bearbeitenBtn.setOnAction(e -> {
-
                     Training training = getTableView().getItems().get(getIndex());
 
                     TrainingBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/training/trainingbearbeiten.fxml", "Training Bearbeiten");
