@@ -25,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.dao.SpielerDAO;
+import org.basketrolling.gui.controller.ansehen.SpielerAnzeigenController;
 import org.basketrolling.gui.controller.bearbeiten.SpielerBearbeitenController;
 import org.basketrolling.interfaces.MainBorderSettable;
 import org.basketrolling.service.SpielerService;
@@ -127,7 +128,11 @@ public class SpielermenueController implements Initializable, MainBorderSettable
 
                 ansehenBtn.setOnAction(e -> {
                     Spieler spieler = getTableView().getItems().get(getIndex());
-                    MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml", "Spieler ansehen");
+                    SpielerAnzeigenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml", "Spieler ansehen");
+
+                    if (controller != null) {
+                        controller.initSpieler(spieler);
+                    }
 
                 });
 

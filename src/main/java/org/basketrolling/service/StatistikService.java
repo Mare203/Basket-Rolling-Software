@@ -7,6 +7,7 @@ package org.basketrolling.service;
 import java.util.List;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
+import org.basketrolling.beans.Spieler;
 import org.basketrolling.beans.Statistik;
 import org.basketrolling.dao.StatistikDAO;
 import org.basketrolling.utils.TryCatchUtil;
@@ -56,4 +57,11 @@ public class StatistikService extends BaseService<Statistik> {
         return TryCatchUtil.tryCatch(() -> dao.findTopScorerByMannschaft(mannschaft));
     }
 
+    public List<Statistik> getBySpieler(Spieler spieler) {
+        return TryCatchUtil.tryCatch(() -> dao.findBySpieler(spieler));
+    }
+
+    public Double getPpgBySpieler(Spieler spieler) {
+        return TryCatchUtil.tryCatch(() -> dao.findPpgBySpieler(spieler));
+    }        
 }

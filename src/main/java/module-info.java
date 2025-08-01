@@ -19,6 +19,7 @@ module BasketRolling {
     opens org.basketrolling.gui.controller to javafx.fxml;
     opens org.basketrolling.gui.controller.hinzufuegen to javafx.fxml;
     opens org.basketrolling.gui.controller.bearbeiten to javafx.fxml;
+    opens org.basketrolling.gui.controller.ansehen to javafx.fxml;
     opens org.basketrolling.gui.menues to javafx.fxml, javafx.graphics;
     
      exports org.basketrolling;
@@ -28,6 +29,7 @@ module BasketRolling {
      exports org.basketrolling.gui.controller;
      exports org.basketrolling.gui.controller.hinzufuegen;
      exports org.basketrolling.gui.controller.bearbeiten;
+     exports org.basketrolling.gui.controller.ansehen;
      exports org.basketrolling.interfaces;
      exports org.basketrolling.service;
      exports org.basketrolling.utils;

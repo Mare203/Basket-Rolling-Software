@@ -81,4 +81,28 @@ public class StatistikDAO extends BaseDAO<Statistik> {
             em.close();
         }
     }
+
+    public List<Statistik> findBySpieler(Spieler spieler) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT s FROM Statistik s WHERE s.spieler = :spieler";
+            return em.createQuery(jpql, Statistik.class)
+                    .setParameter("spieler", spieler)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Double findPpgBySpieler(Spieler spieler) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT SUM(s.punkte) * 1.0 / COUNT(DISTINCT s.spiel) FROM Statistik s WHERE s.spieler = :spieler";
+            return em.createQuery(jpql, Double.class)
+                    .setParameter("spieler", spieler)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 }
