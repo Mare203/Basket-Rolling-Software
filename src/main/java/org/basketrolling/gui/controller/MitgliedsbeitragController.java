@@ -67,6 +67,8 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnHinzufuegen.setVisible(Session.istAdmin());
+
         saisonSpalte.setCellValueFactory(new PropertyValueFactory<>("saison"));
         betragSpalte.setCellValueFactory(new PropertyValueFactory<>("betrag"));
         betragSpalte.setCellFactory(column -> new TableCell<Mitgliedsbeitrag, Double>() {
@@ -153,7 +155,6 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
                     setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

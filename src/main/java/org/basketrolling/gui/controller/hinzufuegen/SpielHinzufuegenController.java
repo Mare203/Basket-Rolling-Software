@@ -149,6 +149,11 @@ public class SpielHinzufuegenController implements Initializable {
             return;
         }
 
+        if (datum.isAfter(LocalDate.now())) {
+            AlertUtil.alertWarning("Ungültiges Datum", "Datum liegt in der Zukunft", "Bitte geben Sie das heutige oder ein vergangenes Datum ein.");
+            return;
+        }
+
         if (cbLiga.getValue() != null
                 && cbHalle.getValue() != null
                 && cbMannschaftIntern.getValue() != null

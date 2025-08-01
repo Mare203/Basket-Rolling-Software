@@ -79,6 +79,8 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
         mannExService = new MannschaftExternService(mannExDao);
         spieleService = new SpieleService(spieleDao);
 
+        btnHinzufuegen.setVisible(Session.istAdmin());
+
         nameSpalte.setCellValueFactory(new PropertyValueFactory<>("name"));
         ligaSpalte.setCellValueFactory(new PropertyValueFactory<>("liga"));
 
@@ -159,7 +161,6 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
                     setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

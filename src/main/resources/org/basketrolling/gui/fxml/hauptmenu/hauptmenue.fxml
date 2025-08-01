@@ -237,7 +237,7 @@
                                                 <Font size="13.0" />
                                             </font>
                                         </Label>
-                                        <Button fx:id="adminBtn" mnemonicParsing="false" onAction="#adminMenu" styleClass="back-button" textFill="#3553b5">
+                                        <Button fx:id="adminBtn" mnemonicParsing="false" onAction="#userMenu" styleClass="back-button" textFill="#3553b5">
                                             <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                             </padding>

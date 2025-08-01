@@ -92,6 +92,8 @@ public class SpieleController implements Initializable, MainBorderSettable {
         spieleService = new SpieleService(spieleDao);
         statistikService = new StatistikService(statistikDao);
 
+        btnHinzufuegen.setVisible(Session.istAdmin());
+
         rollingSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftIntern"));
         ergebnisSpalte.setCellValueFactory(daten -> {
             Spiele spiel = daten.getValue();
@@ -171,7 +173,7 @@ public class SpieleController implements Initializable, MainBorderSettable {
                     List<Statistik> statistiken = statistikService.getBySpiel(spiele);
 
                     if (!statistiken.isEmpty()) {
-                        boolean mitStatistikLoeschen = AlertUtil.confirmationMitJaNein("Achtung – Verknüpfte Daten", 
+                        boolean mitStatistikLoeschen = AlertUtil.confirmationMitJaNein("Achtung – Verknüpfte Daten",
                                 "Dieses Spiel hat verknüpfte Statistik-Einträge.",
                                 "Wenn Sie fortfahren, werden auch alle zugehörigen Statistiken gelöscht.\nMöchten Sie trotzdem fortfahren?");
 
@@ -200,7 +202,6 @@ public class SpieleController implements Initializable, MainBorderSettable {
                     setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

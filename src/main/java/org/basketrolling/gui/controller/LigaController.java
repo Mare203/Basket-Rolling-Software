@@ -83,6 +83,8 @@ public class LigaController implements Initializable, MainBorderSettable {
         mannInService = new MannschaftInternService(mannInDao);
         mannExService = new MannschaftExternService(mannExDao);
 
+        btnHinzufuegen.setVisible(Session.istAdmin());
+
         ligaSpalte.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         List<Liga> mannschaftExternList = ligaService.getAll();
@@ -162,7 +164,6 @@ public class LigaController implements Initializable, MainBorderSettable {
                     setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

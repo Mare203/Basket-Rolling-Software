@@ -27,9 +27,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.basketrolling.beans.Halle;
-import org.basketrolling.beans.Liga;
-import org.basketrolling.beans.MannschaftExtern;
-import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.beans.Training;
 import org.basketrolling.dao.HalleDAO;
@@ -94,6 +91,8 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
         halleService = new HalleService(halleDao);
         trainingService = new TrainingService(trainingDao);
         spieleService = new SpieleService(spieleDao);
+
+        btnHinzufuegen.setVisible(Session.istAdmin());
 
         halleSpalte.setCellValueFactory(new PropertyValueFactory<>("name"));
         strasseSpalte.setCellValueFactory(new PropertyValueFactory<>("strasse"));
@@ -176,7 +175,6 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
                     setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

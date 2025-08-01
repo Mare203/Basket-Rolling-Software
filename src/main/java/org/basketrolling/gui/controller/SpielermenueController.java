@@ -80,6 +80,8 @@ public class SpielermenueController implements Initializable, MainBorderSettable
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnHinzufuegen.setVisible(Session.istAdmin());
+
         vornameSpalte.setCellValueFactory(new PropertyValueFactory<>("vorname"));
         nachnameSpalte.setCellValueFactory(new PropertyValueFactory<>("nachname"));
         mannschaftSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftIntern"));
@@ -164,7 +166,6 @@ public class SpielermenueController implements Initializable, MainBorderSettable
                 } else {
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
                     setGraphic(buttonBox);
                 }
             }

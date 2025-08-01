@@ -61,7 +61,7 @@ public class TrainingController implements Initializable, MainBorderSettable {
 
     @FXML
     private TableColumn<Training, Void> aktionenSpalte;
-    
+
     @FXML
     private Button btnHinzufuegen;
 
@@ -73,6 +73,8 @@ public class TrainingController implements Initializable, MainBorderSettable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnHinzufuegen.setVisible(Session.istAdmin());
+
         mannschaftSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftIntern"));
         halleSpalte.setCellValueFactory(new PropertyValueFactory<>("halle"));
         tagSpalte.setCellValueFactory(new PropertyValueFactory<>("wochentag"));
@@ -152,7 +154,6 @@ public class TrainingController implements Initializable, MainBorderSettable {
                     setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
                 }
             }
         });

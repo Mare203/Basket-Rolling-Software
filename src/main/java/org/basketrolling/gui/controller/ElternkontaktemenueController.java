@@ -76,6 +76,8 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnHinzufuegen.setVisible(Session.istAdmin());
+
         vornameSpalte.setCellValueFactory(new PropertyValueFactory<>("vorname"));
         nachnameSpalte.setCellValueFactory(new PropertyValueFactory<>("nachname"));
         spielerSpalte.setCellValueFactory(new PropertyValueFactory<>("spieler"));
@@ -92,27 +94,19 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
-            private final Button ansehenBtn = new Button();
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
 
-            private final HBox buttonBox = new HBox(15, ansehenBtn, bearbeitenBtn, loeschenBtn);
+            private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
                 buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-                ansehenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/see.png"));
                 bearbeitenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/edit.png"));
                 loeschenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/delete.png"));
 
-                ansehenBtn.getStyleClass().add("icon-btn");
                 bearbeitenBtn.getStyleClass().add("icon-btn");
                 loeschenBtn.getStyleClass().add("icon-btn");
-
-                ansehenBtn.setOnAction(e -> {
-                    Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
-                    MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml", "Elternkontakt ansehen");
-                });
 
                 bearbeitenBtn.setOnAction(e -> {
                     Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
@@ -143,10 +137,9 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
                 if (leer) {
                     setGraphic(null);
                 } else {
+                    setGraphic(buttonBox);
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
-                    btnHinzufuegen.setVisible(Session.istAdmin());
-                    setGraphic(buttonBox);
                 }
             }
         });

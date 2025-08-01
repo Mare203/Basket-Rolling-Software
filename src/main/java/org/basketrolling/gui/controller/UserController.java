@@ -38,7 +38,7 @@ import org.basketrolling.service.LoginService;
  *
  * @author Marko
  */
-public class AdminController implements Initializable, MainBorderSettable {
+public class UserController implements Initializable, MainBorderSettable {
 
     LoginDAO dao = new LoginDAO();
     LoginService service = new LoginService(dao);
@@ -87,38 +87,19 @@ public class AdminController implements Initializable, MainBorderSettable {
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
-            private final Button ansehenBtn = new Button();
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
 
-            private final HBox buttonBox = new HBox(15, ansehenBtn, bearbeitenBtn, loeschenBtn);
+            private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
                 buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-                ansehenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/see.png"));
                 bearbeitenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/edit.png"));
                 loeschenBtn.setGraphic(ladeBild("/org/basketrolling/gui/images/delete.png"));
 
-                ansehenBtn.getStyleClass().add("icon-btn");
                 bearbeitenBtn.getStyleClass().add("icon-btn");
                 loeschenBtn.getStyleClass().add("icon-btn");
-
-                ansehenBtn.setOnAction(e -> {
-                    try {
-                        Login login = getTableView().getItems().get(getIndex());
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/spieler/spieleransehen.fxml"));
-                        Scene scene = new Scene(loader.load());
-
-                        Stage spielerBearbeiten = new Stage();
-                        spielerBearbeiten.setTitle("User ansehen");
-                        spielerBearbeiten.setScene(scene);
-                        spielerBearbeiten.initModality(Modality.APPLICATION_MODAL);
-                        spielerBearbeiten.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
 
                 bearbeitenBtn.setOnAction(e -> {
                     try {
@@ -182,7 +163,7 @@ public class AdminController implements Initializable, MainBorderSettable {
             ex.printStackTrace();
         }
     }
-    
+
     public void userHinzufuegen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/basketrolling/gui/fxml/login/userhinzufuegen.fxml"));

@@ -275,8 +275,8 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragmenu.fxml");
     }
 
-    public void adminMenu() {
-        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/login/adminmenu.fxml");
+    public void userMenu() {
+        menuUtil.menuOeffnen("/org/basketrolling/gui/fxml/login/usermenu.fxml");
     }
 
     public void ligaMenuOeffnen() {
