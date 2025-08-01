@@ -20,11 +20,29 @@ import org.basketrolling.gui.controller.HauptmenueController;
 import org.basketrolling.interfaces.MainBorderSettable;
 
 /**
+ * Die Klasse {@code MenuUtil} bietet statische Hilfsmethoden zur Verwaltung und
+ * Anzeige von JavaFX-Fenstern (Stages) sowie zur dynamischen Steuerung des
+ * zentralen Layouts innerhalb einer Anwendung mit BorderPane.
+ *
+ * Sie dient insbesondere dazu, FXML-Dateien zu laden, Fenster modal oder normal
+ * zu öffnen, Stylesheets anzuwenden, Fenster mit oder ohne Warnung zu schließen
+ * und zentrale Inhalte umzuschalten (z.B. zur Navigation im Hauptmenü).
+ *
+ * Diese Klasse fördert eine konsistente Fensterverwaltung und reduziert
+ * Boilerplate-Code in den Controller-Klassen.
  *
  * @author Marko
  */
 public class MenuUtil {
 
+    /**
+     * Öffnet ein neues modales Fenster mit dem angegebenen FXML-Pfad und Titel.
+     *
+     * @param <T> Typ des Controllers
+     * @param pfad Pfad zur FXML-Datei (relativ zum Klassenpfad)
+     * @param titel Fenstertitel
+     * @return der zugehörige Controller oder {@code null} bei Fehler
+     */
     public static <T> T neuesFensterModalAnzeigen(String pfad, String titel) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(pfad));
@@ -45,6 +63,15 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Öffnet ein neues modales Fenster mit optionalem CSS-Stylesheet.
+     *
+     * @param <T> Typ des Controllers
+     * @param fxmlPfad Pfad zur FXML-Datei
+     * @param titel Fenstertitel
+     * @param cssPfad Pfad zur CSS-Datei (optional)
+     * @return der geladene Controller oder {@code null} bei Fehler
+     */
     public static <T> T neuesFensterModalAnzeigen(String fxmlPfad, String titel, String cssPfad) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
@@ -70,6 +97,15 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Öffnet ein neues maximiertes Fenster mit optionalem CSS.
+     *
+     * @param <T> Typ des Controllers
+     * @param fxmlPfad Pfad zur FXML-Datei
+     * @param titel Fenstertitel
+     * @param cssPfad Pfad zur CSS-Datei (optional)
+     * @return der geladene Controller oder {@code null} bei Fehler
+     */
     public static <T> T neuesFensterMaximiertAnzeigen(String fxmlPfad, String titel, String cssPfad) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
@@ -96,6 +132,15 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Öffnet ein neues, nicht-modales Fenster mit optionalem CSS.
+     *
+     * @param <T> Typ des Controllers
+     * @param fxmlPfad Pfad zur FXML-Datei
+     * @param titel Fenstertitel
+     * @param cssPfad Pfad zur CSS-Datei (optional)
+     * @return der geladene Controller oder {@code null} bei Fehler
+     */
     public static <T> T neuesFensterAnzeigen(String fxmlPfad, String titel, String cssPfad) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
@@ -120,6 +165,12 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Zeigt eine Bestätigung beim Schließen eines Fensters an und schließt es,
+     * wenn der Benutzer zustimmt.
+     *
+     * @param node ein beliebiges Steuerelement innerhalb des Fensters
+     */
     public static void fensterSchliessenMitWarnung(Node node) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Fenster schließen");
@@ -139,11 +190,22 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Schließt das zugehörige Fenster ohne Rückfrage.
+     *
+     * @param node ein beliebiges Steuerelement innerhalb des Fensters
+     */
     public static void fensterSchliessenOhneWarnung(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Setzt den Hauptinhalt des übergebenen BorderPane auf das Hauptmenü und
+     * übergibt den eingeloggten Benutzer.
+     *
+     * @param borderPane das zentrale Layout-Element der Anwendung
+     */
     public static void backToHauptmenu(BorderPane borderPane) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource("/org/basketrolling/gui/fxml/hauptmenu/hauptmenueCenter.fxml"));
@@ -160,6 +222,17 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Lädt ein Menü über FXML und setzt es als zentralen Bereich in ein
+     * BorderPane. Wenn der geladene Controller {@link MainBorderSettable}
+     * implementiert, wird ihm das BorderPane zur weiteren Navigation übergeben.
+     *
+     * @param <T> Typ des Controllers
+     * @param borderPane das Hauptlayout-Element (z.B. in Hauptmenü oder
+     * Dashboard)
+     * @param fxmlPfad Pfad zur FXML-Datei
+     * @return der geladene Controller oder {@code null} bei Fehler
+     */
     public static <T> T ladeMenuUndSetzeCenter(BorderPane borderPane, String fxmlPfad) {
         try {
             FXMLLoader loader = new FXMLLoader(MenuUtil.class.getResource(fxmlPfad));
