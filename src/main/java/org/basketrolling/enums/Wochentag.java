@@ -5,6 +5,12 @@
 package org.basketrolling.enums;
 
 /**
+ * Das Enum {@code Wochentag} definiert die sieben Wochentage und wird zur
+ * Angabe von Trainingstagen im Vereinssystem verwendet.
+ *
+ * Dieses Enum kommt z. B. in der {@link org.basketrolling.beans.Training}
+ * Klasse zum Einsatz, um den regelmäßigen Wochentag einer Trainingseinheit
+ * festzulegen.
  *
  * @author Marko
  */
