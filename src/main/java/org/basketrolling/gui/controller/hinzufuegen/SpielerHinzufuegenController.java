@@ -7,6 +7,8 @@ package org.basketrolling.gui.controller.hinzufuegen;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -17,6 +19,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Mitgliedsbeitrag;
 import org.basketrolling.beans.MitgliedsbeitragZuweisung;
@@ -112,9 +115,37 @@ public class SpielerHinzufuegenController implements Initializable {
                 cbBezahlt.setSelected(false);
             }
         });
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        dpGeburtsdatum.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                return (date != null) ? formatter.format(date) : "";
+            }
+
+            @Override
+            public LocalDate fromString(String text) {
+                if (text == null || text.trim().isEmpty()) {
+                    return null;
+                }
+                try {
+                    return LocalDate.parse(text, formatter);
+                } catch (DateTimeParseException e) {
+                    return null;
+                }
+            }
+        });
     }
 
     public void speichern() {
+        LocalDate geburtsdatum = dpGeburtsdatum.getValue();
+
+        if (geburtsdatum == null) {
+            AlertUtil.alertError("Fehler", "Geben Sie ein gültiges Datum ein!");
+            return;
+        }
+        
         boolean pflichtfelderAusgefuellt
                 = !tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
@@ -129,14 +160,13 @@ public class SpielerHinzufuegenController implements Initializable {
                 AlertUtil.alertWarning("Mitgliedsbeitrag wird ignoriert", "Spieler ist nicht aktiv", "Ein Mitgliedsbeitrag wird nur aktiven Spielern zugewiesen. Bitte aktiviere den Spieler, wenn du einen Beitrag zuweisen willst.");
                 return;
             }
+            
             try {
-
                 Spieler spieler = new Spieler();
                 spieler.setVorname(tfVorname.getText());
                 spieler.setNachname(tfNachname.getText());
-                LocalDate geburtsdatum = dpGeburtsdatum.getValue();
-                LocalDate heute = LocalDate.now();
 
+                LocalDate heute = LocalDate.now();
                 int alter = Period.between(geburtsdatum, heute).getYears();
 
                 if (alter < 5) {

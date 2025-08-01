@@ -59,7 +59,7 @@
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker fx:id="dpGeburtsdatum" editable="false" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <DatePicker fx:id="dpGeburtsdatum" maxWidth="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Größe: *" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="15.0" />

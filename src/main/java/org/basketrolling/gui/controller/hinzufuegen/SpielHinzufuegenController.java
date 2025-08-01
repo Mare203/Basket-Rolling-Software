@@ -5,6 +5,9 @@
 package org.basketrolling.gui.controller.hinzufuegen;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -13,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 import org.basketrolling.beans.Halle;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftExtern;
@@ -111,11 +115,39 @@ public class SpielHinzufuegenController implements Initializable {
             }
         });
         cbHalle.setItems(FXCollections.observableArrayList(halle));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        dpDatum.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                return (date != null) ? formatter.format(date) : "";
+            }
+
+            @Override
+            public LocalDate fromString(String text) {
+                if (text == null || text.trim().isEmpty()) {
+                    return null;
+                }
+                try {
+                    return LocalDate.parse(text, formatter);
+                } catch (DateTimeParseException e) {
+                    return null;
+                }
+            }
+        });
     }
 
     public void speichern() {
         String eingabeIntern = tfPunkteIntern.getText().trim();
         String eingabeExtern = tfPunkteExtern.getText().trim();
+
+        LocalDate datum = dpDatum.getValue();
+
+        if (datum == null) {
+            AlertUtil.alertError("Fehler", "Geben Sie ein gültiges Datum ein!");
+            return;
+        }
 
         if (cbLiga.getValue() != null
                 && cbHalle.getValue() != null
