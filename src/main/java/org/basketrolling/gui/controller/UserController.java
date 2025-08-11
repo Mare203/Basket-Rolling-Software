@@ -92,7 +92,7 @@ public class UserController implements Initializable, MainBorderSettable {
                 loeschenBtn.setOnAction(e -> {
                     Login login = getTableView().getItems().get(getIndex());
 
-                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Training löschen", "Möchten Sie das Training wirklich löschen?");
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "User löschen", "Möchten Sie den User " + login.getBenutzername() + " wirklich löschen?");
 
                     if (bestaetigung) {
                         service.delete(login);
