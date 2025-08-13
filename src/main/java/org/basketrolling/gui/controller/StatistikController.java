@@ -69,6 +69,15 @@ public class StatistikController implements Initializable, MainBorderSettable {
     private CategoryAxis gegner1;
 
     @FXML
+    private Label lbTeam1;
+
+    @FXML
+    private Label lbTeam2;
+
+    @FXML
+    private Label lbTeam3;
+
+    @FXML
     private Label lbAktiveSpieler1;
 
     @FXML
@@ -122,18 +131,29 @@ public class StatistikController implements Initializable, MainBorderSettable {
         mannInService = new MannschaftInternService(mannInDao);
         statsitikService = new StatistikService(statsitikDao);
 
-        List<MannschaftIntern> mannschaft1 = mannInService.getByName("Basket Rolling/1");
-        List<MannschaftIntern> mannschaft2 = mannInService.getByName("Basket Rolling/2");
-        List<MannschaftIntern> mannschaftRossau = mannInService.getByName("Basket Rolling Rossau");
+        List<MannschaftIntern> mannschaft1 = mannInService.getByName("/1");
+        List<MannschaftIntern> mannschaft2 = mannInService.getByName("/2");
+        List<MannschaftIntern> mannschaft3 = mannInService.getByName("/3");
 
-        if (mannschaft1.isEmpty() || mannschaft2.isEmpty() || mannschaftRossau.isEmpty()) {
+        if (mannschaft1.isEmpty() && mannschaft2.isEmpty() && mannschaft3.isEmpty()) {
             AlertUtil.alertError("Initialisierung fehlgeschlagen", "Keine Mannschaft(en) gefunden.", "Bitte prüfen Sie, ob die Mannschaften in der Datenbank vorhanden sind.");
             return;
         }
 
-        mannIn1 = mannschaft1.get(0);
-        mannIn2 = mannschaft2.get(0);
-        mannIn3 = mannschaftRossau.get(0);
+        if (!mannschaft1.isEmpty()) {
+            mannIn1 = mannschaft1.get(0);
+            lbTeam1.setText(mannIn1.getName());
+        }
+
+        if (!mannschaft2.isEmpty()) {
+            mannIn2 = mannschaft2.get(0);
+            lbTeam2.setText(mannIn2.getName());
+        }
+
+        if (!mannschaft3.isEmpty()) {
+            mannIn3 = mannschaft3.get(0);
+            lbTeam3.setText(mannIn3.getName());
+        }
 
         List<Spiele> spieleList1 = spieleService.getByMannschaftIntern(mannIn1);
         List<Spiele> spieleList2 = spieleService.getByMannschaftIntern(mannIn2);

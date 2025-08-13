@@ -39,7 +39,7 @@
                               </ImageView>
                            </graphic>
                            <HBox.margin>
-                              <Insets top="2.0" />
+                              <Insets top="6.0" />
                            </HBox.margin>
                         </Button>
                         <Label text="Statistiken">
@@ -47,12 +47,12 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="10.0" top="7.0" />
+                              <Insets left="10.0" top="11.0" />
                            </HBox.margin>
                         </Label>
                      </children>
                   </HBox>
-                  <GridPane prefHeight="858.0">
+                  <GridPane prefHeight="858.0" style="-fx-background-color: #ffffff;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -64,7 +64,7 @@
                       <RowConstraints maxHeight="660.0" minHeight="10.0" prefHeight="660.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Basket Rolling Rossau/3 H2:" GridPane.columnIndex="2">
+                        <Label fx:id="lbTeam3" text="Keine Mannschaft vorhanden" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets left="35.0" top="15.0" />
                            </GridPane.margin>
@@ -72,7 +72,7 @@
                               <Font name="System Italic" size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Basket Rolling/2 H2:" GridPane.columnIndex="1">
+                        <Label fx:id="lbTeam2" text="Keine Mannschaft vorhanden" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="35.0" top="15.0" />
                            </GridPane.margin>
@@ -80,7 +80,7 @@
                               <Font name="System Italic" size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Basket Rolling/1 LL:">
+                        <Label fx:id="lbTeam1" text="Keine Mannschaft vorhanden">
                            <GridPane.margin>
                               <Insets left="15.0" top="15.0" />
                            </GridPane.margin>
@@ -110,7 +110,7 @@
                               <Insets bottom="15.0" />
                            </GridPane.margin>
                         </BarChart>
-                        <BarChart fx:id="bcRolling3" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <BarChart fx:id="bcRolling3" styleClass="default-color0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <xAxis>
                               <CategoryAxis fx:id="gegner3" label="Gegner" side="BOTTOM" />
                            </xAxis>
