@@ -84,9 +84,14 @@
                   </TableView>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <children>
+                        <Label text="ACHTUNG: Nur wenn das Häkchen unter &quot;Gespielt?&quot; angeklickt wird, wird die Statistik für den Spieler gespeichert.">
+                           <HBox.margin>
+                              <Insets left="15.0" top="20.0" />
+                           </HBox.margin>
+                        </Label>
                         <Button mnemonicParsing="false" onAction="#speichern" text="Speichern">
                            <HBox.margin>
-                              <Insets left="650.0" top="15.0" />
+                              <Insets left="50.0" top="15.0" />
                            </HBox.margin>
                         </Button>
                         <Button fx:id="abbrechen" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#abbrechen" text="Abbrechen">

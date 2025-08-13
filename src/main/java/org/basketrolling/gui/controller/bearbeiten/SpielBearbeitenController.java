@@ -32,27 +32,49 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Bearbeiten eines {@link Spiele}.
+ * <p>
+ * Diese Klasse steuert das UI-Fenster zum Bearbeiten eines bestehenden Spiels.
+ * Sie lädt die aktuellen Daten in die Eingabefelder, ermöglicht Änderungen und
+ * speichert diese über den {@link SpieleService}.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des Fensters
+ * notwendige Initialisierungen (DAO/Service, Ligen-, Hallen- und
+ * Mannschaftslisten) vorzunehmen.
+ * </p>
+ * <p>
+ * Pflichtfelder:
+ * <ul>
+ * <li>Auswahl einer {@link Liga}</li>
+ * <li>Datum</li>
+ * <li>Auswahl einer {@link Halle}</li>
+ * <li>Auswahl einer internen und einer externen Mannschaft</li>
+ * <li>Punkte für interne und externe Mannschaft (nicht negativ, ganze
+ * Zahl)</li>
+ * </ul>
+ * </p>
  *
  * @author Marko
  */
 public class SpielBearbeitenController implements Initializable {
 
-    Spiele bearbeitenSpiel;
+    private Spiele bearbeitenSpiel;
 
-    SpieleDAO spielDao;
-    SpieleService spielService;
+    private SpieleDAO spielDao;
+    private SpieleService spielService;
 
-    LigaDAO ligaDao;
-    LigaService ligaService;
+    private LigaDAO ligaDao;
+    private LigaService ligaService;
 
-    HalleDAO halleDao;
-    HalleService halleService;
+    private HalleDAO halleDao;
+    private HalleService halleService;
 
-    MannschaftInternDAO mannschaftInternDAO;
-    MannschaftInternService mannschaftInternService;
+    private MannschaftInternDAO mannschaftInternDAO;
+    private MannschaftInternService mannschaftInternService;
 
-    MannschaftExternDAO mannschaftExternDAO;
-    MannschaftExternService mannschaftExternService;
+    private MannschaftExternDAO mannschaftExternDAO;
+    private MannschaftExternService mannschaftExternService;
 
     @FXML
     private ComboBox<Liga> cbLiga;
@@ -75,6 +97,21 @@ public class SpielBearbeitenController implements Initializable {
     @FXML
     private TextField tfPunkteExtern;
 
+    /**
+     * Initialisiert den Controller und lädt die Listen aller Ligen und Hallen.
+     * <ul>
+     * <li>Erstellt DAO- und Service-Instanzen für Spiele, Ligen, Hallen,
+     * interne und externe Mannschaften</li>
+     * <li>Lädt die Ligen- und Hallenlisten aus der Datenbank</li>
+     * <li>Initial deaktivierte Mannschafts-Auswahlboxen, die erst nach
+     * Ligaauswahl aktiviert werden</li>
+     * <li>Registriert Listener, um Mannschaftslisten anhand der gewählten Liga
+     * zu aktualisieren</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spielDao = new SpieleDAO();
@@ -112,9 +149,15 @@ public class SpielBearbeitenController implements Initializable {
                 cbMannschaftExtern.getItems().clear();
             }
         });
+
         cbHalle.setItems(FXCollections.observableArrayList(halle));
     }
 
+    /**
+     * Lädt die Daten des zu bearbeitenden {@link Spiele} in die Eingabefelder.
+     *
+     * @param spiel das zu bearbeitende {@link Spiele}
+     */
     public void initSpiel(Spiele spiel) {
         this.bearbeitenSpiel = spiel;
 
@@ -127,6 +170,24 @@ public class SpielBearbeitenController implements Initializable {
         tfPunkteExtern.setText(String.valueOf(spiel.getExternPunkte()));
     }
 
+    /**
+     * Speichert die Änderungen am Spiel.
+     * <p>
+     * Führt eine Validierung der Pflichtfelder durch. Wenn alle Felder gültig
+     * sind:
+     * <ul>
+     * <li>Parst die Punktewerte für interne und externe Mannschaft als ganze
+     * Zahlen</li>
+     * <li>Stellt sicher, dass keine negativen Punktwerte eingegeben werden</li>
+     * <li>Aktualisiert das {@link Spiele}-Objekt mit den neuen Werten</li>
+     * <li>Speichert die Änderungen über den {@link SpieleService}</li>
+     * <li>Zeigt eine Bestätigungsmeldung an</li>
+     * <li>Schließt das Fenster ohne weitere Warnung</li>
+     * </ul>
+     * Wenn Punktwerte ungültig oder Pflichtfelder leer sind, wird ein
+     * Warnhinweis angezeigt.
+     * </p>
+     */
     public void aktualisieren() {
         String eingabeIntern = tfPunkteIntern.getText().trim();
         String eingabeExtern = tfPunkteExtern.getText().trim();
@@ -162,12 +223,18 @@ public class SpielBearbeitenController implements Initializable {
             } catch (NumberFormatException e) {
                 AlertUtil.alertWarning("Fehler", "Nur ganze Zahlen erlaubt", "Bitte geben Sie gültige Punktzahlen ein.");
             }
-
         } else {
             AlertUtil.alertWarning("Eingabefehler", "Unvollständige oder ungültige Eingaben", "- Alle Pflichtfelder müssen ausgefüllt sein.");
         }
     }
 
+    /**
+     * Öffnet ein Fenster zur Bearbeitung der Statistik für das aktuelle Spiel
+     * und übergibt das Spiel an den {@link StatistikBearbeitenController}.
+     * <p>
+     * Schließt danach das aktuelle Fenster ohne weitere Warnung.
+     * </p>
+     */
     @FXML
     private void statistikAnpassen() {
         StatistikBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikbearbeiten.fxml", "Statistik bearbeiten");
@@ -179,6 +246,12 @@ public class SpielBearbeitenController implements Initializable {
         MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(cbLiga);
     }

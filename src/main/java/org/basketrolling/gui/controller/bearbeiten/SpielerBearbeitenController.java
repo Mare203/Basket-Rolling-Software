@@ -34,26 +34,56 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Bearbeiten eines {@link Spieler}.
+ * <p>
+ * Diese Klasse steuert das UI-Fenster zum Bearbeiten eines bestehenden
+ * Spielers. Sie lädt die aktuellen Daten in die Eingabefelder, ermöglicht
+ * Änderungen und speichert diese über den {@link SpielerService}.
+ * </p>
+ * <p>
+ * Zusätzlich verwaltet sie die Zuweisung eines {@link Mitgliedsbeitrag} an den
+ * Spieler (inklusive Zahlungsstatus) über den
+ * {@link MitgliedsbeitragZuweisungService}.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des Fensters
+ * notwendige Initialisierungen (DAO/Service, Mannschafts- und Beitragslisten)
+ * vorzunehmen.
+ * </p>
+ * <p>
+ * Pflichtfelder:
+ * <ul>
+ * <li>Vorname</li>
+ * <li>Nachname</li>
+ * <li>Geburtsdatum</li>
+ * <li>Größe im Format z. B. 1.80</li>
+ * <li>Zugehörigkeit zu einer {@link MannschaftIntern}</li>
+ * </ul>
+ * Zusatzregeln:
+ * <ul>
+ * <li>Aktive Spieler müssen einen Mitgliedsbeitrag zugewiesen haben</li>
+ * </ul>
+ * </p>
  *
  * @author Marko
  */
 public class SpielerBearbeitenController implements Initializable {
 
-    Spieler bearbeitenSpieler;
+    private Spieler bearbeitenSpieler;
 
-    SpielerDAO spielerDao;
-    SpielerService spielerService;
+    private SpielerDAO spielerDao;
+    private SpielerService spielerService;
 
-    MitgliedsbeitragZuweisungDAO zuweisungDao;
-    MitgliedsbeitragZuweisungService zuweisungService;
+    private MitgliedsbeitragZuweisungDAO zuweisungDao;
+    private MitgliedsbeitragZuweisungService zuweisungService;
 
-    MannschaftInternDAO mannschaftDao;
-    MannschaftInternService mannschaftService;
+    private MannschaftInternDAO mannschaftDao;
+    private MannschaftInternService mannschaftService;
 
-    MitgliedsbeitragDAO mitgliedsbeitragDAO;
-    MitgliedsbeitragService mitgliedsbeitragService;
+    private MitgliedsbeitragDAO mitgliedsbeitragDAO;
+    private MitgliedsbeitragService mitgliedsbeitragService;
 
-    MitgliedsbeitragZuweisung zuweisung;
+    private MitgliedsbeitragZuweisung zuweisung;
 
     @FXML
     private TextField tfVorname;
@@ -82,6 +112,20 @@ public class SpielerBearbeitenController implements Initializable {
     @FXML
     private CheckBox cbBezahlt;
 
+    /**
+     * Initialisiert den Controller und lädt die Listen aller Mannschaften und
+     * Mitgliedsbeiträge.
+     * <ul>
+     * <li>Erstellt DAO- und Service-Instanzen</li>
+     * <li>Befüllt die {@link ComboBox} für Mannschaften und
+     * Mitgliedsbeiträge</li>
+     * <li>Deaktiviert die Beitragsauswahl automatisch, wenn der Spieler auf
+     * inaktiv gesetzt wird</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spielerDao = new SpielerDAO();
@@ -106,9 +150,17 @@ public class SpielerBearbeitenController implements Initializable {
                 cbBezahlt.setSelected(false);
             }
         });
-
     }
 
+    /**
+     * Lädt die Daten des zu bearbeitenden {@link Spieler} in die Eingabefelder.
+     * <p>
+     * Falls der Spieler einen aktiven Mitgliedsbeitrag zugewiesen hat, werden
+     * dieser und der Zahlungsstatus in die Felder übernommen.
+     * </p>
+     *
+     * @param spieler der zu bearbeitende {@link Spieler}
+     */
     public void initSpieler(Spieler spieler) {
         this.bearbeitenSpieler = spieler;
 
@@ -138,6 +190,23 @@ public class SpielerBearbeitenController implements Initializable {
         }
     }
 
+    /**
+     * Speichert die Änderungen am Spieler.
+     * <p>
+     * Führt eine Validierung der Pflichtfelder und der Mitgliedsbeitragsregeln
+     * durch. Wenn alle Bedingungen erfüllt sind:
+     * <ul>
+     * <li>Aktualisiert das {@link Spieler}-Objekt mit den neuen Werten</li>
+     * <li>Speichert den Spieler über den {@link SpielerService}</li>
+     * <li>Aktualisiert oder erstellt bei aktiven Spielern die
+     * Mitgliedsbeitragszuweisung</li>
+     * <li>Zeigt eine Bestätigungsmeldung an</li>
+     * <li>Schließt das Fenster ohne weitere Warnung</li>
+     * </ul>
+     * Wenn Pflichtfelder fehlen, das Größenformat ungültig ist oder die
+     * Beitragsregeln verletzt werden, wird ein Warnhinweis angezeigt.
+     * </p>
+     */
     public void aktualisieren() {
         boolean pflichtfelderAusgefuellt
                 = !tfVorname.getText().isEmpty()
@@ -150,7 +219,8 @@ public class SpielerBearbeitenController implements Initializable {
 
         if (pflichtfelderAusgefuellt && beitragsPflichtErfuellt) {
             if (!cbAktiv.isSelected() && cbMitgliedsbeitrag.getValue() != null) {
-                AlertUtil.alertWarning("Mitgliedsbeitrag wird ignoriert", "Spieler ist nicht aktiv", "Ein Mitgliedsbeitrag wird nur aktiven Spielern zugewiesen. Bitte aktiviere den Spieler, wenn du einen Beitrag zuweisen willst.");
+                AlertUtil.alertWarning("Mitgliedsbeitrag wird ignoriert", "Spieler ist nicht aktiv",
+                        "Ein Mitgliedsbeitrag wird nur aktiven Spielern zugewiesen. Bitte aktiviere den Spieler, wenn du einen Beitrag zuweisen willst.");
                 return;
             }
             try {
@@ -160,7 +230,7 @@ public class SpielerBearbeitenController implements Initializable {
                 String groesseEingabe = tfGroesse.getText();
 
                 if (!groesseEingabe.matches("^\\d+\\.\\d{2}$")) {
-                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
+                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
                     return;
                 }
                 bearbeitenSpieler.setGroesse(Double.parseDouble(groesseEingabe));
@@ -178,7 +248,6 @@ public class SpielerBearbeitenController implements Initializable {
                         zuweisung.setMitgliedsbeitrag(beitrag);
                         zuweisung.setBezahlt(bezahlt);
                         zuweisungService.update(zuweisung);
-
                     } else {
                         zuweisungService.aktivereNeueZuweisung(gespeicherterSpieler, beitrag, bezahlt);
                     }
@@ -188,9 +257,8 @@ public class SpielerBearbeitenController implements Initializable {
                 MenuUtil.fensterSchliessenOhneWarnung(tfVorname);
 
             } catch (NumberFormatException e) {
-                AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
+                AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
             }
-
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Eingabefehler");
@@ -204,6 +272,12 @@ public class SpielerBearbeitenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }

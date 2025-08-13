@@ -29,16 +29,43 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Bearbeiten von {@link Statistik}-Einträgen zu einem
+ * Spiel.
+ * <p>
+ * Diese Klasse steuert das UI-Fenster zur Erfassung und Bearbeitung der
+ * Spielerstatistiken für ein bestimmtes {@link Spiele}-Objekt. Sie lädt die
+ * vorhandenen Daten, ergänzt fehlende Einträge für Spieler der internen
+ * Mannschaft und ermöglicht die Bearbeitung von Punkten, Fouls und
+ * Einsatzstatus.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des Fensters
+ * notwendige Initialisierungen (DAO/Service, TableView-Konfiguration)
+ * vorzunehmen.
+ * </p>
+ * <p>
+ * Bearbeitbare Felder in der Tabelle:
+ * <ul>
+ * <li>Punkte (nur ganze Zahlen ≥ 0)</li>
+ * <li>Fouls (nur ganze Zahlen ≥ 0)</li>
+ * <li>Einsatzstatus (Checkbox: gespielt oder nicht)</li>
+ * </ul>
+ * </p>
+ *
+ * Validierung:
+ * <ul>
+ * <li>Die Summe aller Spieler-Punkte muss den Team-Punkten entsprechen</li>
+ * </ul>
  *
  * @author Marko
  */
 public class StatistikBearbeitenController implements Initializable {
 
-    StatistikDAO statistikDAO;
-    StatistikService statistikService;
+    private StatistikDAO statistikDAO;
+    private StatistikService statistikService;
 
-    SpielerService spielerService;
-    SpielerDAO spielerDao;
+    private SpielerService spielerService;
+    private SpielerDAO spielerDao;
 
     @FXML
     private Label lbMannschaftIntern;
@@ -64,8 +91,20 @@ public class StatistikBearbeitenController implements Initializable {
 
     private final ObservableList<Statistik> statistikListe = FXCollections.observableArrayList();
 
-    Spiele spiel;
+    private Spiele spiel;
 
+    /**
+     * Setzt das aktuelle {@link Spiele}-Objekt und lädt alle zugehörigen
+     * Statistiken.
+     * <p>
+     * Bestehende {@link Statistik}-Einträge werden geladen, fehlende Spieler
+     * der internen Mannschaft werden mit Standardwerten (0 Punkte, 0 Fouls,
+     * nicht gespielt) ergänzt.
+     * </p>
+     *
+     * @param spiel das aktuelle {@link Spiele}-Objekt, für das Statistiken
+     * bearbeitet werden sollen
+     */
     public void setSpiel(Spiele spiel) {
         this.spiel = spiel;
         statistikListe.clear();
@@ -100,6 +139,18 @@ public class StatistikBearbeitenController implements Initializable {
         tabelleStatistik.setItems(statistikListe);
     }
 
+    /**
+     * Initialisiert den Controller und konfiguriert die Tabelle.
+     * <ul>
+     * <li>Erstellt DAO- und Service-Instanzen</li>
+     * <li>Bindet Tabellenspalten an Statistik-Eigenschaften</li>
+     * <li>Richtet Editierfunktionen für Punkte- und Foulspalten ein</li>
+     * <li>Richtet Checkboxen für Einsatzstatus ein</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         statistikDAO = new StatistikDAO();
@@ -118,7 +169,6 @@ public class StatistikBearbeitenController implements Initializable {
         spaltePunkte.setCellFactory(TextFieldTableCell.forTableColumn());
         spaltePunkte.setOnEditCommit(event -> {
             String eingabe = event.getNewValue();
-
             try {
                 int wert = Integer.parseInt(eingabe);
                 if (wert < 0) {
@@ -135,7 +185,6 @@ public class StatistikBearbeitenController implements Initializable {
         spalteFouls.setCellFactory(TextFieldTableCell.forTableColumn());
         spalteFouls.setOnEditCommit(event -> {
             String eingabe = event.getNewValue();
-
             try {
                 int wert = Integer.parseInt(eingabe);
                 if (wert < 0) {
@@ -159,6 +208,14 @@ public class StatistikBearbeitenController implements Initializable {
         tabelleStatistik.setEditable(true);
     }
 
+    /**
+     * Speichert die Änderungen an den Statistiken.
+     * <p>
+     * Validiert vor dem Speichern, ob die Summe der Spieler-Punkte den
+     * Team-Punkten entspricht. Speichert nur Statistiken von Spielern, die als
+     * gespielt markiert sind.
+     * </p>
+     */
     public void speichern() {
         int summePunkte = statistikListe.stream()
                 .mapToInt(Statistik::getPunkte)
@@ -180,12 +237,17 @@ public class StatistikBearbeitenController implements Initializable {
                     }
                 }
             }
-
             AlertUtil.alertConfirmation("Speichern erfolgreich", "Alle Einträge wurden erfolgreich gespeichert.");
             MenuUtil.fensterSchliessenOhneWarnung(lbDatum);
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(lbDatum);
     }

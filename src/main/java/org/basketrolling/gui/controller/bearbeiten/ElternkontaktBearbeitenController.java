@@ -22,18 +22,37 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Bearbeiten eines {@link Elternkontakt}-Eintrags.
+ * <p>
+ * Diese Klasse steuert das UI-Fenster zum Bearbeiten eines bestehenden
+ * Elternkontakts. Sie lädt die aktuellen Daten in die Eingabefelder, ermöglicht
+ * Änderungen und speichert diese über den {@link ElternkontaktService}.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des Fensters
+ * notwendige Daten wie die Spieler-Liste zu initialisieren.
+ * </p>
+ * <p>
+ * Pflichtfelder:
+ * <ul>
+ * <li>Vorname</li>
+ * <li>Nachname</li>
+ * <li>Telefonnummer</li>
+ * <li>Spieler-Auswahl</li>
+ * </ul>
+ * </p>
  *
  * @author Marko
  */
 public class ElternkontaktBearbeitenController implements Initializable {
 
-    Elternkontakt bearbeitenElternkontakt;
+    private Elternkontakt bearbeitenElternkontakt;
 
-    ElternkontaktDAO dao;
-    ElternkontaktService service;
+    private ElternkontaktDAO dao;
+    private ElternkontaktService service;
 
-    SpielerDAO spielerDAO;
-    SpielerService spielerService;
+    private SpielerDAO spielerDAO;
+    private SpielerService spielerService;
 
     @FXML
     private TextField tfVorname;
@@ -50,6 +69,19 @@ public class ElternkontaktBearbeitenController implements Initializable {
     @FXML
     private TextField tfEmail;
 
+    /**
+     * Initialisiert den Controller und lädt die Liste aller Spieler.
+     * <ul>
+     * <li>Erstellt DAO- und Service-Instanzen</li>
+     * <li>Lädt die vorhandenen Spieler aus der Datenbank</li>
+     * <li>Befüllt die Spieler-Auswahl-{@link ComboBox}</li>
+     * <li>Deaktiviert die {@link ComboBox}, falls keine Spieler vorhanden
+     * sind</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new ElternkontaktDAO();
@@ -60,13 +92,19 @@ public class ElternkontaktBearbeitenController implements Initializable {
 
         List<Spieler> spielerList = spielerService.getAll();
 
-        if (!spielerList.isEmpty() && spielerList != null) {
+        if (spielerList != null && !spielerList.isEmpty()) {
             cbSpieler.setItems(FXCollections.observableArrayList(spielerList));
         } else {
             cbSpieler.setDisable(true);
         }
     }
 
+    /**
+     * Lädt die Daten des zu bearbeitenden {@link Elternkontakt} in die
+     * Eingabefelder.
+     *
+     * @param elternkontakt der zu bearbeitende {@link Elternkontakt}
+     */
     public void initElternkontakt(Elternkontakt elternkontakt) {
         this.bearbeitenElternkontakt = elternkontakt;
 
@@ -77,6 +115,22 @@ public class ElternkontaktBearbeitenController implements Initializable {
         tfEmail.setText(elternkontakt.getEMail());
     }
 
+    /**
+     * Speichert die Änderungen am Elternkontakt.
+     * <p>
+     * Führt eine Validierung der Pflichtfelder durch. Wenn alle Felder gültig
+     * sind:
+     * <ul>
+     * <li>Aktualisiert das {@link Elternkontakt}-Objekt mit den neuen
+     * Werten</li>
+     * <li>Speichert die Änderungen über den {@link ElternkontaktService}</li>
+     * <li>Zeigt eine Bestätigungsmeldung an</li>
+     * <li>Schließt das Fenster ohne weitere Warnung</li>
+     * </ul>
+     * Wenn Pflichtfelder fehlen oder ungültig sind, wird ein Warnhinweis
+     * angezeigt.
+     * </p>
+     */
     public void aktualisieren() {
         if (!tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
@@ -98,6 +152,12 @@ public class ElternkontaktBearbeitenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }

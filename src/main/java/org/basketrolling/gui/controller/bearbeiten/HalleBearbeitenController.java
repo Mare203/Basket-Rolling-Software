@@ -16,15 +16,34 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Bearbeiten einer {@link Halle}.
+ * <p>
+ * Diese Klasse steuert das UI-Fenster zum Bearbeiten einer bestehenden Halle.
+ * Sie lädt die aktuellen Daten in die Eingabefelder, ermöglicht Änderungen und
+ * speichert diese über den {@link HalleService}.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des Fensters
+ * notwendige Initialisierungen (DAO/Service) vorzunehmen.
+ * </p>
+ * <p>
+ * Pflichtfelder:
+ * <ul>
+ * <li>Name</li>
+ * <li>Straße</li>
+ * <li>Ort</li>
+ * <li>Postleitzahl (muss eine Zahl sein)</li>
+ * </ul>
+ * </p>
  *
  * @author Marko
  */
 public class HalleBearbeitenController implements Initializable {
 
-    Halle bearbeitenhalle;
+    private Halle bearbeitenhalle;
 
-    HalleDAO dao;
-    HalleService service;
+    private HalleDAO dao;
+    private HalleService service;
 
     @FXML
     private TextField tfName;
@@ -38,12 +57,23 @@ public class HalleBearbeitenController implements Initializable {
     @FXML
     private TextField tfPlz;
 
+    /**
+     * Initialisiert den Controller und erstellt DAO- und Service-Instanzen.
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new HalleDAO();
         service = new HalleService(dao);
     }
 
+    /**
+     * Lädt die Daten der zu bearbeitenden {@link Halle} in die Eingabefelder.
+     *
+     * @param halle die zu bearbeitende {@link Halle}
+     */
     public void initHalle(Halle halle) {
         this.bearbeitenhalle = halle;
 
@@ -53,6 +83,24 @@ public class HalleBearbeitenController implements Initializable {
         tfPlz.setText(String.valueOf(halle.getPlz()));
     }
 
+    /**
+     * Speichert die Änderungen an der Halle.
+     * <p>
+     * Führt eine Validierung der Pflichtfelder durch. Wenn alle Felder gültig
+     * sind:
+     * <ul>
+     * <li>Parst die Postleitzahl als Zahl</li>
+     * <li>Aktualisiert das {@link Halle}-Objekt mit den neuen Werten</li>
+     * <li>Speichert die Änderungen über den {@link HalleService}</li>
+     * <li>Zeigt eine Bestätigungsmeldung an</li>
+     * <li>Schließt das Fenster ohne weitere Warnung</li>
+     * </ul>
+     * <p>
+     * Wenn die Postleitzahl kein gültiger Integer ist, wird eine Warnung
+     * angezeigt. Wenn Pflichtfelder fehlen oder ungültig sind, wird ebenfalls
+     * eine Warnung angezeigt.
+     * </p>
+     */
     public void aktualisieren() {
         String plzText = tfPlz.getText().trim();
 
@@ -83,6 +131,12 @@ public class HalleBearbeitenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfName);
     }

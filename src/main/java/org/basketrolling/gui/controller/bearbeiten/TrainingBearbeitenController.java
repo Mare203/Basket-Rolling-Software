@@ -26,21 +26,41 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Bearbeiten eines {@link Training}.
+ * <p>
+ * Diese Klasse steuert das UI-Fenster zum Bearbeiten einer bestehenden
+ * Trainingseinheit. Sie lädt die aktuellen Daten in die Eingabefelder,
+ * ermöglicht Änderungen und speichert diese über den {@link TrainingService}.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des Fensters
+ * notwendige Initialisierungen (DAO/Service, Hallen- und Mannschaftslisten,
+ * Wochentage) vorzunehmen.
+ * </p>
+ * <p>
+ * Pflichtfelder:
+ * <ul>
+ * <li>Wochentag</li>
+ * <li>Halle</li>
+ * <li>Interne Mannschaft</li>
+ * <li>Dauer (ganze Zahl > 0)</li>
+ * </ul>
+ * </p>
  *
  * @author Marko
  */
 public class TrainingBearbeitenController implements Initializable {
 
-    Training bearbeitenTraining;
+    private Training bearbeitenTraining;
 
-    TrainingDAO trainingDao;
-    TrainingService trainingService;
+    private TrainingDAO trainingDao;
+    private TrainingService trainingService;
 
-    HalleDAO halleDao;
-    HalleService halleService;
+    private HalleDAO halleDao;
+    private HalleService halleService;
 
-    MannschaftInternDAO mannschaftInternDAO;
-    MannschaftInternService mannschaftInternService;
+    private MannschaftInternDAO mannschaftInternDAO;
+    private MannschaftInternService mannschaftInternService;
 
     @FXML
     private ComboBox<Wochentag> cbWochentag;
@@ -54,6 +74,17 @@ public class TrainingBearbeitenController implements Initializable {
     @FXML
     private TextField tfDauer;
 
+    /**
+     * Initialisiert den Controller und lädt alle verfügbaren Hallen,
+     * Mannschaften und Wochentage.
+     * <ul>
+     * <li>Erstellt DAO- und Service-Instanzen</li>
+     * <li>Befüllt die ComboBoxen für Halle, Mannschaft und Wochentag</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         trainingDao = new TrainingDAO();
@@ -72,6 +103,12 @@ public class TrainingBearbeitenController implements Initializable {
         cbWochentag.setItems(FXCollections.observableArrayList(Wochentag.values()));
     }
 
+    /**
+     * Lädt die Daten des zu bearbeitenden {@link Training} in die
+     * Eingabefelder.
+     *
+     * @param training die zu bearbeitende {@link Training}-Einheit
+     */
     public void initTraining(Training training) {
         this.bearbeitenTraining = training;
 
@@ -81,6 +118,23 @@ public class TrainingBearbeitenController implements Initializable {
         tfDauer.setText(String.valueOf(training.getDauerInMin()));
     }
 
+    /**
+     * Speichert die Änderungen am Training.
+     * <p>
+     * Führt eine Validierung der Pflichtfelder durch. Wenn alle Felder gültig
+     * sind:
+     * <ul>
+     * <li>Parst die Dauer als ganze Zahl</li>
+     * <li>Stellt sicher, dass die Dauer größer als 0 ist</li>
+     * <li>Aktualisiert das {@link Training}-Objekt mit den neuen Werten</li>
+     * <li>Speichert die Änderungen über den {@link TrainingService}</li>
+     * <li>Zeigt eine Bestätigungsmeldung an</li>
+     * <li>Schließt das Fenster ohne weitere Warnung</li>
+     * </ul>
+     * Wenn die Dauer ungültig ist oder Pflichtfelder fehlen, wird ein
+     * Warnhinweis angezeigt.
+     * </p>
+     */
     public void aktualisieren() {
         String dauerText = tfDauer.getText().trim();
 
@@ -114,6 +168,12 @@ public class TrainingBearbeitenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfDauer);
     }

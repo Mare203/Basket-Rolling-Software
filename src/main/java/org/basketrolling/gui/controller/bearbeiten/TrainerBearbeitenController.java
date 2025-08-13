@@ -16,15 +16,34 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Bearbeiten eines {@link Trainer}.
+ * <p>
+ * Diese Klasse steuert das UI-Fenster zum Bearbeiten eines bestehenden
+ * Trainers. Sie lädt die aktuellen Daten in die Eingabefelder, ermöglicht
+ * Änderungen und speichert diese über den {@link TrainerService}.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des Fensters
+ * notwendige Initialisierungen (DAO/Service) vorzunehmen.
+ * </p>
+ * <p>
+ * Pflichtfelder:
+ * <ul>
+ * <li>Vorname</li>
+ * <li>Nachname</li>
+ * <li>Telefonnummer</li>
+ * </ul>
+ * E-Mail ist optional.
+ * </p>
  *
  * @author Marko
  */
 public class TrainerBearbeitenController implements Initializable {
 
-    Trainer bearbeitenTrainer;
+    private Trainer bearbeitenTrainer;
 
-    TrainerDAO dao;
-    TrainerService service;
+    private TrainerDAO dao;
+    private TrainerService service;
 
     @FXML
     private TextField tfVorname;
@@ -38,12 +57,23 @@ public class TrainerBearbeitenController implements Initializable {
     @FXML
     private TextField tfEmail;
 
+    /**
+     * Initialisiert den Controller und erstellt DAO- und Service-Instanzen.
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new TrainerDAO();
         service = new TrainerService(dao);
     }
 
+    /**
+     * Lädt die Daten des zu bearbeitenden {@link Trainer} in die Eingabefelder.
+     *
+     * @param trainer der zu bearbeitende {@link Trainer}
+     */
     public void initTrainer(Trainer trainer) {
         this.bearbeitenTrainer = trainer;
 
@@ -53,6 +83,21 @@ public class TrainerBearbeitenController implements Initializable {
         tfEmail.setText(trainer.getEMail());
     }
 
+    /**
+     * Speichert die Änderungen am Trainer.
+     * <p>
+     * Führt eine Validierung der Pflichtfelder durch. Wenn alle Felder gültig
+     * sind:
+     * <ul>
+     * <li>Aktualisiert das {@link Trainer}-Objekt mit den neuen Werten</li>
+     * <li>Speichert die Änderungen über den {@link TrainerService}</li>
+     * <li>Zeigt eine Bestätigungsmeldung an</li>
+     * <li>Schließt das Fenster ohne weitere Warnung</li>
+     * </ul>
+     * Wenn Pflichtfelder fehlen oder ungültig sind, wird ein Warnhinweis
+     * angezeigt.
+     * </p>
+     */
     public void aktualisieren() {
         if (!tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
@@ -72,8 +117,13 @@ public class TrainerBearbeitenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }
-
 }
