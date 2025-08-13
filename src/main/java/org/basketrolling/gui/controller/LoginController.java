@@ -19,23 +19,48 @@ import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
 /**
+ * Controller-Klasse für den Login-Bildschirm.
+ * <p>
+ * Diese Klasse ist für die Authentifizierung der Benutzer zuständig. Sie prüft
+ * die eingegebenen Zugangsdaten, meldet den Benutzer an und öffnet bei
+ * erfolgreicher Anmeldung das Hauptmenü.
+ * </p>
+ *
+ * <p>
+ * <b>Funktionen:</b></p>
+ * <ul>
+ * <li>Initialisierung der DAO- und Service-Instanzen für den Login</li>
+ * <li>Validierung der eingegebenen Benutzer- und Passwortdaten</li>
+ * <li>Speichern der Benutzersession bei erfolgreicher Anmeldung</li>
+ * <li>Abbruch der Anmeldung mit Bestätigungsdialog</li>
+ * </ul>
  *
  * @author Marko
  */
 public class LoginController implements Initializable {
 
-    LoginDAO dao;
-    LoginService service;
+    private LoginDAO dao;
+    private LoginService service;
 
     @FXML
     private TextField benutzernameFeld;
+
     @FXML
     private PasswordField passwortFeld;
+
     @FXML
     private Button anmeldeBtn;
+
     @FXML
     private Button abbruchBtn;
 
+    /**
+     * Initialisiert den Controller und erstellt die notwendigen DAO- und
+     * Service-Instanzen für den Loginprozess.
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -46,6 +71,14 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Führt den Anmeldevorgang durch.
+     * <p>
+     * Prüft, ob die eingegebenen Anmeldedaten gültig sind. Bei Erfolg wird die
+     * Benutzersession gesetzt und das Hauptmenü geöffnet, andernfalls erscheint
+     * eine Fehlermeldung.
+     * </p>
+     */
     @FXML
     private void anmelden() {
         String benutzername = benutzernameFeld.getText();
@@ -62,17 +95,35 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Öffnet das Hauptmenü im Vollbildmodus und übergibt den angemeldeten
+     * Benutzer.
+     *
+     * @param benutzer das {@link Login}-Objekt des angemeldeten Benutzers
+     */
     private void openHauptmenue(Login benutzer) {
-        HauptmenueController controller = MenuUtil.neuesFensterMaximiertAnzeigen("/org/basketrolling/gui/fxml/hauptmenu/hauptmenue.fxml", "Hauptmenü - Basket Rolling", "/org/basketrolling/gui/css/styles.css");
+        HauptmenueController controller = MenuUtil.neuesFensterMaximiertAnzeigen(
+                "/org/basketrolling/gui/fxml/hauptmenu/hauptmenue.fxml",
+                "Hauptmenü - Basket Rolling",
+                "/org/basketrolling/gui/css/styles.css"
+        );
 
         if (controller != null) {
             controller.initUser(benutzer);
         }
     }
 
+    /**
+     * Bricht den Anmeldevorgang ab und schließt die Anwendung nach einer
+     * Bestätigungsabfrage.
+     */
     @FXML
     private void abbruch() {
-        boolean beenden = AlertUtil.confirmationMitJaNein("Bestätigung", "Programm schließen", "Sind Sie sicher, dass Sie das Programm beenden möchten?");
+        boolean beenden = AlertUtil.confirmationMitJaNein(
+                "Bestätigung",
+                "Programm schließen",
+                "Sind Sie sicher, dass Sie das Programm beenden möchten?"
+        );
 
         if (beenden) {
             MenuUtil.fensterSchliessenOhneWarnung(anmeldeBtn);

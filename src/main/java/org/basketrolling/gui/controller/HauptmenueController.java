@@ -36,6 +36,29 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Hauptmenü der Anwendung.
+ * <p>
+ * Diese Klasse steuert die Anzeige von wichtigen Übersichten wie bevorstehenden
+ * Spielen, Top-Scorern, heutigen Trainings und offenen Mitgliedsbeiträgen.
+ * Zudem bietet sie Navigationselemente zu allen Untermenüs und
+ * Schnellzugriffsfunktionen für Administratoren.
+ * </p>
+ *
+ * <p>
+ * <b>Hauptfunktionen:</b></p>
+ * <ul>
+ * <li>Lädt und filtert die letzten Spiele der Mannschaften LL, /2 und
+ * Rossau</li>
+ * <li>Zeigt die Top-5-Scorer mit PPG und Anzahl der Spiele</li>
+ * <li>Listet die heutigen Trainingseinheiten</li>
+ * <li>Listet offene Mitgliedsbeiträge</li>
+ * <li>Steuert die Sichtbarkeit von Admin-spezifischen Buttons</li>
+ * <li>Bietet Navigationsmethoden zu allen Untermenüs</li>
+ * </ul>
+ *
+ * <p>
+ * Die Controller-Methoden nutzen Service-Klassen für Datenabfragen und binden
+ * die Ergebnisse an JavaFX-UI-Elemente.</p>
  *
  * @author Marko
  */
@@ -110,6 +133,18 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
     @FXML
     private Button halleHinzu;
 
+    /**
+     * Initialisiert das Hauptmenü.
+     * <p>
+     * Lädt die Spieldaten, Top-Scorer, heutige Trainings und offenen
+     * Mitgliedsbeiträge, bereitet diese auf und zeigt sie in den
+     * Listenansichten an. Platzhalter-Labels werden gesetzt, wenn keine Daten
+     * vorhanden sind.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         List<Spiele> spieleList = spieleService.getAll();
@@ -206,10 +241,21 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         }
     }
 
+    /**
+     * Setzt das Haupt-{@link BorderPane} für diesen Controller.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
     public void setMainBorder(BorderPane mainBorderPane) {
         this.borderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den eingeloggten Benutzer und passt die Sichtbarkeit von
+     * Admin-Elementen an.
+     *
+     * @param benutzer das {@link Login}-Objekt des angemeldeten Benutzers
+     */
     public void initUser(Login benutzer) {
         this.benutzer = benutzer;
         welcomeUser.setText("Willkommen, " + benutzer.getVorname() + "!");
@@ -230,6 +276,9 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         }
     }
 
+    /**
+     * Meldet den Benutzer nach Bestätigung ab und öffnet den Login-Bildschirm.
+     */
     public void logout() {
         boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Logout bestätigen", "Sind Sie sicher, dass Sie sich abmelden möchten?");
 
@@ -239,6 +288,9 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         }
     }
 
+    /**
+     * Beendet das Programm nach Bestätigung.
+     */
     public void beenden() {
         boolean beenden = AlertUtil.confirmationMitJaNein("Bestätigung", "Programm schließen", "Sind Sie sicher, dass Sie das Programm beenden möchten?");
 
@@ -247,59 +299,101 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         }
     }
 
+    /**
+     * Öffnet das Spielermenü.
+     */
     public void spielerMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/spieler/spielermenue.fxml");
     }
 
+    /**
+     * Öffnet das Trainermenü.
+     */
     public void trainerMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/trainer/trainermenue.fxml");
     }
 
+    /**
+     * Öffnet das Menü für interne Mannschaften.
+     */
     public void mannschaftInternMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/mannschaften/mannschaftinternmenu.fxml");
     }
 
+    /**
+     * Öffnet das Menü für externe Mannschaften.
+     */
     public void mannschaftExternMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/mannschaften/mannschaftexternmenu.fxml");
     }
 
+    /**
+     * Öffnet das Hallenmenü.
+     */
     public void hallenMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/halle/hallenmenu.fxml");
     }
 
+    /**
+     * Öffnet das Trainingsmenü.
+     */
     public void trainingMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/training/trainingmenu.fxml");
     }
 
+    /**
+     * Öffnet das Mitgliedsbeitragsmenü.
+     */
     public void mitgliedsbeitragMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragmenu.fxml");
     }
 
+    /**
+     * Öffnet das Benutzermenü.
+     */
     public void userMenu() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/login/usermenu.fxml");
     }
 
+    /**
+     * Öffnet das Ligamenü.
+     */
     public void ligaMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/liga/ligamenu.fxml");
     }
 
+    /**
+     * Öffnet das Spielemenü.
+     */
     public void spieleMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/spiele/spielemenu.fxml");
     }
 
+    /**
+     * Öffnet das Elternkontaktmenü.
+     */
     public void elternkontaktMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/elternkontakte/elternkontaktemenu.fxml");
     }
 
+    /**
+     * Öffnet das Statistikmenü.
+     */
     public void statistikMenuOeffnen() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/statistik/statistikmenu.fxml");
     }
 
+    /**
+     * Lädt die Hauptmenüansicht neu.
+     */
     public void backToHauptmenu() {
         MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/hauptmenu/hauptmenuecenter.fxml");
 
     }
 
+    /**
+     * Öffnet das Accountmenü.
+     */
     public void account() {
         AccountmenuController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/login/accountmenu.fxml", "Account", DEFAULT_CSS);
         if (controller != null) {
@@ -307,34 +401,58 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         }
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen eines neuen Spielers.
+     */
     public void quickSpielerHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spieler/spielerhinzufuegen.fxml", "Spieler hinzufügen");
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen eines neuen Trainings.
+     */
     public void quickTrainingAnlegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/training/traininghinzufuegen.fxml", "Training hinzufügen");
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen eines neuen Spiels.
+     */
     public void quickSpielHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spiele/spielhinzufuegen.fxml", "Spiel hinzufügen");
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen eines neuen Trainers.
+     */
     public void quickTrainerHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/trainer/trainerhinzufuegen.fxml", "Trainer hinzufügen");
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen einer externen Mannschaft.
+     */
     public void quickMannschaftExternHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternhinzufuegen.fxml", "Mannschaft Extern hinzufügen");
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen einer internen Mannschaft.
+     */
     public void quickMannschaftInternHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternhinzufuegen.fxml", "Mannschaft Intern hinzufügen");
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen eines Mitgliedsbeitrags.
+     */
     public void quickMitgliedsbeitragHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitraghinzufuegen.fxml", "Mitgliedsbeitrag hinzufügen");
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen einer Halle.
+     */
     public void quickHalleHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/halle/hallehinzufuegen.fxml", "Halle hinzufügen");
     }

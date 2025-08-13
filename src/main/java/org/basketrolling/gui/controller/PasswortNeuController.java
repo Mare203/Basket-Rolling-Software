@@ -18,14 +18,32 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Setzen eines neuen Passworts nach erfolgreicher
+ * Überprüfung des aktuellen Passworts.
+ * <p>
+ * Diese Klasse ist der zweite Schritt des Passwortänderungsprozesses: Der
+ * Benutzer gibt hier das neue Passwort ein, welches dann in der Datenbank
+ * gespeichert wird.
+ * </p>
+ *
+ * <p>
+ * <b>Funktionen:</b></p>
+ * <ul>
+ * <li>Speichern des neuen Passworts in der Datenbank</li>
+ * <li>Bestätigung der erfolgreichen Änderung</li>
+ * <li>Abbrechen des Vorgangs mit optionaler Bestätigung</li>
+ * </ul>
+ *
+ * Implementiert {@link Initializable} für die Initialisierung der
+ * Controller-Logik und {@link MainBorderSettable}, um das
+ * Haupt-{@link BorderPane} zu setzen.
  *
  * @author Marko
  */
 public class PasswortNeuController implements Initializable, MainBorderSettable {
 
-    LoginDAO dao;
-    LoginService service;
-
+    private LoginDAO dao;
+    private LoginService service;
     private Login aktuellerLogin;
 
     @FXML
@@ -34,20 +52,46 @@ public class PasswortNeuController implements Initializable, MainBorderSettable 
     @FXML
     private BorderPane borderPane;
 
+    /**
+     * Initialisiert den Controller, legt DAO und Service an.
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new LoginDAO();
         service = new LoginService(dao);
     }
 
+    /**
+     * Übergibt das aktuell eingeloggte {@link Login}-Objekt an den Controller.
+     *
+     * @param login das aktuelle Login-Objekt
+     */
     public void initLogin(Login login) {
         this.aktuellerLogin = login;
     }
 
+    /**
+     * Setzt das Haupt-{@link BorderPane}.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.borderPane = mainBorderPane;
     }
 
+    /**
+     * Speichert das neue Passwort für den aktuellen Benutzer.
+     * <ul>
+     * <li>Aktualisiert das Passwort-Attribut des {@link Login}-Objekts</li>
+     * <li>Schreibt die Änderung in die Datenbank</li>
+     * <li>Zeigt eine Bestätigungsmeldung an</li>
+     * <li>Schließt das Fenster ohne weitere Warnung</li>
+     * </ul>
+     */
     public void speichern() {
         aktuellerLogin.setPasswort(pfPasswort.getText());
         service.update(aktuellerLogin);
@@ -55,6 +99,10 @@ public class PasswortNeuController implements Initializable, MainBorderSettable 
         MenuUtil.fensterSchliessenOhneWarnung(pfPasswort);
     }
 
+    /**
+     * Bricht die Passwortänderung ab und schließt das Fenster mit einer
+     * Bestätigungsabfrage.
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(pfPasswort);
     }

@@ -29,13 +29,34 @@ import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
 /**
+ * Controller-Klasse für das Menü der Mitgliedsbeiträge.
+ * <p>
+ * Diese Klasse verwaltet die Anzeige, Bearbeitung, Löschung und das Hinzufügen
+ * von {@link Mitgliedsbeitrag}-Einträgen in einer {@link TableView}.
+ * Administratoren können neue Beiträge hinzufügen oder bestehende bearbeiten
+ * bzw. löschen.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable} für die Initialisierung der
+ * UI-Komponenten und {@link MainBorderSettable}, um das zentrale
+ * {@link BorderPane} der Anwendung zu setzen.
+ * </p>
+ *
+ * <p>
+ * <b>Funktionen:</b></p>
+ * <ul>
+ * <li>Anzeige aller Mitgliedsbeiträge aus der Datenbank</li>
+ * <li>Formatierte Anzeige der Beträge in Euro</li>
+ * <li>Bearbeiten- und Löschbuttons pro Tabellenzeile</li>
+ * <li>Navigation zurück zum Hauptmenü</li>
+ * </ul>
  *
  * @author Marko
  */
 public class MitgliedsbeitragController implements Initializable, MainBorderSettable {
 
-    MitgliedsbeitragDAO dao = new MitgliedsbeitragDAO();
-    MitgliedsbeitragService service = new MitgliedsbeitragService(dao);
+    private final MitgliedsbeitragDAO dao = new MitgliedsbeitragDAO();
+    private final MitgliedsbeitragService service = new MitgliedsbeitragService(dao);
 
     @FXML
     private TableView<Mitgliedsbeitrag> tabelleMitgliedsbeitrag;
@@ -54,15 +75,36 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
 
     private BorderPane mainBorderPane;
 
+    /**
+     * Setzt das Haupt-{@link BorderPane} für diesen Controller.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.mainBorderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den Controller.
+     * <ul>
+     * <li>Setzt die Sichtbarkeit des Hinzufügen-Buttons basierend auf der
+     * Benutzerrolle</li>
+     * <li>Bindet die Spalten an die {@link Mitgliedsbeitrag}-Eigenschaften</li>
+     * <li>Formatiert den Betrag in Euro-Format</li>
+     * <li>Lädt alle Mitgliedsbeiträge aus der Datenbank</li>
+     * <li>Fügt Bearbeiten- und Löschen-Buttons hinzu</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnHinzufuegen.setVisible(Session.istAdmin());
 
         saisonSpalte.setCellValueFactory(new PropertyValueFactory<>("saison"));
+
         betragSpalte.setCellValueFactory(new PropertyValueFactory<>("betrag"));
         betragSpalte.setCellFactory(column -> new TableCell<Mitgliedsbeitrag, Double>() {
             @Override
@@ -76,18 +118,25 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
             }
         });
 
-        List<Mitgliedsbeitrag> MitgliedsbeitragList = service.getAll();
-        tabelleMitgliedsbeitrag.setItems(FXCollections.observableArrayList(MitgliedsbeitragList));
+        List<Mitgliedsbeitrag> beitragListe = service.getAll();
+        tabelleMitgliedsbeitrag.setItems(FXCollections.observableArrayList(beitragListe));
 
         buttonsHinzufuegen();
     }
 
+    /**
+     * Fügt der Aktionsspalte Buttons zum Bearbeiten und Löschen hinzu.
+     * <p>
+     * Beim Löschen wird der Benutzer zur Bestätigung aufgefordert. Erfolgt eine
+     * Bestätigung, wird der Eintrag aus der Datenbank und aus der Tabelle
+     * entfernt.
+     * </p>
+     */
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
-
             private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
@@ -100,22 +149,26 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
                 loeschenBtn.getStyleClass().add("icon-btn");
 
                 bearbeitenBtn.setOnAction(e -> {
-                    Mitgliedsbeitrag mitgliedsbeitrag = getTableView().getItems().get(getIndex());
-
-                    MitgliedsbeitragBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragbearbeiten.fxml", "Mitgliedsbeitrag Bearbeiten");
+                    Mitgliedsbeitrag beitrag = getTableView().getItems().get(getIndex());
+                    MitgliedsbeitragBearbeitenController controller
+                            = MenuUtil.neuesFensterModalAnzeigen(
+                                    "/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitragbearbeiten.fxml",
+                                    "Mitgliedsbeitrag Bearbeiten");
                     if (controller != null) {
-                        controller.initMitgliedsbeitrag(mitgliedsbeitrag);
+                        controller.initMitgliedsbeitrag(beitrag);
                     }
                 });
 
                 loeschenBtn.setOnAction(e -> {
-                    Mitgliedsbeitrag mitgliedsbeitrag = getTableView().getItems().get(getIndex());
-
-                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", "Mitgliedsbeitrag löschen", "Möchten Sie den Mitgliedsbeitrag für die Saison " + mitgliedsbeitrag.getSaison() + " wirklich löschen?");
-
+                    Mitgliedsbeitrag beitrag = getTableView().getItems().get(getIndex());
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein(
+                            "Bestätigung",
+                            "Mitgliedsbeitrag löschen",
+                            "Möchten Sie den Mitgliedsbeitrag für die Saison "
+                            + beitrag.getSaison() + " wirklich löschen?");
                     if (bestaetigung) {
-                        service.delete(mitgliedsbeitrag);
-                        tabelleMitgliedsbeitrag.getItems().remove(mitgliedsbeitrag);
+                        service.delete(beitrag);
+                        tabelleMitgliedsbeitrag.getItems().remove(beitrag);
                     }
                 });
             }
@@ -134,11 +187,19 @@ public class MitgliedsbeitragController implements Initializable, MainBorderSett
         });
     }
 
+    /**
+     * Kehrt zum Hauptmenü zurück.
+     */
     public void backToHauptmenue() {
         MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
+    /**
+     * Öffnet ein modales Fenster zum Hinzufügen eines neuen Mitgliedsbeitrags.
+     */
     public void mitgliedsbeitragHinzufuegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitraghinzufuegen.fxml", "Mitgliedsbeitrag hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen(
+                "/org/basketrolling/gui/fxml/mitgliedsbeitrag/mitgliedsbeitraghinzufuegen.fxml",
+                "Mitgliedsbeitrag hinzufügen");
     }
 }

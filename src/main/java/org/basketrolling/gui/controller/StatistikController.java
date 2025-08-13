@@ -12,8 +12,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -34,91 +32,118 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller zur Anzeige und Auswertung der Statistiken für die internen
+ * Mannschaften.
+ * <p>
+ * Zeigt zu jeder Mannschaft u.a.:
+ * <ul>
+ * <li>Diagramm mit erzielten Punkten pro Spiel</li>
+ * <li>Anzahl aktiver Spieler im Kader</li>
+ * <li>Durchschnittsalter der aktiven Spieler</li>
+ * <li>Top-Scorer mit Punkten pro Spiel (PPG)</li>
+ * <li>Punktedurchschnitt der gesamten Mannschaft</li>
+ * </ul>
+ *
+ * Es werden bis zu drei Mannschaften geladen (erkennbar an den Endungen
+ * <code>/1</code>, <code>/2</code> und <code>/3</code> im Namen). Die Daten
+ * werden aus den zugehörigen Services geladen und grafisch in
+ * JavaFX-{@link BarChart} Elementen dargestellt.
+ *
+ * Implementiert {@link Initializable} für die Initialisierungslogik und
+ * {@link MainBorderSettable}, um das Haupt-{@link BorderPane} zu setzen.
  *
  * @author Marko
  */
 public class StatistikController implements Initializable, MainBorderSettable {
 
+    // DAOs
     SpielerDAO spielerDao;
     MannschaftInternDAO mannInDao;
     SpieleDAO spieleDao;
     StatistikDAO statsitikDao;
 
+    // Services
     SpielerService spielerService;
     SpieleService spieleService;
     MannschaftInternService mannInService;
     StatistikService statsitikService;
 
+    // Mannschaftsobjekte
     MannschaftIntern mannIn1;
     MannschaftIntern mannIn2;
     MannschaftIntern mannIn3;
 
+    // Diagramme
     @FXML
     private BarChart<String, Integer> bcRolling1;
-
     @FXML
     private BarChart<String, Integer> bcRolling2;
-
     @FXML
     private BarChart<String, Integer> bcRolling3;
 
-    @FXML
-    private NumberAxis punkte1;
-
-    @FXML
-    private CategoryAxis gegner1;
-
+    // Labels für Teams
     @FXML
     private Label lbTeam1;
-
     @FXML
     private Label lbTeam2;
-
     @FXML
     private Label lbTeam3;
 
+    // Labels für aktive Spieler
     @FXML
     private Label lbAktiveSpieler1;
-
     @FXML
     private Label lbAktiveSpieler2;
-
     @FXML
     private Label lbAktiveSpieler3;
 
+    // Labels für Durchschnittsalter
     @FXML
     private Label lbDurchschnittsalter1;
-
     @FXML
     private Label lbDurchschnittsalter2;
-
     @FXML
     private Label lbDurchschnittsalter3;
 
+    // Labels für Top-Scorer
     @FXML
     private Label lbTopScorer1;
-
     @FXML
     private Label lbTopScorer2;
-
     @FXML
     private Label lbTopScorer3;
 
+    // Labels für Punktedurchschnitt
     @FXML
     private Label lbPunktedurchschnit1;
-
     @FXML
     private Label lbPunktedurchschnit2;
-
     @FXML
     private Label lbPunktedurchschnit3;
 
     private BorderPane mainBorderPane;
 
+    /**
+     * Setzt das Haupt-Layout-Element für Navigation.
+     *
+     * @param mainBorderPane zentrales {@link BorderPane}
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.mainBorderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den Controller und lädt alle relevanten Statistikdaten:
+     * <ul>
+     * <li>Lädt Mannschaften anhand der Kennzeichnung im Namen (/1, /2, /3)</li>
+     * <li>Setzt Teamnamen-Labels</li>
+     * <li>Erstellt Diagramme mit erzielten Punkten</li>
+     * <li>Zeigt aktive Spieleranzahl und Durchschnittsalter</li>
+     * <li>Ermittelt Top-Scorer und Punkteschnitt</li>
+     * </ul>
+     * Falls keine Mannschaft gefunden wird, erscheint eine Fehlermeldung.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spieleDao = new SpieleDAO();
@@ -188,6 +213,13 @@ public class StatistikController implements Initializable, MainBorderSettable {
         zeigePunkteschnitt(lbPunktedurchschnit3, mannIn3);
     }
 
+    /**
+     * Erstellt eine {@link XYChart.Series} mit den erzielten Punkten der
+     * Mannschaft. Jeder Balken erhält ein Label mit der Punktzahl.
+     *
+     * @param spieleList Liste der Spiele
+     * @return Diagrammserie mit Gegnernamen und Punkten
+     */
     private XYChart.Series setzeStatistik(List<Spiele> spieleList) {
         XYChart.Series<String, Integer> series = new XYChart.Series<>();
         series.setName("Erzielte Punkte");
@@ -202,20 +234,26 @@ public class StatistikController implements Initializable, MainBorderSettable {
             data.nodeProperty().addListener((obs, altNode, neuNode) -> {
                 if (neuNode != null) {
                     Label label = new Label(String.valueOf(punkte));
-
-                    StackPane bar = (StackPane) neuNode;
-                    bar.getChildren().add(label);
-
+                    ((StackPane) neuNode).getChildren().add(label);
                 }
             });
         }
         return series;
     }
 
+    /**
+     * Navigiert zurück ins Hauptmenü.
+     */
     public void backToHauptmenue() {
         MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
+    /**
+     * Berechnet das Durchschnittsalter einer Spielerliste.
+     *
+     * @param spielerListe Liste der Spieler
+     * @return Durchschnittsalter oder 0, wenn keine Daten vorliegen
+     */
     public double berechneDurchschnittsalter(List<Spieler> spielerListe) {
         LocalDate heute = LocalDate.now();
         int summe = 0;
@@ -224,8 +262,7 @@ public class StatistikController implements Initializable, MainBorderSettable {
         for (Spieler spieler : spielerListe) {
             LocalDate geburt = spieler.getGeburtsdatum();
             if (geburt != null) {
-                int alter = Period.between(geburt, heute).getYears();
-                summe += alter;
+                summe += Period.between(geburt, heute).getYears();
                 zaehler++;
             }
         }
@@ -233,6 +270,12 @@ public class StatistikController implements Initializable, MainBorderSettable {
         return zaehler == 0 ? 0 : (double) summe / zaehler;
     }
 
+    /**
+     * Zeigt den Top-Scorer im angegebenen Label an.
+     *
+     * @param label Ziel-Label
+     * @param scorer Array mit Spieler, Punkten und Anzahl der Spiele
+     */
     private void zeigeTopScorer(Label label, Object[] scorer) {
         if (scorer != null) {
             Spieler spieler = (Spieler) scorer[0];
@@ -247,6 +290,12 @@ public class StatistikController implements Initializable, MainBorderSettable {
         }
     }
 
+    /**
+     * Zeigt den Punktedurchschnitt der Mannschaft im angegebenen Label an.
+     *
+     * @param label Ziel-Label
+     * @param mannschaft Mannschaft, deren Schnitt angezeigt werden soll
+     */
     private void zeigePunkteschnitt(Label label, MannschaftIntern mannschaft) {
         Double schnitt = spieleService.getPunkteschnittProMannschaft(mannschaft);
         if (schnitt != null) {

@@ -35,18 +35,39 @@ import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
 /**
+ * Controller-Klasse für das Hallen-Menü.
+ * <p>
+ * Diese Klasse verwaltet die Anzeige, Bearbeitung, Löschung und das Hinzufügen
+ * von {@link Halle}-Einträgen in einer {@link TableView}. Administratoren
+ * können Hallen hinzufügen oder bestehende bearbeiten bzw. löschen.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable} für die Initialisierung der
+ * UI-Komponenten und {@link MainBorderSettable}, um das zentrale
+ * {@link BorderPane} der Anwendung zu setzen.
+ * </p>
+ *
+ * <p>
+ * <b>Funktionen:</b></p>
+ * <ul>
+ * <li>Anzeige aller Hallen aus der Datenbank</li>
+ * <li>Bearbeiten- und Löschbuttons pro Tabellenzeile</li>
+ * <li>Löschprüfung, ob eine Halle noch mit Trainings oder Spielen verknüpft
+ * ist</li>
+ * <li>Navigation zu weiteren Menüs</li>
+ * </ul>
  *
  * @author Marko
  */
 public class HallenmenuController implements Initializable, MainBorderSettable {
 
-    HalleDAO halleDao;
-    TrainingDAO trainingDao;
-    SpieleDAO spieleDao;
+    private HalleDAO halleDao;
+    private TrainingDAO trainingDao;
+    private SpieleDAO spieleDao;
 
-    HalleService halleService;
-    TrainingService trainingService;
-    SpieleService spieleService;
+    private HalleService halleService;
+    private TrainingService trainingService;
+    private SpieleService spieleService;
 
     @FXML
     private TableView<Halle> tabelleHalle;
@@ -71,10 +92,28 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
 
     private BorderPane mainBorderPane;
 
+    /**
+     * Setzt das Haupt-{@link BorderPane} für diesen Controller.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.mainBorderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den Controller.
+     * <ul>
+     * <li>Erzeugt DAO- und Service-Instanzen</li>
+     * <li>Setzt die Tabellenbindungen</li>
+     * <li>Fügt Bearbeiten- und Löschen-Buttons hinzu</li>
+     * <li>Lädt alle Hallen aus der Datenbank</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         halleDao = new HalleDAO();
@@ -98,12 +137,18 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
         tabelleHalle.setItems(FXCollections.observableArrayList(halleList));
     }
 
+    /**
+     * Fügt der Aktionsspalte Buttons zum Bearbeiten und Löschen hinzu.
+     * <p>
+     * Beim Löschen wird geprüft, ob die Halle noch mit Trainings oder Spielen
+     * verknüpft ist. Falls ja, wird eine Warnmeldung angezeigt.
+     * </p>
+     */
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
-
             private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
@@ -116,7 +161,10 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
 
                 bearbeitenBtn.setOnAction(e -> {
                     Halle halle = getTableView().getItems().get(getIndex());
-                    HalleBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/halle/hallebearbeiten.fxml", "Halle Bearbeiten");
+                    HalleBearbeitenController controller
+                            = MenuUtil.neuesFensterModalAnzeigen(
+                                    "/org/basketrolling/gui/fxml/halle/hallebearbeiten.fxml",
+                                    "Halle Bearbeiten");
 
                     if (controller != null) {
                         controller.initHalle(halle);
@@ -127,16 +175,21 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
                     Halle halle = getTableView().getItems().get(getIndex());
 
                     if (kannHalleGeloeschtWerden(halle)) {
-                        boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", halle.getName() + " löschen", "Möchten Sie folgende Halle wirklich löschen? - " + halle.getName());
+                        boolean bestaetigung = AlertUtil.confirmationMitJaNein(
+                                "Bestätigung",
+                                halle.getName() + " löschen",
+                                "Möchten Sie folgende Halle wirklich löschen? - " + halle.getName());
 
                         if (bestaetigung) {
                             halleService.delete(halle);
                             tabelleHalle.getItems().remove(halle);
                         }
                     } else {
-                        AlertUtil.alertWarning("Löschen nicht möglich", "Die Halle ist noch mit Trainingseinheiten und/oder Spielen verknüpft.", "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Halle löschen.");
+                        AlertUtil.alertWarning(
+                                "Löschen nicht möglich",
+                                "Die Halle ist noch mit Trainingseinheiten und/oder Spielen verknüpft.",
+                                "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Halle löschen.");
                     }
-
                 });
             }
 
@@ -154,14 +207,33 @@ public class HallenmenuController implements Initializable, MainBorderSettable {
         });
     }
 
+    /**
+     * Kehrt zum Hauptmenü zurück.
+     */
     public void backToHauptmenue() {
         MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
+    /**
+     * Öffnet ein modales Fenster zum Hinzufügen einer neuen Halle.
+     */
     public void halleHinzufuegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/halle/hallehinzufuegen.fxml", "Halle hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen(
+                "/org/basketrolling/gui/fxml/halle/hallehinzufuegen.fxml",
+                "Halle hinzufügen");
     }
 
+    /**
+     * Prüft, ob eine Halle gelöscht werden kann.
+     * <p>
+     * Eine Halle kann nur gelöscht werden, wenn sie nicht mit {@link Training}
+     * oder {@link Spiele} verknüpft ist.
+     * </p>
+     *
+     * @param halle die zu prüfende {@link Halle}
+     * @return {@code true}, wenn die Halle gelöscht werden kann, {@code false}
+     * andernfalls
+     */
     public boolean kannHalleGeloeschtWerden(Halle halle) {
         List<Training> training = trainingService.getByHalle(halle);
         List<Spiele> spiele = spieleService.getByHalle(halle);

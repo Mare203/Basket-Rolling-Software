@@ -38,20 +38,41 @@ import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
 /**
+ * Controller-Klasse für das Menü der internen Mannschaften.
+ * <p>
+ * Diese Klasse verwaltet die Anzeige, Bearbeitung, Löschung und das Hinzufügen
+ * von {@link MannschaftIntern}-Einträgen in einer {@link TableView}.
+ * Administratoren können interne Mannschaften hinzufügen oder bestehende
+ * bearbeiten bzw. löschen.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable} für die Initialisierung der
+ * UI-Komponenten und {@link MainBorderSettable}, um das zentrale
+ * {@link BorderPane} der Anwendung zu setzen.
+ * </p>
+ *
+ * <p>
+ * <b>Funktionen:</b></p>
+ * <ul>
+ * <li>Anzeige aller internen Mannschaften aus der Datenbank</li>
+ * <li>Bearbeiten- und Löschbuttons pro Tabellenzeile</li>
+ * <li>Löschprüfung, ob noch Spieler, Spiele oder Trainings zugeordnet sind</li>
+ * <li>Navigation zurück zum Hauptmenü</li>
+ * </ul>
  *
  * @author Marko
  */
 public class MannschaftInternmenuController implements Initializable, MainBorderSettable {
 
-    MannschaftInternDAO mannInDao;
-    SpielerDAO spielerDao;
-    SpieleDAO spieleDao;
-    TrainingDAO trainingDao;
+    private MannschaftInternDAO mannInDao;
+    private SpielerDAO spielerDao;
+    private SpieleDAO spieleDao;
+    private TrainingDAO trainingDao;
 
-    MannschaftInternService mannInService;
-    SpielerService spielerService;
-    SpieleService spieleService;
-    TrainingService trainingService;
+    private MannschaftInternService mannInService;
+    private SpielerService spielerService;
+    private SpieleService spieleService;
+    private TrainingService trainingService;
 
     @FXML
     private TableView<MannschaftIntern> tabelleMannschaftIntern;
@@ -73,10 +94,28 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
 
     private BorderPane mainBorderPane;
 
+    /**
+     * Setzt das Haupt-{@link BorderPane} für diesen Controller.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.mainBorderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den Controller.
+     * <ul>
+     * <li>Erzeugt DAO- und Service-Instanzen</li>
+     * <li>Setzt die Tabellenbindungen</li>
+     * <li>Lädt alle internen Mannschaften aus der Datenbank</li>
+     * <li>Fügt Bearbeiten- und Löschen-Buttons hinzu</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mannInDao = new MannschaftInternDAO();
@@ -99,15 +138,20 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
         tabelleMannschaftIntern.setItems(FXCollections.observableArrayList(mannschaftInternList));
 
         buttonsHinzufuegen();
-
     }
 
+    /**
+     * Fügt der Aktionsspalte Buttons zum Bearbeiten und Löschen hinzu.
+     * <p>
+     * Beim Löschen wird geprüft, ob der Mannschaft noch Spieler, Spiele oder
+     * Trainings zugeordnet sind. Falls ja, wird eine Warnmeldung angezeigt.
+     * </p>
+     */
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
-
             private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
@@ -120,8 +164,10 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
 
                 bearbeitenBtn.setOnAction(e -> {
                     MannschaftIntern mannschaftIntern = getTableView().getItems().get(getIndex());
-
-                    MannschaftInternBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternbearbeiten.fxml", "Interne Mannschaft Bearbeiten");
+                    MannschaftInternBearbeitenController controller
+                            = MenuUtil.neuesFensterModalAnzeigen(
+                                    "/org/basketrolling/gui/fxml/mannschaften/mannschaftinternbearbeiten.fxml",
+                                    "Interne Mannschaft Bearbeiten");
                     if (controller != null) {
                         controller.initMannschaftIntern(mannschaftIntern);
                     }
@@ -131,16 +177,21 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
                     MannschaftIntern mannschaftIntern = getTableView().getItems().get(getIndex());
 
                     if (kannMannschaftGeloeschtWerden(mannschaftIntern)) {
-                        boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", mannschaftIntern.getName() + " löschen", "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftIntern.getName());
+                        boolean bestaetigung = AlertUtil.confirmationMitJaNein(
+                                "Bestätigung",
+                                mannschaftIntern.getName() + " löschen",
+                                "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftIntern.getName());
 
                         if (bestaetigung) {
                             mannInService.delete(mannschaftIntern);
                             tabelleMannschaftIntern.getItems().remove(mannschaftIntern);
                         }
                     } else {
-                        AlertUtil.alertWarning("Löschen nicht möglich", "Die Mannschaft hat noch Spieler und/oder Spiele und/oder Trainings zugeordnet", "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Mannschaft löschen.");
+                        AlertUtil.alertWarning(
+                                "Löschen nicht möglich",
+                                "Die Mannschaft hat noch Spieler und/oder Spiele und/oder Trainings zugeordnet",
+                                "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Mannschaft löschen.");
                     }
-
                 });
             }
 
@@ -158,14 +209,34 @@ public class MannschaftInternmenuController implements Initializable, MainBorder
         });
     }
 
+    /**
+     * Kehrt zum Hauptmenü zurück.
+     */
     public void backToHauptmenue() {
         MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
+    /**
+     * Öffnet ein modales Fenster zum Hinzufügen einer neuen internen
+     * Mannschaft.
+     */
     public void mannschaftHinzufuegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftinternhinzufuegen.fxml", "Mannschaft hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen(
+                "/org/basketrolling/gui/fxml/mannschaften/mannschaftinternhinzufuegen.fxml",
+                "Mannschaft hinzufügen");
     }
 
+    /**
+     * Prüft, ob eine interne Mannschaft gelöscht werden kann.
+     * <p>
+     * Eine Mannschaft kann nur gelöscht werden, wenn ihr keine Spieler, Spiele
+     * oder Trainings zugeordnet sind.
+     * </p>
+     *
+     * @param mannschaft die zu prüfende {@link MannschaftIntern}
+     * @return {@code true}, wenn die Mannschaft gelöscht werden kann,
+     * {@code false} andernfalls
+     */
     public boolean kannMannschaftGeloeschtWerden(MannschaftIntern mannschaft) {
         List<Spieler> spieler = spielerService.getByMannschaft(mannschaft);
         List<Spiele> spiele = spieleService.getByMannschaftIntern(mannschaft);

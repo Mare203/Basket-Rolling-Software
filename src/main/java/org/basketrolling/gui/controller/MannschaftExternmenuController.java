@@ -32,16 +32,37 @@ import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
 /**
+ * Controller-Klasse für das Menü der externen Mannschaften.
+ * <p>
+ * Diese Klasse verwaltet die Anzeige, Bearbeitung, Löschung und das Hinzufügen
+ * von {@link MannschaftExtern}-Einträgen in einer {@link TableView}.
+ * Administratoren können Mannschaften hinzufügen oder bestehende bearbeiten
+ * bzw. löschen.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable} für die Initialisierung der
+ * UI-Komponenten und {@link MainBorderSettable}, um das zentrale
+ * {@link BorderPane} der Anwendung zu setzen.
+ * </p>
+ *
+ * <p>
+ * <b>Funktionen:</b></p>
+ * <ul>
+ * <li>Anzeige aller externen Mannschaften aus der Datenbank</li>
+ * <li>Bearbeiten- und Löschbuttons pro Tabellenzeile</li>
+ * <li>Löschprüfung, ob einer Mannschaft noch Spiele zugeordnet sind</li>
+ * <li>Navigation zurück zum Hauptmenü</li>
+ * </ul>
  *
  * @author Marko
  */
 public class MannschaftExternmenuController implements Initializable, MainBorderSettable {
 
-    MannschaftExternDAO mannExDao;
-    SpieleDAO spieleDao;
+    private MannschaftExternDAO mannExDao;
+    private SpieleDAO spieleDao;
 
-    MannschaftExternService mannExService;
-    SpieleService spieleService;
+    private MannschaftExternService mannExService;
+    private SpieleService spieleService;
 
     @FXML
     private TableView<MannschaftExtern> tabelleMannschaftExtern;
@@ -60,10 +81,28 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
 
     private BorderPane mainBorderPane;
 
+    /**
+     * Setzt das Haupt-{@link BorderPane} für diesen Controller.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.mainBorderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den Controller.
+     * <ul>
+     * <li>Erzeugt DAO- und Service-Instanzen</li>
+     * <li>Setzt die Tabellenbindungen</li>
+     * <li>Lädt alle externen Mannschaften aus der Datenbank</li>
+     * <li>Fügt Bearbeiten- und Löschen-Buttons hinzu</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mannExDao = new MannschaftExternDAO();
@@ -83,12 +122,18 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
         buttonsHinzufuegen();
     }
 
+    /**
+     * Fügt der Aktionsspalte Buttons zum Bearbeiten und Löschen hinzu.
+     * <p>
+     * Beim Löschen wird geprüft, ob der Mannschaft noch Spiele zugeordnet sind.
+     * Falls ja, wird eine Warnmeldung angezeigt.
+     * </p>
+     */
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
-
             private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
@@ -102,8 +147,10 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
 
                 bearbeitenBtn.setOnAction(e -> {
                     MannschaftExtern mannschaftExtern = getTableView().getItems().get(getIndex());
-
-                    MannschaftExternBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternbearbeiten.fxml", "Externe Mannschaft Bearbeiten");
+                    MannschaftExternBearbeitenController controller
+                            = MenuUtil.neuesFensterModalAnzeigen(
+                                    "/org/basketrolling/gui/fxml/mannschaften/mannschaftexternbearbeiten.fxml",
+                                    "Externe Mannschaft Bearbeiten");
                     if (controller != null) {
                         controller.initMannschaftExtern(mannschaftExtern);
                     }
@@ -113,16 +160,21 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
                     MannschaftExtern mannschaftExtern = getTableView().getItems().get(getIndex());
 
                     if (kannMannschaftGeloeschtWerden(mannschaftExtern)) {
-                        boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung", mannschaftExtern.getName() + " löschen", "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftExtern.getName());
+                        boolean bestaetigung = AlertUtil.confirmationMitJaNein(
+                                "Bestätigung",
+                                mannschaftExtern.getName() + " löschen",
+                                "Möchten Sie folgende Mannschaft wirklich löschen? - " + mannschaftExtern.getName());
 
                         if (bestaetigung) {
                             mannExService.delete(mannschaftExtern);
                             tabelleMannschaftExtern.getItems().remove(mannschaftExtern);
                         }
                     } else {
-                        AlertUtil.alertWarning("Löschen nicht möglich", "Die Mannschaft hat noch Spiele zugeordnet", "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Mannschaft löschen.");
+                        AlertUtil.alertWarning(
+                                "Löschen nicht möglich",
+                                "Die Mannschaft hat noch Spiele zugeordnet",
+                                "Bitte entfernen Sie zuerst alle Zuordnungen, bevor Sie die Mannschaft löschen.");
                     }
-
                 });
             }
 
@@ -140,18 +192,36 @@ public class MannschaftExternmenuController implements Initializable, MainBorder
         });
     }
 
+    /**
+     * Kehrt zum Hauptmenü zurück.
+     */
     public void backToHauptmenue() {
         MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
+    /**
+     * Öffnet ein modales Fenster zum Hinzufügen einer neuen externen
+     * Mannschaft.
+     */
     public void mannschaftHinzufuegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/mannschaften/mannschaftexternhinzufuegen.fxml", "Mannschaft hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen(
+                "/org/basketrolling/gui/fxml/mannschaften/mannschaftexternhinzufuegen.fxml",
+                "Mannschaft hinzufügen");
     }
 
+    /**
+     * Prüft, ob eine externe Mannschaft gelöscht werden kann.
+     * <p>
+     * Eine Mannschaft kann nur gelöscht werden, wenn ihr keine Spiele
+     * zugeordnet sind.
+     * </p>
+     *
+     * @param mannschaft die zu prüfende {@link MannschaftExtern}
+     * @return {@code true}, wenn die Mannschaft gelöscht werden kann,
+     * {@code false} andernfalls
+     */
     public boolean kannMannschaftGeloeschtWerden(MannschaftExtern mannschaft) {
         List<Spiele> spiele = spieleService.getByMannschaftExtern(mannschaft);
-
         return spiele.isEmpty();
     }
-
 }

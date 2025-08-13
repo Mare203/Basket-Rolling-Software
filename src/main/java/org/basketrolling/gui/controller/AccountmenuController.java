@@ -18,14 +18,27 @@ import org.basketrolling.service.LoginService;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse für das Account-Menü.
+ * <p>
+ * Diese Klasse verwaltet die Anzeige der aktuellen Login-Daten des Benutzers
+ * sowie die Navigation zur Passwortänderungsansicht.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable} für die Initialisierung beim Laden
+ * des FXML-Layouts und {@link MainBorderSettable}, um das zentrale
+ * {@link BorderPane} der Anwendung zu setzen.
+ * </p>
  *
  * @author Marko
  */
 public class AccountmenuController implements Initializable, MainBorderSettable {
 
-    LoginDAO dao;
-    LoginService service;
+    private LoginDAO dao;
+    private LoginService service;
 
+    /**
+     * Der aktuell angemeldete Benutzer.
+     */
     private Login aktuellerLogin;
 
     @FXML
@@ -46,12 +59,25 @@ public class AccountmenuController implements Initializable, MainBorderSettable 
     @FXML
     private BorderPane borderPane;
 
+    /**
+     * Initialisiert den Controller. Erstellt eine neue Instanz von
+     * {@link LoginDAO} und {@link LoginService}.
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new LoginDAO();
         service = new LoginService(dao);
     }
 
+    /**
+     * Übergibt die Login-Daten des aktuell angemeldeten Benutzers und zeigt
+     * diese in den entsprechenden Labels an.
+     *
+     * @param login das {@link Login}-Objekt des angemeldeten Benutzers
+     */
     public void initLogin(Login login) {
         this.aktuellerLogin = login;
 
@@ -61,12 +87,28 @@ public class AccountmenuController implements Initializable, MainBorderSettable 
         lRolle.setText(login.getRolle().toString());
     }
 
+    /**
+     * Setzt das Haupt-{@link BorderPane} für diesen Controller.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.borderPane = mainBorderPane;
     }
 
+    /**
+     * Öffnet den Passwort-Änderungsbildschirm und übergibt den aktuellen Login.
+     * <p>
+     * Lädt das FXML-Layout für die Passwortänderung und initialisiert den
+     * entsprechenden Controller mit den Login-Daten des aktuellen Benutzers.
+     * </p>
+     */
     public void passwortChange() {
-        PasswortChangeController controller = MenuUtil.ladeMenuUndSetzeCenter(borderPane, "/org/basketrolling/gui/fxml/login/passwortcheck.fxml");
+        PasswortChangeController controller = MenuUtil.ladeMenuUndSetzeCenter(
+                borderPane,
+                "/org/basketrolling/gui/fxml/login/passwortcheck.fxml"
+        );
 
         if (controller != null) {
             controller.initLogin(aktuellerLogin);

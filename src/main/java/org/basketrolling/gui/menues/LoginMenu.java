@@ -44,7 +44,7 @@ public class LoginMenu extends Application {
     /**
      * Main-Methode und Startpunkt der Anwendung.
      *
-     * @param args Kommandozeilenargumente (nicht verwendet)
+     * @param args Kommandozeilenargumente
      */
     public static void main(String[] args) {
         launch(args);

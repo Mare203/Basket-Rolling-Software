@@ -33,16 +33,35 @@ import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
 /**
+ * Controller-Klasse zur Verwaltung und Anzeige aller Spiele im System.
+ * <p>
+ * Stellt eine Tabelle bereit, in der alle gespeicherten Spiele mit ihren
+ * relevanten Daten (Mannschaften, Liga, Datum, Halle, Ergebnis) angezeigt
+ * werden. Administratoren können Spiele hinzufügen, bearbeiten oder löschen.
+ * </p>
+ *
+ * <p>
+ * <b>Funktionen:</b></p>
+ * <ul>
+ * <li>Anzeigen aller gespeicherten Spiele in einer Tabelle</li>
+ * <li>Darstellung des Spielergebnisses als "PunkteIntern : PunkteExtern"</li>
+ * <li>Bearbeiten bestehender Spiele</li>
+ * <li>Löschen von Spielen, inkl. optionalem Löschen verknüpfter
+ * Statistiken</li>
+ * </ul>
+ *
+ * Implementiert {@link Initializable} für die Initialisierungslogik und
+ * {@link MainBorderSettable}, um das Haupt-{@link BorderPane} zu setzen.
  *
  * @author Marko
  */
 public class SpieleController implements Initializable, MainBorderSettable {
 
-    SpieleDAO spieleDao;
-    StatistikDAO statistikDao;
+    private SpieleDAO spieleDao;
+    private StatistikDAO statistikDao;
 
-    SpieleService spieleService;
-    StatistikService statistikService;
+    private SpieleService spieleService;
+    private StatistikService statistikService;
 
     @FXML
     private TableView<Spiele> tabelleSpiele;
@@ -73,10 +92,25 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
     private BorderPane mainBorderPane;
 
+    /**
+     * Setzt das Haupt-{@link BorderPane}, um Navigation im UI zu ermöglichen.
+     *
+     * @param mainBorderPane zentrales Layout-Element
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.mainBorderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den Controller:
+     * <ul>
+     * <li>Erstellt DAO- und Service-Instanzen</li>
+     * <li>Bindet Tabellen-Spalten an Datenbankfelder</li>
+     * <li>Füllt die Tabelle mit allen gespeicherten Spielen</li>
+     * <li>Richtet die Bearbeiten- und Löschen-Buttons ein</li>
+     * </ul>
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spieleDao = new SpieleDAO();
@@ -92,8 +126,7 @@ public class SpieleController implements Initializable, MainBorderSettable {
             Spiele spiel = daten.getValue();
             Integer intern = spiel.getInternPunkte();
             Integer extern = spiel.getExternPunkte();
-            String ergebnis = intern + " : " + extern;
-            return new ReadOnlyObjectWrapper<>(ergebnis);
+            return new ReadOnlyObjectWrapper<>(intern + " : " + extern);
         });
         gegnerSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftExtern"));
         ligaSpalte.setCellValueFactory(new PropertyValueFactory<>("liga"));
@@ -104,15 +137,21 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
         List<Spiele> spieleListe = spieleService.getAll();
         tabelleSpiele.setItems(FXCollections.observableArrayList(spieleListe));
-
     }
 
+    /**
+     * Fügt in jeder Tabellenzeile Buttons zum Bearbeiten und Löschen eines
+     * Spiels hinzu.
+     * <p>
+     * Beim Löschen wird überprüft, ob Statistiken verknüpft sind. Falls ja,
+     * muss der Benutzer bestätigen, ob auch diese entfernt werden sollen.
+     * </p>
+     */
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
-
             private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
@@ -126,8 +165,8 @@ public class SpieleController implements Initializable, MainBorderSettable {
 
                 bearbeitenBtn.setOnAction(e -> {
                     Spiele spiel = getTableView().getItems().get(getIndex());
-
-                    SpielBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spiele/spielbearbeiten.fxml", "Spiel Bearbeiten");
+                    SpielBearbeitenController controller
+                            = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spiele/spielbearbeiten.fxml", "Spiel Bearbeiten");
                     if (controller != null) {
                         controller.initSpiel(spiel);
                     }
@@ -139,18 +178,17 @@ public class SpieleController implements Initializable, MainBorderSettable {
                     boolean bestaetigung = AlertUtil.confirmationMitJaNein(
                             "Bestätigung", "Spiel löschen", "Möchten Sie das Spiel wirklich löschen?"
                     );
-
                     if (!bestaetigung) {
                         return;
                     }
 
                     List<Statistik> statistiken = statistikService.getBySpiel(spiele);
-
                     if (!statistiken.isEmpty()) {
-                        boolean mitStatistikLoeschen = AlertUtil.confirmationMitJaNein("Achtung – Verknüpfte Daten",
+                        boolean mitStatistikLoeschen = AlertUtil.confirmationMitJaNein(
+                                "Achtung – Verknüpfte Daten",
                                 "Dieses Spiel hat verknüpfte Statistik-Einträge.",
-                                "Wenn Sie fortfahren, werden auch alle zugehörigen Statistiken gelöscht.\nMöchten Sie trotzdem fortfahren?");
-
+                                "Wenn Sie fortfahren, werden auch alle zugehörigen Statistiken gelöscht.\nMöchten Sie trotzdem fortfahren?"
+                        );
                         if (!mitStatistikLoeschen) {
                             return;
                         }
@@ -170,10 +208,8 @@ public class SpieleController implements Initializable, MainBorderSettable {
             @Override
             protected void updateItem(Void item, boolean leer) {
                 super.updateItem(item, leer);
-                if (leer) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(buttonBox);
+                setGraphic(leer ? null : buttonBox);
+                if (!leer) {
                     bearbeitenBtn.setVisible(Session.istAdmin());
                     loeschenBtn.setVisible(Session.istAdmin());
                 }
@@ -181,10 +217,16 @@ public class SpieleController implements Initializable, MainBorderSettable {
         });
     }
 
+    /**
+     * Navigiert zurück ins Hauptmenü.
+     */
     public void backToHauptmenue() {
         MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
+    /**
+     * Öffnet das Fenster zum Hinzufügen eines neuen Spiels.
+     */
     public void spielHinzufuegen() {
         MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/spiele/spielhinzufuegen.fxml", "Spiel hinzufügen");
     }

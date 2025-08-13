@@ -29,13 +29,25 @@ import org.basketrolling.utils.MenuUtil;
 import org.basketrolling.utils.Session;
 
 /**
+ * Controller-Klasse für das Elternkontakte-Menü.
+ * <p>
+ * Diese Klasse verwaltet die Anzeige, Bearbeitung und Löschung von
+ * {@link Elternkontakt}-Einträgen in einer {@link TableView}. Administratoren
+ * haben zusätzlich die Möglichkeit, neue Einträge hinzuzufügen oder bestehende
+ * zu bearbeiten/löschen.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable} für die Initialisierung der
+ * UI-Komponenten sowie {@link MainBorderSettable}, um das zentrale
+ * {@link BorderPane} der Anwendung zu setzen.
+ * </p>
  *
  * @author Marko
  */
 public class ElternkontaktemenueController implements Initializable, MainBorderSettable {
 
-    ElternkontaktDAO dao = new ElternkontaktDAO();
-    ElternkontaktService service = new ElternkontaktService(dao);
+    private final ElternkontaktDAO dao = new ElternkontaktDAO();
+    private final ElternkontaktService service = new ElternkontaktService(dao);
 
     @FXML
     private TableView<Elternkontakt> tabelleElternkontakte;
@@ -63,10 +75,29 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
 
     private BorderPane mainBorderPane;
 
+    /**
+     * Setzt das Haupt-{@link BorderPane} für diesen Controller.
+     *
+     * @param mainBorderPane das zentrale {@link BorderPane} der Anwendung
+     */
+    @Override
     public void setMainBorder(BorderPane mainBorderPane) {
         this.mainBorderPane = mainBorderPane;
     }
 
+    /**
+     * Initialisiert den Controller und befüllt die Tabelle mit den
+     * gespeicherten Elternkontakten.
+     * <ul>
+     * <li>Bindet die Spalten an die Eigenschaften von
+     * {@link Elternkontakt}</li>
+     * <li>Fügt die Bearbeiten- und Löschen-Buttons hinzu</li>
+     * <li>Lädt alle vorhandenen Elternkontakte aus der Datenbank</li>
+     * </ul>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnHinzufuegen.setVisible(Session.istAdmin());
@@ -81,15 +112,26 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
 
         List<Elternkontakt> elternkontaktList = service.getAll();
         tabelleElternkontakte.setItems(FXCollections.observableArrayList(elternkontaktList));
-
     }
 
+    /**
+     * Fügt der Aktionsspalte Buttons zum Bearbeiten und Löschen hinzu.
+     * <p>
+     * Die Buttons werden nur angezeigt, wenn der Benutzer Administratorrechte
+     * hat.
+     * </p>
+     * <ul>
+     * <li>Bearbeiten-Button: Öffnet ein modales Fenster zur Bearbeitung des
+     * ausgewählten Kontakts</li>
+     * <li>Löschen-Button: Fragt eine Bestätigung ab und löscht den Eintrag aus
+     * der Datenbank</li>
+     * </ul>
+     */
     private void buttonsHinzufuegen() {
         aktionenSpalte.setCellFactory(spalte -> new TableCell<>() {
 
             private final Button bearbeitenBtn = new Button();
             private final Button loeschenBtn = new Button();
-
             private final HBox buttonBox = new HBox(15, bearbeitenBtn, loeschenBtn);
 
             {
@@ -103,7 +145,10 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
 
                 bearbeitenBtn.setOnAction(e -> {
                     Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
-                    ElternkontaktBearbeitenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktebearbeiten.fxml", "Elternkontakt Bearbeiten");
+                    ElternkontaktBearbeitenController controller
+                            = MenuUtil.neuesFensterModalAnzeigen(
+                                    "/org/basketrolling/gui/fxml/elternkontakte/elternkontaktebearbeiten.fxml",
+                                    "Elternkontakt Bearbeiten");
 
                     if (controller != null) {
                         controller.initElternkontakt(elternkontakt);
@@ -112,7 +157,8 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
 
                 loeschenBtn.setOnAction(e -> {
                     Elternkontakt elternkontakt = getTableView().getItems().get(getIndex());
-                    boolean bestaetigung = AlertUtil.confirmationMitJaNein("Bestätigung",
+                    boolean bestaetigung = AlertUtil.confirmationMitJaNein(
+                            "Bestätigung",
                             elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " löschen",
                             "Möchten Sie den Elternkontakt " + elternkontakt.getVorname() + " " + elternkontakt.getNachname() + " wirklich löschen?");
 
@@ -124,7 +170,6 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
             }
 
             @Override
-
             protected void updateItem(Void item, boolean leer) {
                 super.updateItem(item, leer);
                 if (leer) {
@@ -138,11 +183,19 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
         });
     }
 
+    /**
+     * Kehrt zum Hauptmenü der Anwendung zurück.
+     */
     public void backToHauptmenue() {
         MenuUtil.backToHauptmenu(mainBorderPane);
     }
 
+    /**
+     * Öffnet ein modales Fenster zum Hinzufügen eines neuen Elternkontakts.
+     */
     public void elternkontaktHinzufuegen() {
-        MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/elternkontakte/elternkontaktehinzufuegen.fxml", "Elternkontakt hinzufügen");
+        MenuUtil.neuesFensterModalAnzeigen(
+                "/org/basketrolling/gui/fxml/elternkontakte/elternkontaktehinzufuegen.fxml",
+                "Elternkontakt hinzufügen");
     }
 }
