@@ -10,12 +10,17 @@ import org.basketrolling.dao.TrainerDAO;
 import org.basketrolling.utils.TryCatchUtil;
 
 /**
- * Service-Klasse zur Verwaltung von {@link Trainer}-Entitäten. Diese Klasse
- * erweitert {@link BaseService} und bietet zusätzliche Suchfunktionen nach
- * Vorname, Nachname und Aktivitätsstatus.
- *
- * Die Fehlerbehandlung erfolgt über {@link TryCatchUtil}, um Ausnahmen
- * einheitlich zu behandeln.
+ * Service-Klasse zur Verwaltung von {@link Trainer}-Entitäten.
+ * <p>
+ * Diese Klasse erweitert {@link BaseService} und stellt zusätzliche
+ * Suchfunktionen bereit, um Trainer gezielt anhand von Vorname, Nachname oder
+ * Aktivitätsstatus zu finden.
+ * </p>
+ * <p>
+ * Die Fehlerbehandlung erfolgt zentral über {@link TryCatchUtil}, sodass
+ * Ausnahmen einheitlich behandelt und konsistente Rückgabewerte (z. B. leere
+ * Listen) gewährleistet werden.
+ * </p>
  *
  * @author Marko
  */
@@ -24,9 +29,10 @@ public class TrainerService extends BaseService<Trainer> {
     private final TrainerDAO dao;
 
     /**
-     * Konstruktor, der das {@link TrainerDAO} übergibt.
+     * Erstellt einen neuen {@code TrainerService}.
      *
-     * @param dao das DAO-Objekt für Trainer
+     * @param dao das {@link TrainerDAO}-Objekt für Datenbankabfragen zu
+     * Trainern
      */
     public TrainerService(TrainerDAO dao) {
         super(dao);
@@ -37,8 +43,9 @@ public class TrainerService extends BaseService<Trainer> {
      * Sucht Trainer anhand ihres Vornamens (case-insensitive, Teilstring
      * erlaubt).
      *
-     * @param vorname der gesuchte Vorname oder Teil davon
-     * @return Liste der passenden {@link Trainer}-Objekte
+     * @param vorname der gesuchte Vorname oder ein Teil davon
+     * @return eine {@link List} mit passenden {@link Trainer}-Objekten, oder
+     * eine leere Liste, falls keine Treffer vorhanden sind
      */
     public List<Trainer> getByVorname(String vorname) {
         return TryCatchUtil.tryCatchList(() -> dao.findByVorname(vorname));
@@ -48,18 +55,21 @@ public class TrainerService extends BaseService<Trainer> {
      * Sucht Trainer anhand ihres Nachnamens (case-insensitive, Teilstring
      * erlaubt).
      *
-     * @param nachname der gesuchte Nachname oder Teil davon
-     * @return Liste der passenden {@link Trainer}-Objekte
+     * @param nachname der gesuchte Nachname oder ein Teil davon
+     * @return eine {@link List} mit passenden {@link Trainer}-Objekten, oder
+     * eine leere Liste, falls keine Treffer vorhanden sind
      */
     public List<Trainer> getByNachname(String nachname) {
         return TryCatchUtil.tryCatchList(() -> dao.findByNachname(nachname));
     }
 
     /**
-     * Sucht Trainer nach ihrem Aktivitätsstatus.
+     * Sucht Trainer anhand ihres Aktivitätsstatus.
      *
      * @param aktiv {@code true} für aktive Trainer, {@code false} für inaktive
-     * @return Liste der passenden {@link Trainer}-Objekte
+     * Trainer
+     * @return eine {@link List} mit passenden {@link Trainer}-Objekten, oder
+     * eine leere Liste, falls keine Treffer vorhanden sind
      */
     public List<Trainer> getByAktiv(boolean aktiv) {
         return TryCatchUtil.tryCatchList(() -> dao.findByAktiv(aktiv));
