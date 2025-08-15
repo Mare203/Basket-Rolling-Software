@@ -227,13 +227,18 @@ public class SpielerBearbeitenController implements Initializable {
                 bearbeitenSpieler.setVorname(tfVorname.getText());
                 bearbeitenSpieler.setNachname(tfNachname.getText());
                 bearbeitenSpieler.setGeburtsdatum(dpGeburtsdatum.getValue());
-                String groesseEingabe = tfGroesse.getText();
-
-                if (!groesseEingabe.matches("^\\d+\\.\\d{2}$")) {
+                String groesseText = tfGroesse.getText().trim();
+                try {
+                    double groesse = Double.parseDouble(groesseText.replace(",", "."));
+                    if (groesse <= 0) {
+                        throw new NumberFormatException();
+                    }
+                    bearbeitenSpieler.setGroesse(groesse);
+                } catch (NumberFormatException e) {
                     AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
                     return;
                 }
-                bearbeitenSpieler.setGroesse(Double.parseDouble(groesseEingabe));
+
                 bearbeitenSpieler.seteMail(tfEmail.getText());
                 bearbeitenSpieler.setAktiv(cbAktiv.isSelected());
                 bearbeitenSpieler.setMannschaftIntern(cbMannschaft.getValue());

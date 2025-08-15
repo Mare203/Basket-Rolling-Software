@@ -5,6 +5,8 @@
 package org.basketrolling.gui.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -53,9 +55,9 @@ import org.basketrolling.utils.Session;
  * @author Marko
  */
 public class SpielermenueController implements Initializable, MainBorderSettable {
-
-    private SpielerDAO dao = new SpielerDAO();
-    private SpielerService service = new SpielerService(dao);
+    private SpielerDAO dao;
+    private SpielerService service;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     @FXML
     private TableView<Spieler> tabelleSpieler;
@@ -70,7 +72,7 @@ public class SpielermenueController implements Initializable, MainBorderSettable
     private TableColumn<Spieler, String> mannschaftSpalte;
 
     @FXML
-    private TableColumn<Spieler, String> geburtsdatumSpalte;
+    private TableColumn<Spieler, LocalDate> geburtsdatumSpalte;
 
     @FXML
     private TableColumn<Spieler, String> alterSpalte;
@@ -113,12 +115,22 @@ public class SpielermenueController implements Initializable, MainBorderSettable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        dao = new SpielerDAO();
+        service = new SpielerService(dao);
+
         btnHinzufuegen.setVisible(Session.istAdmin());
 
         vornameSpalte.setCellValueFactory(new PropertyValueFactory<>("vorname"));
         nachnameSpalte.setCellValueFactory(new PropertyValueFactory<>("nachname"));
         mannschaftSpalte.setCellValueFactory(new PropertyValueFactory<>("mannschaftIntern"));
         geburtsdatumSpalte.setCellValueFactory(new PropertyValueFactory<>("geburtsdatum"));
+        geburtsdatumSpalte.setCellFactory(column -> new TableCell<Spieler, LocalDate>() {
+            @Override
+            protected void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setText((empty || date == null) ? null : date.format(formatter));
+            }
+        });
         alterSpalte.setCellValueFactory(new PropertyValueFactory<>("alter"));
 
         groesseSpalte.setCellValueFactory(new PropertyValueFactory<>("groesse"));

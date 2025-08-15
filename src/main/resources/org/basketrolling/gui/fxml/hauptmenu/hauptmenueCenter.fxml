@@ -145,7 +145,7 @@
                         <Insets bottom="10.0" right="10.0" />
                     </GridPane.margin>
                 </Label>
-                <Label text="Letzte 5 Spiele - Basket Rolling/1 LL:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                <Label fx:id="lbSpiele1" text="Keine Mannschaft gefunden/1:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                     <font>
                         <Font name="Arial Italic" size="15.0" />
                     </font>
@@ -158,7 +158,7 @@
                         <Insets right="70.0" />
                     </GridPane.margin>
                 </ListView>
-                <Label text="Letzte 5 Spiele - Basket Rolling/2 H2:" textFill="#22418f" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                <Label fx:id="lbSpiele2" text="Keine Mannschaft gefunden/2:" textFill="#22418f" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                     <font>
                         <Font name="Arial Italic" size="15.0" />
                     </font>
@@ -174,7 +174,7 @@
                         <Insets right="70.0" />
                     </GridPane.margin>
                 </ListView>
-                <Label text="Letzte 5 Spiele - Basket Rolling Rossau/3 H2:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+                <Label fx:id="lbSpiele3" text="Keine Mannschaft gefunden/3:" textFill="#224190" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
                     <font>
                         <Font name="Arial Italic" size="15.0" />
                     </font>

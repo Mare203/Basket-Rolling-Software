@@ -10,8 +10,10 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import org.basketrolling.beans.Liga;
 import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.Trainer;
@@ -62,6 +64,9 @@ public class MannschaftInternBearbeitenController implements Initializable {
 
     private TrainerDAO trainerDao;
     private TrainerService trainerService;
+    
+    @FXML
+    private Button infoBtn;
 
     @FXML
     private TextField tfName;
@@ -98,6 +103,21 @@ public class MannschaftInternBearbeitenController implements Initializable {
 
         trainerDao = new TrainerDAO();
         trainerService = new TrainerService(trainerDao);
+
+        Tooltip tooltip = infoBtn.getTooltip();
+        Tooltip.uninstall(infoBtn, tooltip);
+        tooltip.setText("Mannschaft müssen wie folgt gekennzeichnet werden: /1, /2, /3.\nBeispiel: Basket Rolling/1 LL, Basket Rolling/2 H2");
+
+        infoBtn.setOnAction(e -> {
+            if (tooltip.isShowing()) {
+                tooltip.hide();
+            } else {
+                tooltip.show(infoBtn,
+                        infoBtn.localToScreen(infoBtn.getBoundsInLocal()).getMinX(),
+                        infoBtn.localToScreen(infoBtn.getBoundsInLocal()).getMaxY()
+                );
+            }
+        });
 
         List<Liga> liga = ligaService.getAll();
         if (liga != null && !liga.isEmpty()) {

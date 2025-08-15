@@ -36,9 +36,6 @@
                <GridPane.margin>
                   <Insets top="30.0" />
                </GridPane.margin>
-               <tooltip>
-                  <Tooltip text="Kennzeichnung der Mannschaft: /1, /2 oder /3 je nach Teamnummer." />
-               </tooltip>
             </TextField>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
@@ -85,6 +82,14 @@
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
+            <Button fx:id="infoBtn" mnemonicParsing="false" text="?" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets right="30.0" />
+               </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="Kennzeichnung der Mannschaft: /1, /2 oder /3 je nach Teamnummer." />
+               </tooltip>
+            </Button>
          </children>
       </GridPane>
    </center>

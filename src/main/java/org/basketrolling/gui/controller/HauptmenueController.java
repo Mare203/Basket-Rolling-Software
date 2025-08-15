@@ -18,16 +18,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import org.basketrolling.beans.Login;
+import org.basketrolling.beans.MannschaftIntern;
 import org.basketrolling.beans.MitgliedsbeitragZuweisung;
 import org.basketrolling.beans.Spiele;
 import org.basketrolling.beans.Spieler;
 import org.basketrolling.beans.Training;
+import org.basketrolling.dao.MannschaftInternDAO;
 import org.basketrolling.dao.MitgliedsbeitragZuweisungDAO;
 import org.basketrolling.dao.SpieleDAO;
 import org.basketrolling.dao.StatistikDAO;
 import org.basketrolling.dao.TrainingDAO;
 import org.basketrolling.enums.Rolle;
 import org.basketrolling.interfaces.MainBorderSettable;
+import org.basketrolling.service.MannschaftInternService;
 import org.basketrolling.service.MitgliedsbeitragZuweisungService;
 import org.basketrolling.service.SpieleService;
 import org.basketrolling.service.StatistikService;
@@ -47,8 +50,7 @@ import org.basketrolling.utils.MenuUtil;
  * <p>
  * <b>Hauptfunktionen:</b></p>
  * <ul>
- * <li>Lädt und filtert die letzten Spiele der Mannschaften LL, /2 und
- * Rossau</li>
+ * <li>Lädt und filtert die letzten Spiele der Mannschaften (Max. 3 Teams)</li>
  * <li>Zeigt die Top-5-Scorer mit PPG und Anzahl der Spiele</li>
  * <li>Listet die heutigen Trainingseinheiten</li>
  * <li>Listet offene Mitgliedsbeiträge</li>
@@ -64,20 +66,32 @@ import org.basketrolling.utils.MenuUtil;
  */
 public class HauptmenueController implements Initializable, MainBorderSettable {
 
-    SpieleDAO spieleDao = new SpieleDAO();
-    StatistikDAO statistikDao = new StatistikDAO();
-    TrainingDAO trainingDao = new TrainingDAO();
-    MitgliedsbeitragZuweisungDAO mitgliedsbeitragDao = new MitgliedsbeitragZuweisungDAO();
-    SpieleService spieleService = new SpieleService(spieleDao);
-    StatistikService statistikService = new StatistikService(statistikDao);
-    TrainingService trainingService = new TrainingService(trainingDao);
-    MitgliedsbeitragZuweisungService mitgliedsbeitragZuweisungService = new MitgliedsbeitragZuweisungService(mitgliedsbeitragDao);
+    SpieleDAO spieleDao;
+    StatistikDAO statistikDao;
+    TrainingDAO trainingDao;
+    MitgliedsbeitragZuweisungDAO mitgliedsbeitragDao;
+    MannschaftInternDAO mannInDao;
+
+    SpieleService spieleService;
+    StatistikService statistikService;
+    TrainingService trainingService;
+    MitgliedsbeitragZuweisungService mitgliedsbeitragZuweisungService;
+    MannschaftInternService mannInService;
 
     private Login benutzer;
     public static final String DEFAULT_CSS = "/org/basketrolling/gui/css/styles.css";
 
     @FXML
     private Label welcomeUser;
+
+    @FXML
+    private Label lbSpiele1;
+
+    @FXML
+    private Label lbSpiele2;
+
+    @FXML
+    private Label lbSpiele3;
 
     @FXML
     private Button logout;
@@ -147,6 +161,18 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        spieleDao = new SpieleDAO();
+        statistikDao = new StatistikDAO();
+        trainingDao = new TrainingDAO();
+        mitgliedsbeitragDao = new MitgliedsbeitragZuweisungDAO();
+        mannInDao = new MannschaftInternDAO();
+
+        spieleService = new SpieleService(spieleDao);
+        statistikService = new StatistikService(statistikDao);
+        trainingService = new TrainingService(trainingDao);
+        mitgliedsbeitragZuweisungService = new MitgliedsbeitragZuweisungService(mitgliedsbeitragDao);
+        mannInService = new MannschaftInternService(mannInDao);
+
         List<Spiele> spieleList = spieleService.getAll();
         List<Object[]> top5 = statistikService.getTop5Scorer();
         List<String> topScorerAlsString = new ArrayList<>();
@@ -161,50 +187,54 @@ public class HauptmenueController implements Initializable, MainBorderSettable {
         Label platzhalterBeitraege = new Label("Keine offenen Beträge");
 
         if (spieleList != null) {
-            String rollingLL = "LL";
-            String rollingH2 = "/2";
-            String rollingRossau = "Rossau";
+            String rolling1 = "/1";
+            String rolling2 = "/2";
+            String rolling3 = "/3";
 
-            List<Spiele> rollingLLSpiele = spieleList.stream()
-                    .filter(s -> s.getMannschaftIntern().getName().contains(rollingLL))
+            List<Spiele> rolling1Spiele = spieleList.stream()
+                    .filter(s -> s.getMannschaftIntern().getName().contains(rolling1))
                     .sorted(Comparator.comparing(Spiele::getDatum).reversed())
                     .limit(5)
                     .collect(Collectors.toList());
 
-            List<Spiele> rollingH2Spiele = spieleList.stream()
-                    .filter(s -> s.getMannschaftIntern().getName().contains(rollingH2))
+            List<Spiele> rolling2Spiele = spieleList.stream()
+                    .filter(s -> s.getMannschaftIntern().getName().contains(rolling2))
                     .sorted(Comparator.comparing(Spiele::getDatum).reversed())
                     .limit(5)
                     .collect(Collectors.toList());
 
-            List<Spiele> rollingRossauSpiele = spieleList.stream()
-                    .filter(s -> s.getMannschaftIntern().getName().contains(rollingRossau))
+            List<Spiele> rolling3Spiele = spieleList.stream()
+                    .filter(s -> s.getMannschaftIntern().getName().contains(rolling3))
                     .sorted(Comparator.comparing(Spiele::getDatum).reversed())
                     .limit(5)
                     .collect(Collectors.toList());
+            List<MannschaftIntern> mannschaften = mannInService.getAll();
+            lbSpiele1.setText("Letzte 5 Spiele - " + mannschaften.stream().filter(m -> m.getName().contains("/1")).findFirst().map(MannschaftIntern::getName).orElse("Keine Mannschaft gefunden/1"));
+            lbSpiele2.setText("Letzte 5 Spiele - " + mannschaften.stream().filter(m -> m.getName().contains("/2")).findFirst().map(MannschaftIntern::getName).orElse("Keine Mannschaft gefunden/2"));
+            lbSpiele3.setText("Letzte 5 Spiele - " + mannschaften.stream().filter(m -> m.getName().contains("/3")).findFirst().map(MannschaftIntern::getName).orElse("Keine Mannschaft gefunden/3"));
 
-            if (rollingLLSpiele.isEmpty()) {
+            if (rolling1Spiele.isEmpty()) {
                 fiveSpieleLL.setItems(FXCollections.observableArrayList());
                 platzhalterLL.getStyleClass().add("platzhalter");
                 fiveSpieleLL.setPlaceholder(platzhalterLL);
             } else {
-                fiveSpieleLL.setItems(FXCollections.observableArrayList(rollingLLSpiele));
+                fiveSpieleLL.setItems(FXCollections.observableArrayList(rolling1Spiele));
             }
 
-            if (rollingH2Spiele.isEmpty()) {
+            if (rolling2Spiele.isEmpty()) {
                 fiveSpieleHZwei.setItems(FXCollections.observableArrayList());
                 platzhalterH2.getStyleClass().add("platzhalter");
                 fiveSpieleHZwei.setPlaceholder(platzhalterH2);
             } else {
-                fiveSpieleHZwei.setItems(FXCollections.observableArrayList(rollingH2Spiele));
+                fiveSpieleHZwei.setItems(FXCollections.observableArrayList(rolling2Spiele));
             }
 
-            if (rollingRossauSpiele.isEmpty()) {
+            if (rolling3Spiele.isEmpty()) {
                 fiveSpieleRossau.setItems(FXCollections.observableArrayList());
                 platzhalterRossau.getStyleClass().add("platzhalter");
                 fiveSpieleRossau.setPlaceholder(platzhalterRossau);
             } else {
-                fiveSpieleRossau.setItems(FXCollections.observableArrayList(rollingRossauSpiele));
+                fiveSpieleRossau.setItems(FXCollections.observableArrayList(rolling3Spiele));
             }
         }
 

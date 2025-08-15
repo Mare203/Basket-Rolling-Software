@@ -145,7 +145,7 @@ public class SpielerHinzufuegenController implements Initializable {
             AlertUtil.alertError("Fehler", "Geben Sie ein gültiges Datum ein!");
             return;
         }
-        
+
         boolean pflichtfelderAusgefuellt
                 = !tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
@@ -160,7 +160,7 @@ public class SpielerHinzufuegenController implements Initializable {
                 AlertUtil.alertWarning("Mitgliedsbeitrag wird ignoriert", "Spieler ist nicht aktiv", "Ein Mitgliedsbeitrag wird nur aktiven Spielern zugewiesen. Bitte aktiviere den Spieler, wenn du einen Beitrag zuweisen willst.");
                 return;
             }
-            
+
             try {
                 Spieler spieler = new Spieler();
                 spieler.setVorname(tfVorname.getText());
@@ -174,13 +174,17 @@ public class SpielerHinzufuegenController implements Initializable {
                     return;
                 }
                 spieler.setGeburtsdatum(geburtsdatum);
-                String groesseEingabe = tfGroesse.getText();
-
-                if (!groesseEingabe.matches("^\\d+\\.\\d{2}$")) {
-                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
+                String groesseText = tfGroesse.getText().trim();
+                try {
+                    double groesse = Double.parseDouble(groesseText.replace(",", "."));
+                    if (groesse <= 0) {
+                        throw new NumberFormatException();
+                    }
+                    spieler.setGroesse(groesse);
+                } catch (NumberFormatException e) {
+                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
                     return;
                 }
-                spieler.setGroesse(Double.parseDouble(groesseEingabe));
                 spieler.seteMail(tfEmail.getText());
                 spieler.setAktiv(cbAktiv.isSelected());
                 spieler.setMannschaftIntern(cbMannschaft.getValue());
