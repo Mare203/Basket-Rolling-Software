@@ -27,6 +27,18 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen einer internen Mannschaft.
+ * <p>
+ * Diese Klasse verwaltet die Eingabe und Speicherung interner Mannschaften.
+ * Über Eingabefelder können Mannschaftsname, zugehörige {@link Liga} sowie der
+ * verantwortliche {@link Trainer} erfasst werden. Die Daten werden über den
+ * {@link MannschaftInternService} gespeichert.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren, sowie Tooltip-Informationen für die richtige
+ * Benennung der Mannschaften bereitzustellen.
+ * </p>
  *
  * @author Marko
  */
@@ -53,6 +65,18 @@ public class MannschaftInternHinzufuegenController implements Initializable {
     @FXML
     private ComboBox<Trainer> cbTrainer;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt die benötigten Service- und DAO-Instanzen, lädt alle vorhandenen
+     * {@link Liga}- und {@link Trainer}-Objekte und befüllt damit die
+     * Auswahlboxen. Zudem wird ein Tooltip für den Info-Button konfiguriert,
+     * der Hinweise zur korrekten Namenskonvention der Mannschaften anzeigt.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new MannschaftInternDAO();
@@ -96,6 +120,24 @@ public class MannschaftInternHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Speichert die eingegebene Mannschaft.
+     * <p>
+     * Liest den Mannschaftsnamen, die ausgewählte {@link Liga} sowie den
+     * {@link Trainer} aus den Eingabefeldern, erstellt ein
+     * {@link MannschaftIntern}-Objekt und übergibt es an den
+     * {@link MannschaftInternService}.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird der Benutzer gefragt, ob eine weitere
+     * Mannschaft angelegt werden soll. Bei „Nein“ wird das Fenster geschlossen,
+     * bei „Ja“ werden die Eingabefelder geleert.
+     * </p>
+     * <p>
+     * Falls Pflichtfelder fehlen, wird eine Warnung über {@link AlertUtil}
+     * angezeigt.
+     * </p>
+     */
     public void speichern() {
         if (!tfName.getText().isEmpty() && cbLiga.getValue() != null) {
             MannschaftIntern mannschaft = new MannschaftIntern();

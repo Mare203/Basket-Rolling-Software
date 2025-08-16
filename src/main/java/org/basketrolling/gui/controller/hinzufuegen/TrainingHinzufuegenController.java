@@ -26,6 +26,17 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen eines Trainings.
+ * <p>
+ * Diese Klasse verwaltet die Eingabe und Speicherung von Trainingseinheiten.
+ * Erfasst werden können Wochentag, Dauer (in Minuten), Halle und Mannschaft.
+ * Die Daten werden über den {@link TrainingService} gespeichert.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren und die Auswahlfelder mit den vorhandenen Werten
+ * ({@link Halle}, {@link MannschaftIntern}, {@link Wochentag}) zu befüllen.
+ * </p>
  *
  * @author Marko
  */
@@ -52,6 +63,18 @@ public class TrainingHinzufuegenController implements Initializable {
     @FXML
     private TextField tfDauer;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt die benötigten Service- und DAO-Instanzen, lädt alle vorhandenen
+     * {@link Halle}- und {@link MannschaftIntern}-Objekte und befüllt die
+     * Auswahlboxen. Zusätzlich wird die Enum-Liste der {@link Wochentag}-Werte
+     * in die entsprechende Auswahlbox gesetzt.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         trainingDao = new TrainingDAO();
@@ -70,6 +93,24 @@ public class TrainingHinzufuegenController implements Initializable {
         cbWochentag.setItems(FXCollections.observableArrayList(Wochentag.values()));
     }
 
+    /**
+     * Speichert das eingegebene Training.
+     * <p>
+     * Validiert die Pflichtfelder (Wochentag, Halle, Mannschaft, Dauer) und
+     * prüft, ob die Dauer eine ganze Zahl größer als 0 ist. Erstellt
+     * anschließend ein {@link Training}-Objekt und übergibt es an den
+     * {@link TrainingService}.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird der Benutzer gefragt, ob ein weiteres
+     * Training angelegt werden soll. Bei „Nein“ wird das Fenster geschlossen,
+     * bei „Ja“ werden die Eingabefelder geleert.
+     * </p>
+     * <p>
+     * Falls Eingaben fehlen oder ungültig sind, wird eine Warnung über
+     * {@link AlertUtil} angezeigt.
+     * </p>
+     */
     public void speichern() {
         String dauerText = tfDauer.getText().trim();
 
@@ -114,6 +155,12 @@ public class TrainingHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfDauer);
     }

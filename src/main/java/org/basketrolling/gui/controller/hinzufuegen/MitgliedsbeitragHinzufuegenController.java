@@ -16,6 +16,16 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen eines Mitgliedsbeitrags.
+ * <p>
+ * Diese Klasse verwaltet die Eingabe und Speicherung von Mitgliedsbeiträgen.
+ * Über Eingabefelder können Saison und Beitragshöhe erfasst und über den
+ * {@link MitgliedsbeitragService} in der Datenbank gespeichert werden.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren.
+ * </p>
  *
  * @author Marko
  */
@@ -30,12 +40,40 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
     @FXML
     private TextField tfBetrag;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt eine neue Instanz von {@link MitgliedsbeitragDAO} und
+     * {@link MitgliedsbeitragService}.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new MitgliedsbeitragDAO();
         service = new MitgliedsbeitragService(dao);
     }
 
+    /**
+     * Speichert den eingegebenen Mitgliedsbeitrag.
+     * <p>
+     * Liest Saison und Betrag aus den Eingabefeldern, validiert die Werte
+     * (Betrag muss eine gültige Zahl ≥ 0 sein), erstellt ein
+     * {@link Mitgliedsbeitrag}-Objekt und übergibt es an den
+     * {@link MitgliedsbeitragService}.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird der Benutzer gefragt, ob ein weiterer
+     * Mitgliedsbeitrag angelegt werden soll. Bei „Nein“ wird das Fenster
+     * geschlossen, bei „Ja“ werden die Eingabefelder geleert.
+     * </p>
+     * <p>
+     * Falls die Eingaben ungültig sind oder Pflichtfelder fehlen, wird eine
+     * Warnung über {@link AlertUtil} angezeigt.
+     * </p>
+     */
     public void speichern() {
         String saisonText = tfSaison.getText().trim();
         String betragText = tfBetrag.getText().trim();
@@ -72,6 +110,12 @@ public class MitgliedsbeitragHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfSaison);
     }

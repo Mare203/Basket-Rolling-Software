@@ -26,6 +26,18 @@ import org.basketrolling.service.StatistikService;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zur Anzeige von Spielerinformationen.
+ * <p>
+ * Diese Klasse stellt die Daten eines ausgewählten {@link Spieler} dar,
+ * einschließlich Stammdaten (Name, Geburtsdatum, Größe, E-Mail), Zugehörigkeit
+ * zu einer {@link MannschaftIntern}, Informationen zum {@link Mitgliedsbeitrag}
+ * sowie statistische Werte wie Spiele und Punkte pro Spiel (PPG).
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren, welche für die Abfragen der zugehörigen Daten
+ * benötigt werden.
+ * </p>
  *
  * @author Marko
  */
@@ -74,6 +86,16 @@ public class SpielerAnzeigenController implements Initializable {
     @FXML
     private Label lbPPG;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt alle benötigten Service- und DAO-Instanzen für Spieler,
+     * Mitgliedsbeiträge, Mannschaften und Statistiken.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spielerDao = new SpielerDAO();
@@ -89,6 +111,15 @@ public class SpielerAnzeigenController implements Initializable {
         statistikService = new StatistikService(statistikDao);
     }
 
+    /**
+     * Initialisiert die Anzeige mit den Daten des übergebenen Spielers.
+     * <p>
+     * Zeigt Stammdaten, Mannschaftszugehörigkeit, Mitgliedsbeitrag und
+     * statistische Werte (Spiele, PPG) in den entsprechenden Labels an.
+     * </p>
+     *
+     * @param spieler der anzuzeigende {@link Spieler}
+     */
     public void initSpieler(Spieler spieler) {
         this.bearbeitenSpieler = spieler;
         List<MitgliedsbeitragZuweisung> vorhandeneZuweisung = zuweisungService.getBySpieler(spieler);
@@ -122,6 +153,9 @@ public class SpielerAnzeigenController implements Initializable {
         }
     }
 
+    /**
+     * Schließt die Anzeige des Spielers ohne Bestätigungsdialog.
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenOhneWarnung(lbName);
     }

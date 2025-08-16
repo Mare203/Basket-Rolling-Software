@@ -36,6 +36,23 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen eines Spielers.
+ * <p>
+ * Diese Klasse verwaltet die Eingabe und Speicherung von Spielern. Erfasst
+ * werden können Vorname, Nachname, Geburtsdatum, Größe, E-Mail, Mannschaft,
+ * Aktiv-Status sowie (falls aktiv) der zugewiesene {@link Mitgliedsbeitrag}.
+ * </p>
+ * <p>
+ * Über den {@link SpielerService} wird der Spieler gespeichert und – falls
+ * aktiv – zusätzlich eine {@link MitgliedsbeitragZuweisung} über den
+ * {@link MitgliedsbeitragZuweisungService} erstellt.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren, die Auswahlboxen mit vorhandenen Daten zu
+ * befüllen und den {@link DatePicker} mit einem benutzerdefinierten
+ * Datumsformat zu versehen.
+ * </p>
  *
  * @author Marko
  */
@@ -82,6 +99,20 @@ public class SpielerHinzufuegenController implements Initializable {
     @FXML
     private CheckBox cbBezahlt;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt Instanzen der benötigten Services, befüllt die Auswahlboxen für
+     * {@link MannschaftIntern} und {@link Mitgliedsbeitrag}, deaktiviert sie
+     * bei fehlenden Daten und konfiguriert den {@link DatePicker} mit dem
+     * Datumsformat <code>dd.MM.yyyy</code>. Zusätzlich wird ein Listener
+     * gesetzt, um die Mitgliedsbeitragsfelder zu leeren, wenn der Aktiv-Status
+     * deaktiviert wird.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spielerDao = new SpielerDAO();
@@ -138,6 +169,29 @@ public class SpielerHinzufuegenController implements Initializable {
         });
     }
 
+    /**
+     * Speichert den eingegebenen Spieler.
+     * <p>
+     * Validiert die Pflichtfelder, überprüft das Geburtsdatum (Spieler ≥ 5
+     * Jahre alt) sowie die Größe (positive Zahl). Anschließend wird ein
+     * {@link Spieler}-Objekt erstellt und über den {@link SpielerService}
+     * gespeichert.
+     * </p>
+     * <p>
+     * Falls der Spieler aktiv ist, wird zusätzlich eine
+     * {@link MitgliedsbeitragZuweisung} erstellt, die den Spieler mit einem
+     * {@link Mitgliedsbeitrag} und dem Zahlungsstatus verknüpft.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird der Benutzer gefragt, ob ein weiterer
+     * Spieler angelegt werden soll. Bei „Nein“ wird das Fenster geschlossen,
+     * bei „Ja“ werden die Eingabefelder geleert.
+     * </p>
+     * <p>
+     * Falls Eingaben fehlen oder ungültig sind, wird eine Warnung über
+     * {@link AlertUtil} angezeigt.
+     * </p>
+     */
     public void speichern() {
         LocalDate geburtsdatum = dpGeburtsdatum.getValue();
 
@@ -234,6 +288,12 @@ public class SpielerHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }

@@ -36,6 +36,19 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen eines Spiels.
+ * <p>
+ * Diese Klasse verwaltet die Eingabe und Speicherung von Spielen. Dabei können
+ * {@link Liga}, {@link Halle}, {@link MannschaftIntern}, {@link MannschaftExtern},
+ * Datum sowie die erzielten Punkte erfasst und über den {@link SpieleService}
+ * gespeichert werden.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren und die Auswahlfelder mit Daten zu befüllen.
+ * Zusätzlich wird ein {@link DatePicker} mit einem benutzerdefinierten
+ * Datumsformat konfiguriert.
+ * </p>
  *
  * @author Marko
  */
@@ -77,6 +90,20 @@ public class SpielHinzufuegenController implements Initializable {
     @FXML
     private TextField tfPunkteExtern;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt Instanzen der benötigten DAOs und Services, befüllt die
+     * Auswahlfelder für {@link Liga} und {@link Halle} sowie aktiviert
+     * dynamisch die Mannschafts-Auswahlboxen basierend auf der gewählten Liga.
+     * Zusätzlich wird ein {@link DatePicker} mit einem
+     * {@link java.time.format.DateTimeFormatter} im Format
+     * <code>dd.MM.yyyy</code> konfiguriert.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         spielDao = new SpieleDAO();
@@ -138,6 +165,24 @@ public class SpielHinzufuegenController implements Initializable {
         });
     }
 
+    /**
+     * Speichert das eingegebene Spiel.
+     * <p>
+     * Validiert die Pflichtfelder, prüft das Datum (nicht in der Zukunft) sowie
+     * die Punktangaben (nur ganze Zahlen ≥ 0). Anschließend wird ein neues
+     * {@link Spiele}-Objekt erstellt und über den {@link SpieleService}
+     * gespeichert.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird der Benutzer gefragt, ob eine Statistik
+     * für dieses Spiel angelegt werden soll. Bei „Nein“ wird das Fenster
+     * geschlossen, bei „Ja“ wird ein Statistik-Fenster geöffnet.
+     * </p>
+     * <p>
+     * Falls die Eingaben ungültig sind, wird eine Warnung über
+     * {@link AlertUtil} angezeigt.
+     * </p>
+     */
     public void speichern() {
         String eingabeIntern = tfPunkteIntern.getText().trim();
         String eingabeExtern = tfPunkteExtern.getText().trim();
@@ -197,6 +242,16 @@ public class SpielHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Öffnet das Statistik-Fenster für das übergebene Spiel.
+     * <p>
+     * Lädt das FXML-Layout für die Spielerstatistik und übergibt das
+     * {@link Spiele}-Objekt an den {@link StatistikHinzufuegenController}.
+     * </p>
+     *
+     * @param spiel das {@link Spiele}-Objekt, für das eine Statistik angelegt
+     * werden soll
+     */
     private void oeffneStatistik(Spiele spiel) {
         StatistikHinzufuegenController controller = MenuUtil.neuesFensterModalAnzeigen("/org/basketrolling/gui/fxml/statistik/statistikhinzufuegen.fxml", "Spielerstatistik erfassen");
 
@@ -206,6 +261,12 @@ public class SpielHinzufuegenController implements Initializable {
         MenuUtil.fensterSchliessenOhneWarnung(cbLiga);
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(cbLiga);
     }

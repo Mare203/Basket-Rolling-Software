@@ -29,6 +29,20 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen und Bearbeiten von Spielerstatistiken für
+ * ein Spiel.
+ * <p>
+ * Diese Klasse ermöglicht die Eingabe und Bearbeitung von Spielerstatistiken
+ * wie erzielte Punkte, Fouls und Einsatz (gespielt/nicht gespielt) für ein
+ * ausgewähltes {@link Spiele}-Objekt. Die Statistiken werden in einer
+ * editierbaren {@link TableView} angezeigt und über den
+ * {@link StatistikService} gespeichert.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren, die Tabellenspalten zu konfigurieren und die
+ * Tabelle editierbar zu machen.
+ * </p>
  *
  * @author Marko
  */
@@ -66,6 +80,13 @@ public class StatistikHinzufuegenController implements Initializable {
 
     Spiele spiel;
 
+    /**
+     * Setzt das aktuelle {@link Spiele}-Objekt und initialisiert die
+     * zugehörigen Labels sowie die Tabelle mit {@link Statistik}-Einträgen für
+     * alle Spieler der internen Mannschaft.
+     *
+     * @param spiel das {@link Spiele}-Objekt, dessen Statistiken erfasst werden
+     */
     public void setSpiel(Spiele spiel) {
         this.spiel = spiel;
 
@@ -92,6 +113,17 @@ public class StatistikHinzufuegenController implements Initializable {
         tabelleStatistik.setItems(statistikListe);
     }
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt die benötigten Service- und DAO-Instanzen, konfiguriert die
+     * Spalten der Tabelle (inkl. Editierbarkeit und Validierung) und setzt die
+     * Tabelle auf editierbar.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         statistikDAO = new StatistikDAO();
@@ -147,6 +179,19 @@ public class StatistikHinzufuegenController implements Initializable {
         tabelleStatistik.setEditable(true);
     }
 
+    /**
+     * Speichert die eingegebenen Statistiken.
+     * <p>
+     * Prüft zunächst, ob die Summe aller Spieler-Punkte der Gesamtpunktzahl der
+     * Mannschaft entspricht. Wenn nicht, wird eine Warnung angezeigt.
+     * Andernfalls werden die {@link Statistik}-Einträge für alle Spieler, die
+     * gespielt haben, gespeichert oder aktualisiert.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird eine Bestätigung angezeigt und das
+     * Fenster geschlossen.
+     * </p>
+     */
     public void speichern() {
         int summePunkte = statistikListe.stream()
                 .mapToInt(Statistik::getPunkte)
@@ -171,6 +216,12 @@ public class StatistikHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(lbDatum);
     }

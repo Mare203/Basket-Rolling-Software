@@ -16,6 +16,16 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen eines Trainers.
+ * <p>
+ * Diese Klasse verwaltet die Eingabe und Speicherung von Trainern. Erfasst
+ * werden können Vorname, Nachname, Telefonnummer und E-Mail. Über den
+ * {@link TrainerService} werden die Daten in der Datenbank gespeichert.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * benötigten Services zu initialisieren.
+ * </p>
  *
  * @author Marko
  */
@@ -36,12 +46,39 @@ public class TrainerHinzufuegenController implements Initializable {
     @FXML
     private TextField tfEmail;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Erstellt eine neue Instanz von {@link TrainerDAO} und
+     * {@link TrainerService}.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new TrainerDAO();
         service = new TrainerService(dao);
     }
 
+    /**
+     * Speichert den eingegebenen Trainer.
+     * <p>
+     * Liest die Pflichtfelder (Vorname, Nachname, Telefonnummer) sowie optional
+     * die E-Mail aus, erstellt ein {@link Trainer}-Objekt und übergibt es an
+     * den {@link TrainerService}.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird der Benutzer gefragt, ob ein weiterer
+     * Trainer angelegt werden soll. Bei „Nein“ wird das Fenster geschlossen,
+     * bei „Ja“ werden die Eingabefelder geleert.
+     * </p>
+     * <p>
+     * Falls Pflichtfelder fehlen, wird eine Warnung über {@link AlertUtil}
+     * angezeigt.
+     * </p>
+     */
     public void speichern() {
         if (!tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
@@ -70,6 +107,12 @@ public class TrainerHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }

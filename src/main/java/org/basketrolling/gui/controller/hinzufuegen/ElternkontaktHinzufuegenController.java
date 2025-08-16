@@ -22,16 +22,27 @@ import org.basketrolling.utils.AlertUtil;
 import org.basketrolling.utils.MenuUtil;
 
 /**
+ * Controller-Klasse zum Hinzufügen eines Elternkontakts.
+ * <p>
+ * Diese Klasse verwaltet die Eingabe und Speicherung von Elternkontakten für
+ * Spieler. Sie stellt Eingabefelder für Vorname, Nachname, Telefon, E-Mail
+ * sowie eine Auswahlbox für den zugehörigen {@link Spieler} bereit.
+ * </p>
+ * <p>
+ * Sie implementiert {@link Initializable}, um beim Laden des FXML-Layouts die
+ * Services zu initialisieren und die vorhandenen Spieler in die Auswahlbox zu
+ * laden.
+ * </p>
  *
  * @author Marko
  */
 public class ElternkontaktHinzufuegenController implements Initializable {
 
-    ElternkontaktDAO dao;
-    ElternkontaktService service;
+    private ElternkontaktDAO dao;
+    private ElternkontaktService service;
 
-    SpielerDAO spielerDAO;
-    SpielerService spielerService;
+    private SpielerDAO spielerDAO;
+    private SpielerService spielerService;
 
     @FXML
     private TextField tfVorname;
@@ -48,6 +59,18 @@ public class ElternkontaktHinzufuegenController implements Initializable {
     @FXML
     private TextField tfEmail;
 
+    /**
+     * Initialisiert den Controller.
+     * <p>
+     * Lädt die benötigten Services ({@link ElternkontaktService} und
+     * {@link SpielerService}) und befüllt die ComboBox mit den vorhandenen
+     * Spielern. Falls keine Spieler vorhanden sind, wird die Auswahlbox
+     * deaktiviert.
+     * </p>
+     *
+     * @param url wird von JavaFX übergeben (nicht verwendet)
+     * @param rb wird von JavaFX übergeben (nicht verwendet)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dao = new ElternkontaktDAO();
@@ -58,13 +81,26 @@ public class ElternkontaktHinzufuegenController implements Initializable {
 
         List<Spieler> spielerList = spielerService.getAll();
 
-        if (!spielerList.isEmpty() && spielerList != null) {
+        if (spielerList != null && !spielerList.isEmpty()) {
             cbSpieler.setItems(FXCollections.observableArrayList(spielerList));
         } else {
             cbSpieler.setDisable(true);
         }
     }
 
+    /**
+     * Speichert den eingegebenen Elternkontakt.
+     * <p>
+     * Erstellt ein {@link Elternkontakt}-Objekt aus den eingegebenen Daten,
+     * validiert die Pflichtfelder (Vorname, Nachname, Telefon, Spieler), und
+     * übergibt es an den {@link ElternkontaktService}.
+     * </p>
+     * <p>
+     * Nach erfolgreichem Speichern wird der Benutzer gefragt, ob ein weiterer
+     * Elternkontakt angelegt werden soll. Falls nicht, wird das Fenster
+     * geschlossen, andernfalls werden die Eingabefelder geleert.
+     * </p>
+     */
     public void speichern() {
         if (!tfVorname.getText().isEmpty()
                 && !tfNachname.getText().isEmpty()
@@ -96,6 +132,12 @@ public class ElternkontaktHinzufuegenController implements Initializable {
         }
     }
 
+    /**
+     * Bricht den Bearbeitungsvorgang ab und schließt das Fenster.
+     * <p>
+     * Vor dem Schließen wird der Benutzer um eine Bestätigung gebeten.
+     * </p>
+     */
     public void abbrechen() {
         MenuUtil.fensterSchliessenMitWarnung(tfVorname);
     }
