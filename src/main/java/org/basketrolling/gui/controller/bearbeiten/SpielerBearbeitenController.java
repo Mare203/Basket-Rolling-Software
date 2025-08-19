@@ -233,6 +233,10 @@ public class SpielerBearbeitenController implements Initializable {
                     if (groesse <= 0) {
                         throw new NumberFormatException();
                     }
+
+                    if (groesse > 3) {
+                        groesse = groesse / 100.0;
+                    }
                     bearbeitenSpieler.setGroesse(groesse);
                 } catch (NumberFormatException e) {
                     AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");

@@ -145,7 +145,7 @@ public class TrainingBearbeitenController implements Initializable {
 
             try {
                 int dauer = Integer.parseInt(dauerText);
-                if (dauer <= 0) {
+                if (dauer <= 0 || dauer > 150) {
                     throw new NumberFormatException();
                 }
 

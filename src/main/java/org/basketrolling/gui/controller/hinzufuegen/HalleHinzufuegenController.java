@@ -87,12 +87,18 @@ public class HalleHinzufuegenController implements Initializable {
                 && !tfOrt.getText().isEmpty()
                 && !plzText.isEmpty()) {
 
+            String strasse = tfStrasse.getText().trim();
+            if (strasse.matches("\\d+")) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Straßenname unzulässig", "Bitte geben Sie einen gültigen Straßennamen ein (z. B. 'Steigenteschgasse 1').");
+                return;
+            }
+
             try {
                 int plz = Integer.parseInt(plzText);
 
                 Halle halle = new Halle();
                 halle.setName(tfName.getText());
-                halle.setStrasse(tfStrasse.getText());
+                halle.setStrasse(strasse);
                 halle.setOrt(tfOrt.getText());
                 halle.setPlz(plz);
 

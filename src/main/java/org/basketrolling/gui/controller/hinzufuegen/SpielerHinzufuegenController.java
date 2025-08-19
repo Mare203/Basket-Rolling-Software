@@ -234,9 +234,13 @@ public class SpielerHinzufuegenController implements Initializable {
                     if (groesse <= 0) {
                         throw new NumberFormatException();
                     }
+
+                    if (groesse > 3) {
+                        groesse = groesse / 100.0;
+                    }
                     spieler.setGroesse(groesse);
                 } catch (NumberFormatException e) {
-                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80).");
+                    AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80, 1,80, 180).");
                     return;
                 }
                 spieler.seteMail(tfEmail.getText());

@@ -109,11 +109,17 @@ public class HalleBearbeitenController implements Initializable {
                 && !tfOrt.getText().isEmpty()
                 && !plzText.isEmpty()) {
 
+            String strasse = tfStrasse.getText().trim();
+            if (strasse.matches("\\d+")) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Straßenname unzulässig", "Bitte geben Sie einen gültigen Straßennamen ein (z. B. 'Steigenteschgasse 1').");
+                return;
+            }
+
             try {
                 int plz = Integer.parseInt(plzText);
 
                 bearbeitenhalle.setName(tfName.getText());
-                bearbeitenhalle.setStrasse(tfStrasse.getText());
+                bearbeitenhalle.setStrasse(strasse);
                 bearbeitenhalle.setOrt(tfOrt.getText());
                 bearbeitenhalle.setPlz(plz);
 
