@@ -84,11 +84,17 @@ public class TrainerHinzufuegenController implements Initializable {
                 && !tfNachname.getText().isEmpty()
                 && !tfTelefon.getText().isEmpty()) {
 
+            String email = tfEmail.getText().trim();
+            if (!email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Ungültige E-Mail-Adresse", "Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. name@domain.com).");
+                return;
+            }
+
             Trainer trainer = new Trainer();
             trainer.setVorname(tfVorname.getText());
             trainer.setNachname(tfNachname.getText());
             trainer.setTelefon(tfTelefon.getText());
-            trainer.setEMail(tfEmail.getText());
+            trainer.setEMail(email);
 
             service.create(trainer);
 

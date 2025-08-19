@@ -103,10 +103,16 @@ public class TrainerBearbeitenController implements Initializable {
                 && !tfNachname.getText().isEmpty()
                 && !tfTelefon.getText().isEmpty()) {
 
+            String email = tfEmail.getText().trim();
+            if (!email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                AlertUtil.alertWarning("Ungültige Eingabe", "Ungültige E-Mail-Adresse", "Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. name@domain.com).");
+                return;
+            }
+
             bearbeitenTrainer.setVorname(tfVorname.getText());
             bearbeitenTrainer.setNachname(tfNachname.getText());
             bearbeitenTrainer.setTelefon(tfTelefon.getText());
-            bearbeitenTrainer.setEMail(tfEmail.getText());
+            bearbeitenTrainer.setEMail(email);
 
             service.update(bearbeitenTrainer);
 

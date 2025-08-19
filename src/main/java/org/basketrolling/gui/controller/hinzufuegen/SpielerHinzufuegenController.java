@@ -195,6 +195,12 @@ public class SpielerHinzufuegenController implements Initializable {
     public void speichern() {
         LocalDate geburtsdatum = dpGeburtsdatum.getValue();
 
+        String email = tfEmail.getText().trim();
+        if (!email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            AlertUtil.alertWarning("Ungültige Eingabe", "Ungültige E-Mail-Adresse", "Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. name@domain.com).");
+            return;
+        }
+
         if (geburtsdatum == null) {
             AlertUtil.alertError("Fehler", "Geben Sie ein gültiges Datum ein!");
             return;
@@ -243,7 +249,7 @@ public class SpielerHinzufuegenController implements Initializable {
                     AlertUtil.alertWarning("Ungültige Eingabe", "Ungültiges Zahlenformat im Feld 'Größe'", "Bitte geben Sie eine gültige Zahl ein (z. B. 1.80, 1,80, 180).");
                     return;
                 }
-                spieler.seteMail(tfEmail.getText());
+                spieler.seteMail(email);
                 spieler.setAktiv(cbAktiv.isSelected());
                 spieler.setMannschaftIntern(cbMannschaft.getValue());
 

@@ -215,6 +215,12 @@ public class SpielerBearbeitenController implements Initializable {
                 && !tfGroesse.getText().isEmpty()
                 && cbMannschaft.getValue() != null;
 
+        String email = tfEmail.getText().trim();
+        if (!email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            AlertUtil.alertWarning("Ungültige Eingabe", "Ungültige E-Mail-Adresse", "Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. name@domain.com).");
+            return;
+        }
+
         boolean beitragsPflichtErfuellt = !cbAktiv.isSelected() || cbMitgliedsbeitrag.getValue() != null || zuweisung != null;
 
         if (pflichtfelderAusgefuellt && beitragsPflichtErfuellt) {
@@ -243,7 +249,7 @@ public class SpielerBearbeitenController implements Initializable {
                     return;
                 }
 
-                bearbeitenSpieler.seteMail(tfEmail.getText());
+                bearbeitenSpieler.seteMail(email);
                 bearbeitenSpieler.setAktiv(cbAktiv.isSelected());
                 bearbeitenSpieler.setMannschaftIntern(cbMannschaft.getValue());
 
