@@ -46,8 +46,8 @@ import org.basketrolling.utils.Session;
  */
 public class ElternkontaktemenueController implements Initializable, MainBorderSettable {
 
-    private final ElternkontaktDAO dao = new ElternkontaktDAO();
-    private final ElternkontaktService service = new ElternkontaktService(dao);
+    private ElternkontaktDAO dao;
+    private ElternkontaktService service;
 
     @FXML
     private TableView<Elternkontakt> tabelleElternkontakte;
@@ -100,6 +100,9 @@ public class ElternkontaktemenueController implements Initializable, MainBorderS
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        dao = new ElternkontaktDAO();
+        service = new ElternkontaktService(dao);
+
         btnHinzufuegen.setVisible(Session.istAdmin());
 
         vornameSpalte.setCellValueFactory(new PropertyValueFactory<>("vorname"));
